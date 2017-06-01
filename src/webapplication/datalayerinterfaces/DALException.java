@@ -1,4 +1,4 @@
-package datalayerinterfaces;
+package webapplication.datalayerinterfaces;
 
 public class DALException extends Exception
 {
