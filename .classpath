@@ -7,6 +7,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container">
+		<accessrules>
+			<accessrule kind="accessible" pattern="javax/smartcardio/**"/>
+			<accessrule kind="accessible" pattern="com/apple/eawt/**"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
