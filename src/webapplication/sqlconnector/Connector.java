@@ -24,6 +24,10 @@ public class Connector
 	 * @throws InstantiationException 
 	 * @throws SQLException 
 	 */
+	
+	//System.getenv("myEmail");
+	//System.getenv("myPassword");
+	
 	public static Connection connectToDatabase(String url, String username, String password)
 			throws InstantiationException, IllegalAccessException,
 					ClassNotFoundException, SQLException
