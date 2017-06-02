@@ -1,4 +1,4 @@
-package rest;
+package webapplication.rest;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -15,14 +15,14 @@ import javax.ws.rs.ext.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import datalayer.UserDAO;
-import dto.UserDTO;
-import idatalayer.IUserDAO;
-import idatalayer.IUserDAO.DALException;
+import webapplication.datalayer.*;
+import webapplication.datalayerinterfaces.*;
+import webapplication.datatransferobjects.*;
+
 
 @Path("/userservice")
 public class UserService {
-	IUserDAO dao = new UserDAO();
+	OperatoerDAO dao = new MySQLOperatoerDAO();
 	
 	@POST
 	@Path("/delete")
@@ -30,8 +30,8 @@ public class UserService {
 	public Response deleteUser(
 		@FormParam("submit") int id
 			) throws DALException, URISyntaxException {
-		
-		dao.deleteUser(id);
+		// TODO
+		//dao.deleteUser(id); Udkommenteret fordi vi ikke fjerner en bruger (Løsning on the way)
 		java.net.URI location = new java.net.URI("../userpage.html");
 	    return Response.temporaryRedirect(location).build();
 	}
@@ -50,8 +50,8 @@ public class UserService {
 		List<String> roles = new ArrayList<String>();
 		roles.add(role);
 		
-		UserDTO user = new UserDTO(0, userName, ini, roles, password, cpr);
-		dao.createUser(user);
+		OperatoerDTO user = new OperatoerDTO(0, userName, ini, password);
+		dao.createOperatoer(user);
 		
 		java.net.URI location = new java.net.URI("../userpage.html");
 	    return Response.temporaryRedirect(location).build();
@@ -61,9 +61,9 @@ public class UserService {
 	@Path("/updategetuser")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public UserDTO updateGetUser(UserMapper map) throws URISyntaxException, DALException{
+	public OperatoerDTO updateGetUser(UserMapper map) throws URISyntaxException, DALException{
 		//System.out.println(map.getContent());
-	    return dao.getUser(map.getContent());
+	    return dao.getOperatoer(map.getContent());
 	}
 	
 	@POST
@@ -81,9 +81,9 @@ public class UserService {
 		List<String> roles = new ArrayList<String>();
 		roles.add(role);
 		
-		UserDTO user = new UserDTO(Integer.parseInt(userId), userName, ini, roles, password, cpr);
+		OperatoerDTO user = new OperatoerDTO(Integer.parseInt(userId), userName, ini, password);
 		
-		dao.updateUser(user);
+		dao.updateOperatoer(user);
 		java.net.URI location = new java.net.URI("../userpage.html");
 	    return Response.temporaryRedirect(location).build();
 	}

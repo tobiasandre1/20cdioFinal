@@ -1,4 +1,4 @@
-package rest;
+package webapplication.rest;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -12,17 +12,16 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import datalayer.UserDAO;
-import dto.UserDTO;
-import idatalayer.IUserDAO;
-import idatalayer.IUserDAO.DALException;
+import webapplication.datalayer.*;
+import webapplication.datalayerinterfaces.*;
+import webapplication.datatransferobjects.*;
 
 @Path("/login")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class LoginVerification {
 
-	IUserDAO dao = new UserDAO();
+	OperatoerDAO dao = new MySQLOperatoerDAO();
 	
 	@POST
 	@Path("/verify")
@@ -32,10 +31,10 @@ public class LoginVerification {
 			@FormParam("password") String password
 			) throws DALException, URISyntaxException{
 		
-		List<UserDTO> users = dao.getUserList();
+		List<OperatoerDTO> users = dao.getOperatoerList();
 		
 		for(int i = 0; i < users.size(); i++){
-				if(users.get(i).getUserName().equals(userName) && users.get(i).getPassword().equals(password)){
+				if(users.get(i).getOprNavn().equals(userName) && users.get(i).getPassword().equals(password)){
 				return Response.temporaryRedirect(new java.net.URI("../userpage.html")).build();
 			}
 		}

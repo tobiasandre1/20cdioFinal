@@ -1,4 +1,4 @@
-package rest;
+package webapplication.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
