@@ -1,4 +1,4 @@
-package webapplication.rest;
+package rest;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -7,4 +7,3 @@ import javax.ws.rs.core.Application;
 public class AppConfig extends Application{
 
 }
-
