@@ -6,10 +6,10 @@ package webapplication.sqlconnector;
 public abstract class Constant
 {
 	public static final String
-		server					= "localhost",  // database-serveren
-		database				= "20_weightdb",  //"jdbcdatabase", // navnet paa din database = dit studienummer
-		username				= "root", // dit brugernavn = dit studienummer 
-		password				= ""; // dit password som du har valgt til din database
+		server					= "http://13.58.160.148",  	// database-serveren
+		database				= "20cdioFinal",  			//"jdbcdatabase", // navnet paa din database = dit studienummer
+		username				= "cdio", 					// dit brugernavn = dit studienummer 
+		password				= "cdio_admin"; 			// dit password som du har valgt til din database
 	
 	public static final int
 		port					= 3306;
