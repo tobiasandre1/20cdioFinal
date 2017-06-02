@@ -1,5 +1,7 @@
 package webapplication.datatransferobjects;
 
+import java.util.List;
+
 /**
  * Operatoer Data Access Objekt
  * 
@@ -18,14 +20,15 @@ public class OperatoerDTO
 	/** Operatoer cpr-nr 10 karakterer */
 	String cpr;                 
 	/** Operatoer password min. 7 max. 8 karakterer */
-	String password;            
+	String password;   
+	/** Operatoer roller "admin", "pharmacist", "foreman", "laborant". max. 40 karakterer**/
+	List<String> roles;
 
-	public OperatoerDTO(int oprId, String oprNavn, String ini, String cpr, String password)
+	public OperatoerDTO(int oprId, String oprNavn, String ini, String password)
 	{
 		this.oprId = oprId;
 		this.oprNavn = oprNavn;
 		this.ini = ini;
-		this.cpr = cpr;
 		this.password = password;
 	}
 	
@@ -34,7 +37,6 @@ public class OperatoerDTO
     	this.oprId = opr.getOprId();
     	this.oprNavn = opr.getOprNavn();
     	this.ini = opr.getIni();
-    	this.cpr = opr.getCpr();
     	this.password = opr.getPassword();
     }
     
@@ -44,9 +46,12 @@ public class OperatoerDTO
 	public void setOprNavn(String oprNavn) { this.oprNavn = oprNavn; }
 	public String getIni() { return ini; }
 	public void setIni(String ini) { this.ini = ini; }
-	public String getCpr() { return cpr; }
-	public void setCpr(String cpr) { this.cpr = cpr; }
 	public String getPassword() { return password; }
 	public void setPassword(String password) { this.password = password; }
+	public List<String> getRoles(){return roles;}
+	public void setRoles(List<String> roles){this.roles = roles;}
 	public String toString() { return oprId + "\t" + oprNavn + "\t" + ini + "\t" + cpr + "\t" + password; }
+	
+	
+	
 }
