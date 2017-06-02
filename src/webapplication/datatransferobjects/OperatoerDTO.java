@@ -23,13 +23,26 @@ public class OperatoerDTO
 	String password;   
 	/** Operatoer roller "admin", "pharmacist", "foreman", "laborant". max. 40 karakterer**/
 	List<String> roles;
+	/** Is the user active? TRUE or FALSE**/
+	boolean oprActive;
 
-	public OperatoerDTO(int oprId, String oprNavn, String ini, String password)
+	public OperatoerDTO(int oprId, String oprNavn, String ini, String password, boolean oprActive)
 	{
 		this.oprId = oprId;
 		this.oprNavn = oprNavn;
 		this.ini = ini;
 		this.password = password;
+		this.oprActive = oprActive;
+	}
+	
+	public OperatoerDTO(int oprId, String oprNavn, String ini, String password, boolean oprActive, List<String> roles)
+	{
+		this.oprId = oprId;
+		this.oprNavn = oprNavn;
+		this.ini = ini;
+		this.password = password;
+		this.oprActive = oprActive;
+		this.roles = roles;
 	}
 	
     public OperatoerDTO(OperatoerDTO opr)
@@ -38,6 +51,8 @@ public class OperatoerDTO
     	this.oprNavn = opr.getOprNavn();
     	this.ini = opr.getIni();
     	this.password = opr.getPassword();
+    	this.roles = opr.getRoles();
+    	this.oprActive = opr.getOprActive();
     }
     
     public int getOprId() { return oprId; }
@@ -50,7 +65,9 @@ public class OperatoerDTO
 	public void setPassword(String password) { this.password = password; }
 	public List<String> getRoles(){return roles;}
 	public void setRoles(List<String> roles){this.roles = roles;}
-	public String toString() { return oprId + "\t" + oprNavn + "\t" + ini + "\t" + cpr + "\t" + password; }
+	public boolean getOprActive(){return oprActive;}
+	public void setOprActive(boolean oprActive){this.oprActive = oprActive;	}
+	public String toString() { return oprId + "\t" + oprNavn + "\t" + ini + "\t" + password + "\t" + oprActive; }
 	
 	
 	

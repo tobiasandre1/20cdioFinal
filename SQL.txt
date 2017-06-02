@@ -33,7 +33,7 @@ ra_INSERT						= INSERT INTO raavare(raavare_id, raavare_navn, leverandoer) VALU
 ro_INSERT						= INSERT INTO role(opr_id, role) VALUES (?, '?');
 
 
-opr_UPDATE						= UPDATE operatoer SET opr_navn = '?', ini = '?', password = '?' WHERE opr_id = ?;
+opr_UPDATE						= UPDATE operatoer SET opr_navn = '?', ini = '?', password = '?', opr_active = '?' WHERE opr_id = ?;
 pb_UPDATE						= UPDATE produktbatch SET status = ?, recept_id = ? WHERE pb_id = ?;
 pb_komponent_UPDATE				= UPDATE produktbatchkomponent SET tara = ?, netto = ?, opr_id = ? WHERE pb_id = ? AND rb_id = ?;
 rec_UPDATE						= UPDATE recept SET recept_navn = '?' WHERE recept_id = ?;

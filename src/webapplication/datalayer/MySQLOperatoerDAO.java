@@ -35,7 +35,7 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 	    try {
 	    	//Get the operatoer
 	    	if (!rs.first()) throw new DALException("Operatoeren " + oprId + " findes ikke");
-	    	temp = new OperatoerDTO (rs.getInt("opr_id"), rs.getString("opr_navn"), rs.getString("ini"), rs.getString("password"));
+	    	temp = new OperatoerDTO (rs.getInt("opr_id"), rs.getString("opr_navn"), rs.getString("ini"), rs.getString("password"), rs.getBoolean("opr_active"));
 	    	
 	    	//Get the roles
 	    	try{
@@ -66,7 +66,7 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		{
 			while (rs.next()) 
 			{
-				temp = new OperatoerDTO(rs.getInt("opr_id"), rs.getString("opr_navn"), rs.getString("ini"), rs.getString("password"));
+				temp = new OperatoerDTO(rs.getInt("opr_id"), rs.getString("opr_navn"), rs.getString("ini"), rs.getString("password"), rs.getBoolean("opr_active"));
 				
 			
 		    	try{
@@ -96,7 +96,7 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 	@Override
 	public void createOperatoer(OperatoerDTO opr) throws DALException {
 		String statement = SQLMapper.getStatement("opr_INSERT");
-		String[] values = new String[]{Integer.toString(opr.getOprId()), opr.getOprNavn(), opr.getIni(), opr.getPassword()};
+		String[] values = new String[]{Integer.toString(opr.getOprId()), opr.getOprNavn(), opr.getIni(), opr.getPassword(), String.valueOf(opr.getOprActive())};
 		statement = SQLMapper.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
@@ -115,7 +115,7 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 	public void updateOperatoer(OperatoerDTO opr) throws DALException {
 		//Update operatoer table
 		String statement = SQLMapper.getStatement("opr_UPDATE");
-		String[] values = new String[]{opr.getOprNavn(), opr.getIni(), opr.getPassword(), Integer.toString(opr.getOprId())}; //Only difference from INSERT is operatoer id is at the end
+		String[] values = new String[]{opr.getOprNavn(), opr.getIni(), opr.getPassword(), String.valueOf(opr.getOprActive()), Integer.toString(opr.getOprId())}; //Only difference from INSERT is operatoer id is at the end
 		statement = SQLMapper.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
