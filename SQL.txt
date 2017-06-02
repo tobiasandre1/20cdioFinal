@@ -41,7 +41,7 @@ rec_komponent_UPDATE			= UPDATE receptkomponent SET nom_netto = ?, tolerance = ?
 rab_UPDATE						= UPDATE raavarebatch SET raavare_id = ?, maengde = ? WHERE rb_id = ?;
 ra_UPDATE						= UPDATE raavare SET raavare_navn = '?', leverandoer = '?' WHERE raavare_id = ?;
 
-ro_delete						= DELETE FROM role WHERE opr_id = ? AND role = '?';
+ro_delete						= DELETE FROM role WHERE opr_id = ?;
 
 view_create_mad					= CREATE VIEW mad AS SELECT rk.recept_id, rk.raavare_id, re.recept_navn, ra.raavare_navn, ra.leverandoer FROM receptkomponent rk NATURAL JOIN recept re NATURAL JOIN raavare ra;
 view_create_vejning				= CREATE VIEW vejning AS SELECT opr.opr_id, opr.opr_navn, pbk.tara, pbk.netto, ra.raavare_id, ra.raavare_navn, rab.maengde FROM operatoer opr NATURAL JOIN produktbatchkomponent pbk NATURAL JOIN raavare ra NATURAL JOIN raavarebatch rab;
