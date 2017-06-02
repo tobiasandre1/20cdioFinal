@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="mainStyle.css">
+<title>Login</title>
+</head>
+
+<body>
+
+	<div class="mainbody">
+		
+		<div class="loginbox">
+		
+			<h1>Create user</h1>
+			<form action = "rest/userservice/insert" method = "post">
+				
+				<div class="inputrow">Username <input class="input" type="text" name="username"></div>
+				<div class="inputrow">Password <input class="input" type="password" name="password"></div>
+				<div class="inputrow">Initials <input class="input" type="text" name="ini"></div>
+				<div class="inputrow">C P R <input class="input" type="text" name="cpr"></div>
+				<div class="inputrow">Role <input class="input" type="text" name="role"></div>
+				<div class="inputrow"><input type="submit" value="Submit"></div>
+			</form>
+		
+		</div>
+
+	</div>
+
+</body>
+
+</html>
+
+<!-- "http://localhost:8080/20_CDIO_del3/userpage.html" -->

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="mainStyle.css">
+<title>User page</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="jquery.serialize-object.js"></script>
+<script>
+$( document ).ready(function() {
+	var arr = window.location.href.split('=');
+	//get last value
+	var id = arr[arr.length -1];
+	var data = {
+		content: id
+	};
+	$.ajax({
+		url : "rest/userservice/updategetuser",
+		data : JSON.stringify(data),
+		contentType: "application/json",
+		method: 'POST',
+		success : function(response){
+			console.log(response);
+			$("#updateform").append("<div class=\"inputrow\">User ID <input readonly style=\"text-align: center; border-style: hidden\" type=\"text\" name=\"userid\" value=\""
+					+response.userId
+					+"\"></div>");
+			$("#updateform").append("<div class=\"inputrow\">Username <input class=\"input\" type=\"text\" name=\"username\" value=\""
+					+response.userName
+					+"\"></div>");
+			$("#updateform").append("<div class=\"inputrow\">Password <input class=\"input\" type=\"password\" name=\"password\" value=\""
+					+response.password
+					+"\"></div>");
+			$("#updateform").append("<div class=\"inputrow\">Initials <input class=\"input\" type=\"text\" name=\"ini\" value=\""
+					+response.ini
+					+"\"></div>");
+			$("#updateform").append("<div class=\"inputrow\">C P R <input class=\"input\" type=\"text\" name=\"cpr\" value=\""
+					+response.cpr
+					+"\"></div>");
+			$("#updateform").append("<div class=\"inputrow\">Role <input class=\"input\" type=\"text\" name=\"role\" value=\""
+					+response.roles
+					+"\"></div>");
+			$("#updateform").append("<div id=\"submit\" class=\"inputrow\"><input type=\"submit\" value=\"Submit\"></div>");
+		},
+		error: function(jqXHR, text, error){
+			alert(jqXHR.status + text + error);
+		}
+	});
+});
+</script>
+
+</head>
+<body>
+
+	<div class="mainbody">
+		
+		<div class="loginbox">
+		
+			<h1>Update user</h1>
+			<form id="updateform" action="rest/userservice/update" method="post">
+			<!-- Form inputs are inserted here via ajax function -->
+			</form>
+		
+		</div>
+
+	</div>
+
+</body>
+</html>
