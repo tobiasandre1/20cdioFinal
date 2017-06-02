@@ -1,0 +1,58 @@
+@CHARSET "UTF-8";
+
+body {
+	font-family: courier new;
+}
+
+h1 {
+	display: block;
+	margin: auto;
+	font-size: 2.5em;
+}
+
+p {
+
+}
+
+table {
+	display: block;
+	margin: auto;
+	width: auto;
+}
+
+input[type="submit"]{
+	display: block;
+	margin: auto;
+	padding: 0.2em 4em;
+	width: auto;
+	font-family: courier new;
+	font-size: 1em;
+	border-radius: 3em;
+}
+
+input[type="text"], input[type="password"]{
+	padding: 0.2em;
+	font-family: courier new;
+	font-size: 1em;
+}
+
+form {
+	margin: auto;
+}
+
+.mainbody{
+	width: 40%;
+	padding: 2em;
+	margin: auto;
+}
+
+.loginbox{
+	margin: 0.5em auto;
+	text-align: center;
+}
+
+.inputrow{
+	margin: auto;
+	padding: 0.5em 2em;
+}
+
