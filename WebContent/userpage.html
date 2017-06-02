@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="mainStyle.css">
+<title>User page</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="jquery.serialize-object.js"></script>
+<script>
+$( document ).ready(function() {
+	$.ajax({
+		url : "rest/datagetter",
+		data : $('#form').serializeJSON(),
+		contentType: "application/json",
+		method: 'POST',
+		success : function(response){
+			console.log(response);
+			console.log(response.userId);
+			for(var i = 0; i < response.length; i++){
+				$('#usertable').append("<tr>");
+				$('#usertable').append("<td><button class=\"small\" id=\"" 
+						+ response[i].userId 
+						+ "\" type=\"submit\" form=\"updateUser\" value=\""
+						+ response[i].userId
+						+ "\" name=\"submit\">EDIT</button></td>");
+				$('#usertable').append("<td>" + response[i].userId + "</td>"); 
+				$('#usertable').append("<td>" + response[i].userName + "</td>");
+				$('#usertable').append("<td>" + response[i].ini + "</td>");
+				$('#usertable').append("<td>" + response[i].roles + "</td>");
+				$('#usertable').append("<td>" + response[i].cpr + "</td>");
+				$('#usertable').append("<td><button class=\"small\" id=\"" 
+						+ response[i].userId 
+						+ "\" type=\"submit\" form=\"deleteUser\" value=\""
+						+ response[i].userId
+						+"\" name=\"submit\">X</button></td>");
+				$('#usertable').append("</tr>");
+			}
+		},
+		error: function(jqXHR, text, error){
+			alert(jqXHR.status + text + error);
+		}
+	});
+}); 
+</script>
+
+</head>
+<body>
+
+	<!-- Forms with access to REST backend -->
+	<form id="insertUser" action="adduser.html" method="get"></form>
+	<form id="updateUser" action="updateuser.html" method="get"></form>
+	<form id="deleteUser" action="rest/userservice/delete" method="post"></form>
+
+	<!-- Main HTML -->
+	<div class="mainbody_wide">
+	<button type="submit" form="insertUser" value="submit">Add user</button>
+	
+	<table>
+		<tbody id="usertable">
+		<tr>
+			<th></th>
+			<th>ID</th>
+			<th>User Name</th>
+			<th>Initials</th>
+			<th>Roles</th>
+			<th>CPR</th>
+			<th></th>
+		</tr>
+		<!-- Data records are appended here -->
+		</tbody>
+	</table>	
+
+	</div>
+
+</body>
+</html>

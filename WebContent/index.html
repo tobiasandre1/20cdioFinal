@@ -7,6 +7,39 @@
 <title>Login</title>
 </head>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="jquery.serialize-object.js"></script>
+
+<!-- 
+<script>
+	$( document ).ready(function (){
+		
+		var $username = $('#username');
+		var $password = $('#password');
+		
+		$('#LoginBtn').on('click', function(){
+			var namePass = {
+				username: $username.val(),
+				password: $password.val()
+			};		
+			$.ajax({
+				url: "rest/LoginVerification",
+				data: $('#form').serializeJSON(),
+				contentType: "application/json",
+				method: 'POST',
+				success: function(response){
+					alert('wuhuu');
+				},
+				error: function(){
+					alert('shit happened');
+				}
+			});
+		})
+		
+		
+	})
+</script>
+-->
 <body>
 
 	<div class="mainbody">
@@ -14,11 +47,11 @@
 		<div class="loginbox">
 		
 			<h1>Login</h1>
-			<form action ="" method = "post">
+			<form action ="rest/login/verify" method ="post">
 				
 				<div class="inputrow">Username <input class="input" type="text" name="username"></div>
 				<div class="inputrow">Password <input class="input" type="password" name="password"></div>
-				<div class="inputrow"><input type="submit" value="Login"></div>
+				<div class="inputrow"><input id="LoginBtn" type="submit" value="Login"></div>
 			</form>
 		
 		</div>
@@ -28,3 +61,5 @@
 </body>
 
 </html>
+
+<!-- "http://localhost:8080/20_CDIO_del3/userpage.html" -->
