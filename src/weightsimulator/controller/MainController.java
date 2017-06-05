@@ -22,8 +22,8 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 
 	private ISocketController socketHandler;
 	private IWeightInterfaceController weightController;
-	private KeyState keyState = KeyState.K1;
-	
+	private KeyState keyState = KeyState.K4;
+
 	private double weight = 0.0;
 	private double tarWeight = 0.0;
 	private Double total = 0.0;
@@ -31,11 +31,12 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	private int numbersPointer = 0;
 	private String numberMessage;
 	private boolean allowCommands = true;
-	
+	private int tempOutput = 0;
+
 	//Hardcoded batch and id
 	private int idN = 12, batchN = 1234;
 	private String idS = "Anders And", batchS = "Salt";
-	
+
 	public MainController(ISocketController socketHandler, IWeightInterfaceController weightInterfaceController) {
 		this.init(socketHandler, weightInterfaceController);
 	}
@@ -76,7 +77,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 						weight = weight + Double.parseDouble(message.getMessage());
 						weightController.showMessagePrimaryDisplay(weight+"kg");
 						weightController.showMessageSecondaryDisplay("Unmodified total weight:");
-						}
+					}
 					break;
 				}
 				catch(NumberFormatException e){
@@ -95,6 +96,15 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 			case RM208: //Expects a string as a reply 
 				weightController.showMessageSecondaryDisplay("Enter your operator ID: ");
 				allowCommands = false;
+				synchronized(this){							
+					try {
+						wait();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				allowCommands = true;
 				break;
 			case S:
 				total = weight - tarWeight;
@@ -152,12 +162,12 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 			break;
 		case TEXT:
 			numbers.add(keyPress.getCharacter());
-			 numbersPointer++;
-			 numberMessage = "";
-			 for(int i = 0; i<numbersPointer; i++){
-				 numberMessage += numbers.get(i);
-			 }
-			 weightController.showMessageSecondaryDisplay(numberMessage);
+			numbersPointer++;
+			numberMessage = "";
+			for(int i = 0; i<numbersPointer; i++){
+				numberMessage += numbers.get(i);
+			}
+			weightController.showMessageSecondaryDisplay(numberMessage);
 			break; 
 		case ZERO:
 			weight = 0.0;
@@ -168,8 +178,8 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 			break;
 		case C:
 			numbers = new ArrayList<Character>();
-			 numbersPointer = 0;
-			 System.out.println("C");
+			numbersPointer = 0;
+			System.out.println("C");
 			break;
 		case EXIT:
 			quit();
@@ -180,15 +190,20 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 			}
 			else if(keyState.equals(KeyState.K4)){
 				socketHandler.sendMessage(new SocketOutMessage(numbers.toString()));
-				 weightController.showMessageSecondaryDisplay("You sent the numbers: " + numbers.toString());
-				 numbers = new ArrayList<Character>();
-				 numbersPointer = 0;
+				weightController.showMessageSecondaryDisplay("You sent the numbers: " + numbers.toString());
+				numbers = new ArrayList<Character>();
+				numbersPointer = 0;
+				for(int i = 0; i < numbers.size(); i++){ 				//ADD THIS TO FINAL
+					tempOutput = (tempOutput*10+numbers.get(i));		//ADD THIS TO FINAL
+				}
 			}
 			else{ 
 				weightController.showMessageSecondaryDisplay("No command was expecting an input. Input discarded.");
 				System.out.println("No command was expecting an input. Input discarded.");
 			}
-			allowCommands = true;
+			synchronized (this){
+				notify();
+			}
 			break;
 		}
 
@@ -205,13 +220,13 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 		tarWeight = weight;
 		weightController.showMessagePrimaryDisplay(total.toString());
 	}
-	
+
 	public void quit(){
 		System.exit(0);
 	}
-	
+
 	public boolean getCommandStatus(){
 		return allowCommands;
 	}
-	
+
 }

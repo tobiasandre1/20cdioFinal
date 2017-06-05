@@ -70,7 +70,7 @@ public class SocketController implements ISocketController {
 				System.out.println(inLine);
 				if (inLine==null) break;
 				switch (inLine.split(" ")[0]) {
-				case "RM20": // Display a message in the secondary display and wait for response
+				case "RM208": // Display a message in the secondary display and wait for response
 					//Depending on the number after RM20 4 or 8, notify with either RM204 or RM208
 					notifyObservers(new SocketInMessage(SocketMessageType.RM208, ""));
 					break;
