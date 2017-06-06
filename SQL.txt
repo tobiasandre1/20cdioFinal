@@ -52,3 +52,4 @@ view_drop_vejning				= DROP VIEW vejning;
 view_SELECTALL_mad				= SELECT * FROM mad;
 view_SELECTALL_vejning			= SELECT * FROM vejning;
 
+opr_specific 					= SELECT opr_navn FROM operatoer WHERE orp_id = ?;
