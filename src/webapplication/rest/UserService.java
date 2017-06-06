@@ -31,7 +31,7 @@ public class UserService {
 		@FormParam("submit") int id
 			) throws DALException, URISyntaxException {
 		// TODO
-		//dao.deleteUser(id); Udkommenteret fordi vi ikke fjerner en bruger (Løsning on the way)
+		//dao.deleteUser(id); Udkommenteret fordi vi ikke fjerner en bruger (Lï¿½sning on the way)
 		java.net.URI location = new java.net.URI("../userpage.html");
 	    return Response.temporaryRedirect(location).build();
 	}
@@ -50,7 +50,7 @@ public class UserService {
 		List<String> roles = new ArrayList<String>();
 		roles.add(role);
 		
-		OperatoerDTO user = new OperatoerDTO(0, userName, ini, password);
+		OperatoerDTO user = new OperatoerDTO(0, userName, ini, password, true);
 		dao.createOperatoer(user);
 		
 		java.net.URI location = new java.net.URI("../userpage.html");
@@ -81,7 +81,7 @@ public class UserService {
 		List<String> roles = new ArrayList<String>();
 		roles.add(role);
 		
-		OperatoerDTO user = new OperatoerDTO(Integer.parseInt(userId), userName, ini, password);
+		OperatoerDTO user = new OperatoerDTO(Integer.parseInt(userId), userName, ini, password, true);
 		
 		dao.updateOperatoer(user);
 		java.net.URI location = new java.net.URI("../userpage.html");
