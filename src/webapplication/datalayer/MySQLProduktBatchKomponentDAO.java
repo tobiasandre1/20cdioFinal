@@ -16,11 +16,12 @@ import webapplication.sqlconnector.SQLMapper;
  *
  */
 public class MySQLProduktBatchKomponentDAO implements ProduktBatchKompDAO {
-
+	SQLMapper map = new SQLMapper();
+	
 	@Override
 	public ProduktBatchKompDTO getProduktBatchKomp(int pbId, int rbId) throws DALException {
 
-		String statement = SQLMapper.getStatement("pb_komponent_SELECT");
+		String statement = map.getStatement("pb_komponent_SELECT");
 		String[] values = new String[]{Integer.toString(pbId), Integer.toString(rbId)};
 		statement = SQLMapper.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);
@@ -39,7 +40,7 @@ public class MySQLProduktBatchKomponentDAO implements ProduktBatchKompDAO {
 	public List<ProduktBatchKompDTO> getProduktBatchKompList(int pbId) throws DALException {
 		
 		List<ProduktBatchKompDTO> list = new ArrayList<ProduktBatchKompDTO>();
-		String statement = SQLMapper.getStatement("pb_komponent_SELECT_ALL_rec_id");
+		String statement = map.getStatement("pb_komponent_SELECT_ALL_rec_id");
 		statement = SQLMapper.insertValuesIntoString(statement, new String[]{Integer.toString(pbId)});
 		ResultSet rs = Connector.doQuery(statement);
 		
@@ -58,7 +59,7 @@ public class MySQLProduktBatchKomponentDAO implements ProduktBatchKompDAO {
 	public List<ProduktBatchKompDTO> getProduktBatchKompList() throws DALException {
 		
 		List<ProduktBatchKompDTO> list = new ArrayList<ProduktBatchKompDTO>();
-		String statement = SQLMapper.getStatement("pb_komponent_SELECT_ALL");
+		String statement = map.getStatement("pb_komponent_SELECT_ALL");
 		ResultSet rs = Connector.doQuery(statement);
 		
 		try
@@ -76,7 +77,7 @@ public class MySQLProduktBatchKomponentDAO implements ProduktBatchKompDAO {
 	@Override
 	public void createProduktBatchKomp(ProduktBatchKompDTO produktbatchkomponent) throws DALException {
 		
-		String statement = SQLMapper.getStatement("pb_komponent_INSERT");
+		String statement = map.getStatement("pb_komponent_INSERT");
 		String[] values = new String[]{
 									Integer.toString(produktbatchkomponent.getPbId()), 
 									Integer.toString(produktbatchkomponent.getRbId()),
@@ -93,7 +94,7 @@ public class MySQLProduktBatchKomponentDAO implements ProduktBatchKompDAO {
 	@Override
 	public void updateProduktBatchKomp(ProduktBatchKompDTO produktbatchkomponent) throws DALException {
 	
-		String statement = SQLMapper.getStatement("pb_komponent_UPDATE");
+		String statement = map.getStatement("pb_komponent_UPDATE");
 		String[] values = new String[]{
 									Double.toString(produktbatchkomponent.getTara()),
 									Double.toString(produktbatchkomponent.getNetto()),

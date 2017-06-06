@@ -16,10 +16,11 @@ import webapplication.sqlconnector.SQLMapper;
  *
  */
 public class MySQLRaavareDAO implements RaavareDAO {
-
+	SQLMapper map = new SQLMapper();
+	
 	@Override
 	public RaavareDTO getRaavare(int raavareId) throws DALException {
-		String statement = SQLMapper.getStatement("ra_SELECT");
+		String statement = map.getStatement("ra_SELECT");
 		String[] values = new String[]{Integer.toString(raavareId)};
 		statement = SQLMapper.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);
@@ -34,7 +35,7 @@ public class MySQLRaavareDAO implements RaavareDAO {
 	@Override
 	public List<RaavareDTO> getRaavareList() throws DALException {
 		List<RaavareDTO> list = new ArrayList<RaavareDTO>();
-		ResultSet rs = Connector.doQuery(SQLMapper.getStatement("ra_SELECT_ALL"));
+		ResultSet rs = Connector.doQuery(map.getStatement("ra_SELECT_ALL"));
 		try
 		{
 			while (rs.next()) 
@@ -48,7 +49,7 @@ public class MySQLRaavareDAO implements RaavareDAO {
 
 	@Override
 	public void createRaavare(RaavareDTO raavare) throws DALException {
-		String statement = SQLMapper.getStatement("ra_INSERT");
+		String statement = map.getStatement("ra_INSERT");
 		String[] values = new String[]{
 				Integer.toString(raavare.getRaavareId()),
 				raavare.getRaavareNavn(),
@@ -62,7 +63,7 @@ public class MySQLRaavareDAO implements RaavareDAO {
 
 	@Override
 	public void updateRaavare(RaavareDTO raavare) throws DALException {
-		String statement = SQLMapper.getStatement("ra_UPDATE");
+		String statement = map.getStatement("ra_UPDATE");
 		String[] values = new String[]{
 				raavare.getRaavareNavn(),
 				raavare.getLeverandoer(),

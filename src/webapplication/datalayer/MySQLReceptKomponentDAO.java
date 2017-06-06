@@ -16,10 +16,11 @@ import webapplication.datatransferobjects.ReceptKompDTO;
  *
  */
 public class MySQLReceptKomponentDAO implements ReceptKompDAO {
-
+	SQLMapper map = new SQLMapper();
+	
 	@Override
 	public ReceptKompDTO getReceptKomp(int receptId, int raavareId) throws DALException {
-		String statement = SQLMapper.getStatement("rec_komponent_SELECT");
+		String statement = map.getStatement("rec_komponent_SELECT");
 		String[] values = new String[]{Integer.toString(receptId), Integer.toString(raavareId)};
 		statement = SQLMapper.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);
@@ -35,7 +36,7 @@ public class MySQLReceptKomponentDAO implements ReceptKompDAO {
 	@Override
 	public List<ReceptKompDTO> getReceptKompList(int receptId) throws DALException {
 		List<ReceptKompDTO> list = new ArrayList<ReceptKompDTO>();
-		String statement = SQLMapper.getStatement("rec_komponent_SELECT_ALL_rec_id");
+		String statement = map.getStatement("rec_komponent_SELECT_ALL_rec_id");
 		statement = SQLMapper.insertValuesIntoString(statement, new String[]{Integer.toString(receptId)});
 		ResultSet rs = Connector.doQuery(statement);
 		try
@@ -52,7 +53,7 @@ public class MySQLReceptKomponentDAO implements ReceptKompDAO {
 	@Override
 	public List<ReceptKompDTO> getReceptKompList() throws DALException {
 		List<ReceptKompDTO> list = new ArrayList<ReceptKompDTO>();
-		ResultSet rs = Connector.doQuery(SQLMapper.getStatement("rec_komponent_SELECT_ALL"));
+		ResultSet rs = Connector.doQuery(map.getStatement("rec_komponent_SELECT_ALL"));
 		try
 		{
 			while (rs.next()) 
@@ -66,7 +67,7 @@ public class MySQLReceptKomponentDAO implements ReceptKompDAO {
 
 	@Override
 	public void createReceptKomp(ReceptKompDTO receptkomponent) throws DALException {
-		String statement = SQLMapper.getStatement("rec_komponent_INSERT");
+		String statement = map.getStatement("rec_komponent_INSERT");
 		String[] values = new String[]{
 				Integer.toString(receptkomponent.getReceptId()), 
 				Integer.toString(receptkomponent.getRaavareId()), 
@@ -81,7 +82,7 @@ public class MySQLReceptKomponentDAO implements ReceptKompDAO {
 
 	@Override
 	public void updateReceptKomp(ReceptKompDTO receptkomponent) throws DALException {
-		String statement = SQLMapper.getStatement("rec_komponent_UPDATE");
+		String statement = map.getStatement("rec_komponent_UPDATE");
 		String[] values = new String[]{
 				Double.toString(receptkomponent.getNomNetto()), 
 				Double.toString(receptkomponent.getTolerance()),

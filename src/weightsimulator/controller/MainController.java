@@ -245,8 +245,8 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	}
 
 	public String getOprName(int opr_id) throws DALException{
-		
-		String statement = SQLMapper.getStatement("opr_specific_name");
+		SQLMapper map = new SQLMapper();
+		String statement = map.getStatement("opr_specific_name");
 		String[] values = new String[]{Integer.toString(opr_id)};
 		statement = SQLMapper.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);

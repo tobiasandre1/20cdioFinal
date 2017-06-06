@@ -19,7 +19,8 @@ import webapplication.datatransferobjects.ProduktBatchDTO;
  *
  */
 public class MySQLProduktBatchDAO implements ProduktBatchDAO {
-
+	SQLMapper map = new SQLMapper();
+	
 	@Override
 	public ProduktBatchDTO getProduktBatch(int pbId) throws DALException {
 		/*
@@ -28,7 +29,7 @@ public class MySQLProduktBatchDAO implements ProduktBatchDAO {
 		 * 
 		 * We can store the result of a query in the class ResultSet
 		 */
-		String statement = SQLMapper.getStatement("pb_SELECT");
+		String statement = map.getStatement("pb_SELECT");
 		String[] values = new String[]{Integer.toString(pbId)};
 		statement = SQLMapper.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);
@@ -55,7 +56,7 @@ public class MySQLProduktBatchDAO implements ProduktBatchDAO {
 		 * Our query selects all present elements in the table.
 		 */
 		List<ProduktBatchDTO> list = new ArrayList<ProduktBatchDTO>();
-		ResultSet rs = Connector.doQuery(SQLMapper.getStatement("pb_SELECT_ALL"));
+		ResultSet rs = Connector.doQuery(map.getStatement("pb_SELECT_ALL"));
 		try
 		{
 			while (rs.next()) 
@@ -69,7 +70,7 @@ public class MySQLProduktBatchDAO implements ProduktBatchDAO {
 
 	@Override
 	public void createProduktBatch(ProduktBatchDTO produktbatch) throws DALException {
-		String statement = SQLMapper.getStatement("pb_INSERT");
+		String statement = map.getStatement("pb_INSERT");
 		String[] values = new String[]{Integer.toString(produktbatch.getPbId()), Integer.toString(produktbatch.getStatus()), Integer.toString(produktbatch.getReceptId()) };
 		statement = SQLMapper.insertValuesIntoString(statement, values);
 		System.out.println(statement);
@@ -80,7 +81,7 @@ public class MySQLProduktBatchDAO implements ProduktBatchDAO {
 
 	@Override
 	public void updateProduktBatch(ProduktBatchDTO produktbatch) throws DALException {
-		String statement = SQLMapper.getStatement("pb_UPDATE");
+		String statement = map.getStatement("pb_UPDATE");
 		String[] values = new String[]{Integer.toString(produktbatch.getStatus()), Integer.toString(produktbatch.getReceptId()), Integer.toString(produktbatch.getPbId()) };
 		statement = SQLMapper.insertValuesIntoString(statement, values);
 		System.out.println(statement);

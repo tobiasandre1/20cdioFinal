@@ -16,10 +16,11 @@ import webapplication.datatransferobjects.ReceptDTO;
  *
  */
 public class MySQLReceptDAO implements ReceptDAO {
-
+	SQLMapper map = new SQLMapper();
+	
 	@Override
 	public ReceptDTO getRecept(int receptId) throws DALException {
-		String statement = SQLMapper.getStatement("rec_SELECT");
+		String statement = map.getStatement("rec_SELECT");
 		String[] values = new String[]{Integer.toString(receptId)};
 		statement = SQLMapper.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);
@@ -35,7 +36,7 @@ public class MySQLReceptDAO implements ReceptDAO {
 	@Override
 	public List<ReceptDTO> getReceptList() throws DALException {
 		List<ReceptDTO> list = new ArrayList<ReceptDTO>();
-		ResultSet rs = Connector.doQuery(SQLMapper.getStatement("rec_SELECT_ALL"));
+		ResultSet rs = Connector.doQuery(map.getStatement("rec_SELECT_ALL"));
 		try
 		{
 			while (rs.next()) 
@@ -49,7 +50,7 @@ public class MySQLReceptDAO implements ReceptDAO {
 
 	@Override
 	public void createRecept(ReceptDTO recept) throws DALException {
-		String statement = SQLMapper.getStatement("rec_INSERT");
+		String statement = map.getStatement("rec_INSERT");
 		String[] values = new String[]{
 								Integer.toString(recept.getReceptId()), 
 								recept.getReceptNavn()
@@ -62,7 +63,7 @@ public class MySQLReceptDAO implements ReceptDAO {
 
 	@Override
 	public void updateRecept(ReceptDTO recept) throws DALException {
-		String statement = SQLMapper.getStatement("rec_UPDATE");
+		String statement = map.getStatement("rec_UPDATE");
 		String[] values = new String[]{
 						recept.getReceptNavn(),	
 						Integer.toString(recept.getReceptId())

@@ -17,10 +17,11 @@ import webapplication.datatransferobjects.RaavareBatchDTO;
  *
  */
 public class MySQLRaavareBatchDAO implements RaavareBatchDAO {
-
+	SQLMapper map = new SQLMapper();
+	
 	@Override
 	public RaavareBatchDTO getRaavareBatch(int rbId) throws DALException {
-		String statement = SQLMapper.getStatement("rab_SELECT");
+		String statement = map.getStatement("rab_SELECT");
 		String[] values = new String[]{Integer.toString(rbId)};
 		statement = SQLMapper.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);
@@ -36,7 +37,7 @@ public class MySQLRaavareBatchDAO implements RaavareBatchDAO {
 	@Override
 	public List<RaavareBatchDTO> getRaavareBatchList() throws DALException {
 		List<RaavareBatchDTO> list = new ArrayList<RaavareBatchDTO>();
-		ResultSet rs = Connector.doQuery(SQLMapper.getStatement("rab_SELECT_ALL")); //Without value inserted. Returns all rows
+		ResultSet rs = Connector.doQuery(map.getStatement("rab_SELECT_ALL")); //Without value inserted. Returns all rows
 		try
 		{
 			while (rs.next()) 
@@ -51,7 +52,7 @@ public class MySQLRaavareBatchDAO implements RaavareBatchDAO {
 	@Override
 	public List<RaavareBatchDTO> getRaavareBatchList(int raavareId) throws DALException {
 		List<RaavareBatchDTO> list = new ArrayList<RaavareBatchDTO>();
-		String statement = SQLMapper.getStatement("rab_SELECT_ALL_raavare_id");
+		String statement = map.getStatement("rab_SELECT_ALL_raavare_id");
 		statement = SQLMapper.insertValuesIntoString(statement, new String[]{Integer.toString(raavareId)});
 		ResultSet rs = Connector.doQuery(statement);
 		try
@@ -67,7 +68,7 @@ public class MySQLRaavareBatchDAO implements RaavareBatchDAO {
 
 	@Override
 	public void createRaavareBatch(RaavareBatchDTO raavarebatch) throws DALException {
-		String statement = SQLMapper.getStatement("rab_INSERT");
+		String statement = map.getStatement("rab_INSERT");
 		String[] values = new String[]{
 				Integer.toString(raavarebatch.getRbId()), 
 				Integer.toString(raavarebatch.getRaavareId()), 
@@ -81,7 +82,7 @@ public class MySQLRaavareBatchDAO implements RaavareBatchDAO {
 
 	@Override
 	public void updateRaavareBatch(RaavareBatchDTO raavarebatch) throws DALException {
-		String statement = SQLMapper.getStatement("rab_UPDATE");
+		String statement = map.getStatement("rab_UPDATE");
 		String[] values = new String[]{ 
 				Integer.toString(raavarebatch.getRaavareId()), 
 				Double.toString(raavarebatch.getMaengde()),
