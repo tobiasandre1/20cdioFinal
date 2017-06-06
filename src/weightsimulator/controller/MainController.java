@@ -200,23 +200,23 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 			quit();
 			break;
 		case SEND:
-			if (/*keyState.equals(KeyState.K4) ||*/ keyState.equals(KeyState.K3) ){
-				socketHandler.sendMessage(new SocketOutMessage("K A 3"));
-			}
-			else if(keyState.equals(KeyState.K4)){
-				socketHandler.sendMessage(new SocketOutMessage(numbers.toString()));
-				weightController.showMessageSecondaryDisplay("You sent the numbers: " + numbers.toString());
-				numbers = new ArrayList<Character>();
-				numbersPointer = 0;
-				for(int i = 0; i < numbers.size(); i++){ 				
-					tempOutput = (tempOutput*10+numbers.get(i));		
-				}
-			}
-			else{ 
-				weightController.showMessageSecondaryDisplay("No command was expecting an input. Input discarded.");
-				System.out.println("No command was expecting an input. Input discarded.");
-			}
 			synchronized (this){
+				if (/*keyState.equals(KeyState.K4) ||*/ keyState.equals(KeyState.K3) ){
+					socketHandler.sendMessage(new SocketOutMessage("K A 3"));
+				}
+				else if(keyState.equals(KeyState.K4)){
+					socketHandler.sendMessage(new SocketOutMessage(numbers.toString()));
+					weightController.showMessageSecondaryDisplay("You sent the numbers: " + numbers.toString());
+					numbersPointer = 0;
+					for(int i = 0; i < numbers.size(); i++){
+						tempOutput = (tempOutput*10+(numbers.get(i)-48));		//-48 to convert from ASCII to integer
+					}
+					numbers = new ArrayList<Character>();
+				}
+				else{ 
+					weightController.showMessageSecondaryDisplay("No command was expecting an input. Input discarded.");
+					System.out.println("No command was expecting an input. Input discarded.");
+				}
 				notify();
 			}
 			break;
