@@ -30,7 +30,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	private ISocketController socketHandler;
 	private IWeightInterfaceController weightController;
 	private KeyState keyState = KeyState.K4;
-	
+
 	private double weight = 0.0;
 	private double tarWeight = 0.0;
 	private Double total = 0.0;
@@ -113,13 +113,13 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
+						allowCommands = true;
+
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				allowCommands = true;
 				break;
 			case S:
 				total = weight - tarWeight;
@@ -251,14 +251,14 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 		statement = map.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);
 		ResultSet rs = Connector.doQuery(statement);
-		
-	    try {
-	    	if (!rs.first()) throw new DALException("Operatoeren " + opr_id + " findes ikke");
-	    	return rs.getArray(0).toString();
-	    }
-	    catch (SQLException e) {throw new DALException(e); }
-		
+
+		try {
+			if (!rs.first()) throw new DALException("Operatoeren " + opr_id + " findes ikke");
+			return rs.getArray(0).toString();
+		}
+		catch (SQLException e) {throw new DALException(e); }
+
 	}
-	
-	
+
+
 }
