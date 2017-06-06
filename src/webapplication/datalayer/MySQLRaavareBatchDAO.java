@@ -23,7 +23,7 @@ public class MySQLRaavareBatchDAO implements RaavareBatchDAO {
 	public RaavareBatchDTO getRaavareBatch(int rbId) throws DALException {
 		String statement = map.getStatement("rab_SELECT");
 		String[] values = new String[]{Integer.toString(rbId)};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);
 		ResultSet rs = Connector.doQuery(statement);
 		
@@ -53,7 +53,7 @@ public class MySQLRaavareBatchDAO implements RaavareBatchDAO {
 	public List<RaavareBatchDTO> getRaavareBatchList(int raavareId) throws DALException {
 		List<RaavareBatchDTO> list = new ArrayList<RaavareBatchDTO>();
 		String statement = map.getStatement("rab_SELECT_ALL_raavare_id");
-		statement = SQLMapper.insertValuesIntoString(statement, new String[]{Integer.toString(raavareId)});
+		statement = map.insertValuesIntoString(statement, new String[]{Integer.toString(raavareId)});
 		ResultSet rs = Connector.doQuery(statement);
 		try
 		{
@@ -74,7 +74,7 @@ public class MySQLRaavareBatchDAO implements RaavareBatchDAO {
 				Integer.toString(raavarebatch.getRaavareId()), 
 				Double.toString(raavarebatch.getMaengde())
 			};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 
@@ -88,7 +88,7 @@ public class MySQLRaavareBatchDAO implements RaavareBatchDAO {
 				Double.toString(raavarebatch.getMaengde()),
 				Integer.toString(raavarebatch.getRbId())
 			};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 

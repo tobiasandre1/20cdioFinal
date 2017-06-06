@@ -22,7 +22,7 @@ public class MySQLRaavareDAO implements RaavareDAO {
 	public RaavareDTO getRaavare(int raavareId) throws DALException {
 		String statement = map.getStatement("ra_SELECT");
 		String[] values = new String[]{Integer.toString(raavareId)};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);
 		ResultSet rs = Connector.doQuery(statement);
 	    try {
@@ -55,7 +55,7 @@ public class MySQLRaavareDAO implements RaavareDAO {
 				raavare.getRaavareNavn(),
 				raavare.getLeverandoer()
 			};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 
@@ -69,7 +69,7 @@ public class MySQLRaavareDAO implements RaavareDAO {
 				raavare.getLeverandoer(),
 				Integer.toString(raavare.getRaavareId())
 			};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 

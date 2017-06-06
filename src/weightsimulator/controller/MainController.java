@@ -248,7 +248,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 		SQLMapper map = new SQLMapper();
 		String statement = map.getStatement("opr_specific_name");
 		String[] values = new String[]{Integer.toString(opr_id)};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);
 		ResultSet rs = Connector.doQuery(statement);
 		
