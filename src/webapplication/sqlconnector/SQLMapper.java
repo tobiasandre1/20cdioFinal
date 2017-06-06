@@ -8,21 +8,6 @@ import java.util.Properties;
 
 public class SQLMapper {
 
-	public static String getStatement(int i){
-		
-		Properties props = new Properties();
-		try {
-			File file = new File("SQL.txt");
-			FileInputStream in = new FileInputStream(file);
-			props.load(in);
-			String res = props.getProperty(Integer.toString(i));
-			in.close();
-			return res; 
-		} catch (IOException e) {
-			throw new IllegalStateException("Unable to load properties");
-		}
-	}
-	
 	public static String getStatement(String str){
 		
 		Properties props = new Properties();
@@ -45,13 +30,16 @@ public class SQLMapper {
 			statement = statement.replaceFirst("[?]", values[i]);
 		}
 		return statement;
+	}
+	
+	private class StringPair{
+		String key;
+		String value;
 		
-		/* Test:
-		 *
-		 * String stm = SQLMapper.getStatement(1);
-		 * stm = SQLMapper.insertValuesIntoString(stm, new String[]{"WELL"});
-		 * System.out.println(stm);
-		 */
+		StringPair(String key, String value){
+			this.key = key;
+			this.value = value;
+		}
 	}
 	
 }
