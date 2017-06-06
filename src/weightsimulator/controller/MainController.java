@@ -105,6 +105,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 				allowCommands = false;
 				synchronized(this){							
 					try {
+						tempOutput = 0;
 						wait();
 						try {
 							weightController.showMessagePrimaryDisplay(getOprName(tempOutput));
@@ -207,8 +208,8 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 				weightController.showMessageSecondaryDisplay("You sent the numbers: " + numbers.toString());
 				numbers = new ArrayList<Character>();
 				numbersPointer = 0;
-				for(int i = 0; i < numbers.size(); i++){ 				//ADD THIS TO FINAL
-					tempOutput = (tempOutput*10+numbers.get(i));		//ADD THIS TO FINAL
+				for(int i = 0; i < numbers.size(); i++){ 				
+					tempOutput = (tempOutput*10+numbers.get(i));		
 				}
 			}
 			else{ 
