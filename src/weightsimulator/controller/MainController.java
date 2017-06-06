@@ -2,7 +2,13 @@ package weightsimulator.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import webapplication.datalayerinterfaces.DALException;
+import webapplication.sqlconnector.*;
+
 import java.lang.Math;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import weightsimulator.socket.ISocketController;
 import weightsimulator.socket.ISocketObserver;
@@ -12,6 +18,7 @@ import weightsimulator.socket.SocketInMessage.SocketMessageType;
 import weightsimulator.weight.IWeightInterfaceController;
 import weightsimulator.weight.IWeightInterfaceObserver;
 import weightsimulator.weight.KeyPress;
+
 /**
  * MainController - integrating input from socket and ui. Implements ISocketObserver and IUIObserver to handle this.
  * @author Christian Budtz
@@ -23,7 +30,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	private ISocketController socketHandler;
 	private IWeightInterfaceController weightController;
 	private KeyState keyState = KeyState.K4;
-
+	
 	private double weight = 0.0;
 	private double tarWeight = 0.0;
 	private Double total = 0.0;
@@ -99,6 +106,13 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 				synchronized(this){							
 					try {
 						wait();
+						try {
+							weightController.showMessagePrimaryDisplay(getOprName(tempOutput));
+						} catch (DALException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -229,4 +243,21 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 		return allowCommands;
 	}
 
+	public String getOprName(int opr_id) throws DALException{
+		
+		String statement = SQLMapper.getStatement("opr_specific_name");
+		String[] values = new String[]{Integer.toString(opr_id)};
+		statement = SQLMapper.insertValuesIntoString(statement, values);
+		System.out.println("Query: "+statement);
+		ResultSet rs = Connector.doQuery(statement);
+		
+	    try {
+	    	if (!rs.first()) throw new DALException("Operatoeren " + opr_id + " findes ikke");
+	    	return rs.getArray(0).toString();
+	    }
+	    catch (SQLException e) {throw new DALException(e); }
+		
+	}
+	
+	
 }
