@@ -47,17 +47,11 @@ public class Connector
 				throws InstantiationException, IllegalAccessException,
 					ClassNotFoundException, SQLException
 	{
-		try{
-			conn	= connectToDatabase("jdbc:mysql://"+server+":"+port+"/"+database,
+		
+		conn	= connectToDatabase("jdbc:mysql://"+server+":"+port+"/"+database,
 						username, password);
-			stm		= conn.createStatement();
-		}
-		catch(SQLException e){
-			
-		}
-		finally{
-			
-		}
+		stm		= conn.createStatement();
+		
 	}
 	
 	public Connector() throws InstantiationException, IllegalAccessException,
