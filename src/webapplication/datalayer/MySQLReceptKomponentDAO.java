@@ -22,7 +22,7 @@ public class MySQLReceptKomponentDAO implements ReceptKompDAO {
 	public ReceptKompDTO getReceptKomp(int receptId, int raavareId) throws DALException {
 		String statement = map.getStatement("rec_komponent_SELECT");
 		String[] values = new String[]{Integer.toString(receptId), Integer.toString(raavareId)};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);
 		ResultSet rs = Connector.doQuery(statement);
 		
@@ -37,7 +37,7 @@ public class MySQLReceptKomponentDAO implements ReceptKompDAO {
 	public List<ReceptKompDTO> getReceptKompList(int receptId) throws DALException {
 		List<ReceptKompDTO> list = new ArrayList<ReceptKompDTO>();
 		String statement = map.getStatement("rec_komponent_SELECT_ALL_rec_id");
-		statement = SQLMapper.insertValuesIntoString(statement, new String[]{Integer.toString(receptId)});
+		statement = map.insertValuesIntoString(statement, new String[]{Integer.toString(receptId)});
 		ResultSet rs = Connector.doQuery(statement);
 		try
 		{
@@ -74,7 +74,7 @@ public class MySQLReceptKomponentDAO implements ReceptKompDAO {
 				Double.toString(receptkomponent.getNomNetto()), 
 				Double.toString(receptkomponent.getTolerance())
 			};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 
@@ -89,7 +89,7 @@ public class MySQLReceptKomponentDAO implements ReceptKompDAO {
 				Integer.toString(receptkomponent.getReceptId()), 
 				Integer.toString(receptkomponent.getRaavareId())
 			};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 

@@ -23,7 +23,7 @@ public class MySQLProduktBatchKomponentDAO implements ProduktBatchKompDAO {
 
 		String statement = map.getStatement("pb_komponent_SELECT");
 		String[] values = new String[]{Integer.toString(pbId), Integer.toString(rbId)};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);
 		ResultSet rs = Connector.doQuery(statement);
 		
@@ -41,7 +41,7 @@ public class MySQLProduktBatchKomponentDAO implements ProduktBatchKompDAO {
 		
 		List<ProduktBatchKompDTO> list = new ArrayList<ProduktBatchKompDTO>();
 		String statement = map.getStatement("pb_komponent_SELECT_ALL_rec_id");
-		statement = SQLMapper.insertValuesIntoString(statement, new String[]{Integer.toString(pbId)});
+		statement = map.insertValuesIntoString(statement, new String[]{Integer.toString(pbId)});
 		ResultSet rs = Connector.doQuery(statement);
 		
 		try
@@ -85,7 +85,7 @@ public class MySQLProduktBatchKomponentDAO implements ProduktBatchKompDAO {
 									Double.toString(produktbatchkomponent.getNetto()),
 									Integer.toString(produktbatchkomponent.getOprId())
 						};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 		
@@ -102,7 +102,7 @@ public class MySQLProduktBatchKomponentDAO implements ProduktBatchKompDAO {
 									Integer.toString(produktbatchkomponent.getPbId()), 
 									Integer.toString(produktbatchkomponent.getRbId())
 						};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 

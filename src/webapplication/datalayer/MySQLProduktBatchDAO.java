@@ -31,7 +31,7 @@ public class MySQLProduktBatchDAO implements ProduktBatchDAO {
 		 */
 		String statement = map.getStatement("pb_SELECT");
 		String[] values = new String[]{Integer.toString(pbId)};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);
 		ResultSet rs = Connector.doQuery(statement);
 	    //Result is stored ^
@@ -72,7 +72,7 @@ public class MySQLProduktBatchDAO implements ProduktBatchDAO {
 	public void createProduktBatch(ProduktBatchDTO produktbatch) throws DALException {
 		String statement = map.getStatement("pb_INSERT");
 		String[] values = new String[]{Integer.toString(produktbatch.getPbId()), Integer.toString(produktbatch.getStatus()), Integer.toString(produktbatch.getReceptId()) };
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		
 		Connector.doUpdate(statement);
@@ -83,7 +83,7 @@ public class MySQLProduktBatchDAO implements ProduktBatchDAO {
 	public void updateProduktBatch(ProduktBatchDTO produktbatch) throws DALException {
 		String statement = map.getStatement("pb_UPDATE");
 		String[] values = new String[]{Integer.toString(produktbatch.getStatus()), Integer.toString(produktbatch.getReceptId()), Integer.toString(produktbatch.getPbId()) };
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		
 		Connector.doUpdate(statement);

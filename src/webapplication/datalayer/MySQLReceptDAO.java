@@ -22,7 +22,7 @@ public class MySQLReceptDAO implements ReceptDAO {
 	public ReceptDTO getRecept(int receptId) throws DALException {
 		String statement = map.getStatement("rec_SELECT");
 		String[] values = new String[]{Integer.toString(receptId)};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println("Query: "+statement);
 		ResultSet rs = Connector.doQuery(statement);
 		
@@ -55,7 +55,7 @@ public class MySQLReceptDAO implements ReceptDAO {
 								Integer.toString(recept.getReceptId()), 
 								recept.getReceptNavn()
 				};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 
@@ -69,7 +69,7 @@ public class MySQLReceptDAO implements ReceptDAO {
 						Integer.toString(recept.getReceptId())
 								
 				};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 

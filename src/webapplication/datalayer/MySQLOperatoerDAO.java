@@ -22,8 +22,8 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		String rolestatement = map.getStatement("ro_SELECT_opr_id");
 		String statement = map.getStatement("opr_SELECT");
 		
-		rolestatement = SQLMapper.insertValuesIntoString(rolestatement, values);
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		rolestatement = map.insertValuesIntoString(rolestatement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		
 		System.out.println("Query: "+rolestatement);
 		System.out.println("Query: "+statement);
@@ -74,7 +74,7 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		    		//Preparing role fetch statement
 		    		rolestatement = map.getStatement("ro_SELECT_opr_id");
 		    		values = new String[]{Integer.toString(temp.getOprId())};
-		    		rolestatement = SQLMapper.insertValuesIntoString(rolestatement, values);
+		    		rolestatement = map.insertValuesIntoString(rolestatement, values);
 		    		role_rs = Connector.doQuery("ro_SELECT_opr_id");
 		    		
 		    		//Fetching roles
@@ -98,7 +98,7 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 	public void createOperatoer(OperatoerDTO opr) throws DALException {
 		String statement = map.getStatement("opr_INSERT");
 		String[] values = new String[]{Integer.toString(opr.getOprId()), opr.getOprNavn(), opr.getIni(), opr.getPassword(), String.valueOf(opr.getOprActive())};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 		
@@ -106,7 +106,7 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		for(String role : roles){
 			statement = map.getStatement("ro_INSERT");
 			values = new String[]{Integer.toString(opr.getOprId()), role};
-			statement = SQLMapper.insertValuesIntoString(statement, values);
+			statement = map.insertValuesIntoString(statement, values);
 			Connector.doUpdate(statement);
 		}
 
@@ -117,14 +117,14 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		//Update operatoer table
 		String statement = map.getStatement("opr_UPDATE");
 		String[] values = new String[]{opr.getOprNavn(), opr.getIni(), opr.getPassword(), String.valueOf(opr.getOprActive()), Integer.toString(opr.getOprId())}; //Only difference from INSERT is operatoer id is at the end
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 		
 		//Delete the roles the operatoer has already
 		statement = map.getStatement("ro_DELETE");
 		values = new String[]{Integer.toString(opr.getOprId())};
-		statement = SQLMapper.insertValuesIntoString(statement, values);
+		statement = map.insertValuesIntoString(statement, values);
 		Connector.doUpdate(statement);
 		
 		//Give the operatoer new roles
@@ -132,7 +132,7 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		for(String role : roles){
 			statement = map.getStatement("ro_INSERT");
 			values = new String[]{Integer.toString(opr.getOprId()), role};
-			statement = SQLMapper.insertValuesIntoString(statement, values);
+			statement = map.insertValuesIntoString(statement, values);
 			Connector.doUpdate(statement);
 		}
 
