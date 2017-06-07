@@ -122,16 +122,20 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 				allowCommands = false;
 				synchronized(this){							
 					try {
-						tempOutput = 0;
 						wait();
 						try {
 							weightController.showMessagePrimaryDisplay(getOprName(tempOutput));
-							weightController.showMessageSecondaryDisplay("Enter the productbatch you want to weight");
+							weightController.showMessageSecondaryDisplay("Enter the ID for the productbatch you want to weight");
 							opr_id = tempOutput;
 						} catch (DALException e) {
-							// TODO Auto-generated catch block
+							weightController.showMessageSecondaryDisplay("An error occured, please try again");
 							e.printStackTrace();
 						}
+						wait();
+						pb_id = tempOutput;
+						System.out.println("pb_id is: " + pb_id);
+						weightController.showMessageSecondaryDisplay("Productbatch set. Place product on weight and tara");
+						wait();
 						allowCommands = true;
 
 					} catch (InterruptedException e) {
@@ -227,6 +231,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 					socketHandler.sendMessage(new SocketOutMessage(numbers.toString()));
 					weightController.showMessageSecondaryDisplay("You sent the numbers: " + numbers.toString());
 					numbersPointer = 0;
+					tempOutput = 0;
 					for(int i = 0; i < numbers.size(); i++){
 						tempOutput = (tempOutput*10+(numbers.get(i)-48));		//-48 to convert from ASCII to integer
 					}
