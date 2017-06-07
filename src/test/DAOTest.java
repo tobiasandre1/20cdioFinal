@@ -66,5 +66,13 @@ public class DAOTest {
 		
 	}
 	
+	@Test 
+	public void testRoleDAO(){
+		MySQLRoleDAO dao = new MySQLRoleDAO();
+		
+		try { System.out.println(dao.getRoleConcat(1)); }
+		catch (DALException e) { e.printStackTrace(); }
+	}
+	
 
 }
