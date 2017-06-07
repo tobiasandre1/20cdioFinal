@@ -30,6 +30,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	private ISocketController socketHandler;
 	private IWeightInterfaceController weightController;
 	private KeyState keyState = KeyState.K4;
+	private Connector conn;
 
 	private double weight = 0.0;
 	private double tarWeight = 0.0;
@@ -52,6 +53,17 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	public void init(ISocketController socketHandler, IWeightInterfaceController weightInterfaceController) {
 		this.socketHandler = socketHandler;
 		this.weightController=weightInterfaceController;
+		try {
+			this.conn = new Connector();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -254,7 +266,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 
 		try {
 			if (!rs.first()) throw new DALException("Operatoeren " + opr_id + " findes ikke");
-			return rs.getArray(0).toString();
+			return rs.getString("opr_navn");
 		}
 		catch (SQLException e) {throw new DALException(e); }
 
