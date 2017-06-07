@@ -22,23 +22,26 @@ $( document ).ready(function() {
 		success : function(response){
 			console.log(response);
 			$("#updateform").append("<div class=\"inputrow\">User ID <input readonly style=\"text-align: center; border-style: hidden\" type=\"text\" name=\"userid\" value=\""
-					+response.userId
+					+response.oprId
 					+"\"></div>");
 			$("#updateform").append("<div class=\"inputrow\">Username <input class=\"input\" type=\"text\" name=\"username\" value=\""
-					+response.userName
+					+response.oprNavn
 					+"\"></div>");
-			$("#updateform").append("<div class=\"inputrow\">Password <input class=\"input\" type=\"password\" name=\"password\" value=\""
+			$("#updateform").append("<div class=\"inputrow\">Password <input readonly style=\"text-align: center; border-style: hidden\" type=\"password\" name=\"password\" value=\""
 					+response.password
 					+"\"></div>");
 			$("#updateform").append("<div class=\"inputrow\">Initials <input class=\"input\" type=\"text\" name=\"ini\" value=\""
 					+response.ini
 					+"\"></div>");
-			$("#updateform").append("<div class=\"inputrow\">C P R <input class=\"input\" type=\"text\" name=\"cpr\" value=\""
-					+response.cpr
-					+"\"></div>");
 			$("#updateform").append("<div class=\"inputrow\">Role <input class=\"input\" type=\"text\" name=\"role\" value=\""
 					+response.roles
 					+"\"></div>");
+			$("#updateform").append("<div class=\"inputrow\">Active <select class=\"input\" type=\"text\" name=\"oprActive\" value=\""
+					//+response.oprActive
+					+"\">"
+					+"<option value=\"true\">true</option>"
+					+"<option value=\"false\">false</option>"
+					+"</div>");
 			$("#updateform").append("<div id=\"submit\" class=\"inputrow\"><input type=\"submit\" value=\"Submit\"></div>");
 		},
 		error: function(jqXHR, text, error){

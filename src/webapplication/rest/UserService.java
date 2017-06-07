@@ -1,5 +1,7 @@
 package webapplication.rest;
 
+import static org.junit.Assert.fail;
+
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +37,11 @@ public class UserService {
 	public Response deleteUser(
 		@FormParam("submit") int id
 			) throws DALException, URISyntaxException {
-		// TODO
-		//dao.deleteUser(id); Udkommenteret fordi vi ikke fjerner en bruger (L�sning on the way)
+		OperatoerDTO opr = dao.getOperatoer(id);
+		opr.setOprActive(false);
+		try { dao.updateOperatoer(opr); }
+		catch (DALException e) { e.printStackTrace(); }
+
 		java.net.URI location = new java.net.URI("../userpage.html");
 	    return Response.temporaryRedirect(location).build();
 	}
@@ -80,13 +85,13 @@ public class UserService {
 			@FormParam("password") String password,
 			@FormParam("ini") String ini,
 			@FormParam("role") String role,
-			@FormParam("cpr") String cpr
+			@FormParam("oprActive") String active
 			) throws URISyntaxException, DALException{
 		
 		List<String> roles = new ArrayList<String>();
 		roles.add(role);
 		
-		OperatoerDTO user = new OperatoerDTO(Integer.parseInt(userId), userName, ini, password, true);
+		OperatoerDTO user = new OperatoerDTO(Integer.parseInt(userId), userName, ini, password, Boolean.parseBoolean(active));
 		
 		dao.updateOperatoer(user);
 		java.net.URI location = new java.net.URI("../userpage.html");
