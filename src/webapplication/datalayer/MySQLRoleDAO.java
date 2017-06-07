@@ -1,9 +1,12 @@
 package webapplication.datalayer;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import webapplication.datalayerinterfaces.DALException;
+import webapplication.datatransferobjects.OperatoerDTO;
 import webapplication.sqlconnector.Connector;
 import webapplication.sqlconnector.SQLMapper;
 
@@ -35,6 +38,23 @@ public class MySQLRoleDAO {
 	
 	public void deleteRole(String role, int oprId){
 		//TODO Implement
+	}
+	
+	public String getRoleConcat(int oprId) throws DALException{
+		//TODO Implement
+		String[] values = new String[]{Integer.toString(oprId)};
+		
+		String statement = map.getStatement("ro_CONCAT");
+		statement = map.insertValuesIntoString(statement, values);
+		System.out.println("Query: "+statement);
+		ResultSet rs = Connector.doQuery(statement);
+		
+		try{
+			if (!rs.first()) throw new DALException("Operatoeren " + oprId + " har ingen roller, eller eksisterer ikke");
+	    	return rs.getString("roles");
+	    }
+	    catch (SQLException e) {throw new DALException(e); }
+		
 	}
 
 }
