@@ -19,19 +19,19 @@ $( document ).ready(function() {
 			for(var i = 0; i < response.length; i++){
 				$('#usertable').append("<tr>");
 				$('#usertable').append("<td><button class=\"small\" id=\"" 
-						+ response[i].userId 
+						+ response[i].oprId 
 						+ "\" type=\"submit\" form=\"updateUser\" value=\""
-						+ response[i].userId
+						+ response[i].oprId
 						+ "\" name=\"submit\">EDIT</button></td>");
-				$('#usertable').append("<td>" + response[i].userId + "</td>"); 
-				$('#usertable').append("<td>" + response[i].userName + "</td>");
+				$('#usertable').append("<td>" + response[i].oprId + "</td>"); 
+				$('#usertable').append("<td>" + response[i].oprNavn + "</td>");
 				$('#usertable').append("<td>" + response[i].ini + "</td>");
 				$('#usertable').append("<td>" + response[i].roles + "</td>");
-				$('#usertable').append("<td>" + response[i].cpr + "</td>");
+				$('#usertable').append("<td>" + response[i].oprActive + "</td>");
 				$('#usertable').append("<td><button class=\"small\" id=\"" 
-						+ response[i].userId 
+						+ response[i].oprId 
 						+ "\" type=\"submit\" form=\"deleteUser\" value=\""
-						+ response[i].userId
+						+ response[i].oprId
 						+"\" name=\"submit\">X</button></td>");
 				$('#usertable').append("</tr>");
 			}

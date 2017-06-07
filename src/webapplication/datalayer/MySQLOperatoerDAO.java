@@ -27,16 +27,16 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		
 		String[] values = new String[]{Integer.toString(oprId)};
 		
-		String rolestatement = map.getStatement("ro_SELECT_opr_id");
+		//String rolestatement = map.getStatement("ro_SELECT_ALL_opr_id");
 		String statement = map.getStatement("opr_SELECT");
 		
-		rolestatement = map.insertValuesIntoString(rolestatement, values);
+		//rolestatement = map.insertValuesIntoString(rolestatement, values);
 		statement = map.insertValuesIntoString(statement, values);
 		
-		System.out.println("Query: "+rolestatement);
+		//System.out.println("Query: "+rolestatement);
 		System.out.println("Query: "+statement);
 		
-		ResultSet role_rs = Connector.doQuery(rolestatement);
+		//ResultSet role_rs = Connector.doQuery(rolestatement);
 		ResultSet rs = Connector.doQuery(statement);
 		
 		OperatoerDTO temp;
@@ -46,6 +46,7 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 	    	if (!rs.first()) throw new DALException("Operatoeren " + oprId + " findes ikke");
 	    	temp = new OperatoerDTO (rs.getInt("opr_id"), rs.getString("opr_navn"), rs.getString("ini"), rs.getString("password"), rs.getBoolean("opr_active"));
 	    	
+	    	/*
 	    	//Get the roles
 	    	try{
     			List<String> roles = new ArrayList<String>();
@@ -55,7 +56,8 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
     			temp.setRoles(roles);
     			return temp;
     		}
-    		catch(SQLException e){System.out.println("Error fetching roles" + e);throw new DALException(e);}
+    		catch(SQLException e){System.out.println("Error fetching roles" + e);throw new DALException(e);}*/
+	    	return temp;
 	    }
 	    catch (SQLException e) {throw new DALException(e); }
 		
@@ -65,19 +67,19 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 	public List<OperatoerDTO> getOperatoerList() throws DALException {
 		List<OperatoerDTO> list = new ArrayList<OperatoerDTO>();
 		
-		String rolestatement; 
-		String[] values; 
+		//String rolestatement; 
+		//String[] values; 
 		
 		ResultSet rs = Connector.doQuery(map.getStatement("opr_SELECT_ALL"));
-		ResultSet role_rs;
+		//ResultSet role_rs;
 		OperatoerDTO temp;
 		try
 		{
 			while (rs.next()) 
 			{
 				temp = new OperatoerDTO(rs.getInt("opr_id"), rs.getString("opr_navn"), rs.getString("ini"), rs.getString("password"), rs.getBoolean("opr_active"));
-				
-			
+				System.out.println(temp);
+				/*
 		    	try{
 		    		//Preparing role fetch statement
 		    		rolestatement = map.getStatement("ro_SELECT_opr_id");
@@ -93,7 +95,7 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		    			
 		    		temp.setRoles(roles);
 		     	}
-		    	catch(SQLException e){System.out.println("Error fetching roles" + e);throw new DALException(e);}
+		    	catch(SQLException e){System.out.println("Error fetching roles" + e);throw new DALException(e);}*/
 				
 				list.add(temp);
 			}
@@ -129,6 +131,7 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 		
+		/*
 		//Delete the roles the operatoer has already
 		statement = map.getStatement("ro_DELETE");
 		values = new String[]{Integer.toString(opr.getOprId())};
@@ -142,7 +145,7 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 			values = new String[]{Integer.toString(opr.getOprId()), role};
 			statement = map.insertValuesIntoString(statement, values);
 			Connector.doUpdate(statement);
-		}
+		}*/
 
 	}
 
