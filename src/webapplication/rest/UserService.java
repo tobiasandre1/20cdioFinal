@@ -25,6 +25,14 @@ public class UserService {
 	OperatoerDAO dao = new MySQLOperatoerDAO();
 	
 	@POST
+	@Path("/getusers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<OperatoerDTO> getData() throws DALException{
+		List<OperatoerDTO> response = dao.getOperatoerList();
+		return response;
+	}
+	
+	@POST
 	@Path("/delete")
 	@Consumes("application/x-www-form-urlencoded")
 	public Response deleteUser(

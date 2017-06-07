@@ -9,7 +9,7 @@
 <script>
 $( document ).ready(function() {
 	$.ajax({
-		url : "rest/datagetter",
+		url : "rest/userservice/getusers",
 		data : $('#form').serializeJSON(),
 		contentType: "application/json",
 		method: 'POST',
