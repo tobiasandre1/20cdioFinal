@@ -18,6 +18,14 @@ import webapplication.datatransferobjects.ReceptKompDTO;
 public class MySQLReceptKomponentDAO implements ReceptKompDAO {
 	SQLMapper map = new SQLMapper();
 	
+	public MySQLReceptKomponentDAO(){
+		try { new Connector(); } 
+		catch (InstantiationException e) { e.printStackTrace(); }
+		catch (IllegalAccessException e) { e.printStackTrace(); }
+		catch (ClassNotFoundException e) { e.printStackTrace(); }
+		catch (SQLException e) { e.printStackTrace(); }
+	}
+	
 	@Override
 	public ReceptKompDTO getReceptKomp(int receptId, int raavareId) throws DALException {
 		String statement = map.getStatement("rec_komponent_SELECT");

@@ -19,6 +19,14 @@ import webapplication.datatransferobjects.RaavareBatchDTO;
 public class MySQLRaavareBatchDAO implements RaavareBatchDAO {
 	SQLMapper map = new SQLMapper();
 	
+	public MySQLRaavareBatchDAO(){
+		try { new Connector(); } 
+		catch (InstantiationException e) { e.printStackTrace(); }
+		catch (IllegalAccessException e) { e.printStackTrace(); }
+		catch (ClassNotFoundException e) { e.printStackTrace(); }
+		catch (SQLException e) { e.printStackTrace(); }
+	}
+	
 	@Override
 	public RaavareBatchDTO getRaavareBatch(int rbId) throws DALException {
 		String statement = map.getStatement("rab_SELECT");

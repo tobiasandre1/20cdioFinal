@@ -14,6 +14,14 @@ import webapplication.sqlconnector.SQLMapper;
 public class MySQLOperatoerDAO implements OperatoerDAO {
 	SQLMapper map = new SQLMapper();
 	
+	public MySQLOperatoerDAO(){
+		try { new Connector(); } 
+		catch (InstantiationException e) { e.printStackTrace(); }
+		catch (IllegalAccessException e) { e.printStackTrace(); }
+		catch (ClassNotFoundException e) { e.printStackTrace(); }
+		catch (SQLException e) { e.printStackTrace(); }
+	}
+	
 	@Override
 	public OperatoerDTO getOperatoer(int oprId) throws DALException {
 		

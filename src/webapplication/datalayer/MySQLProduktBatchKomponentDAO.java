@@ -18,6 +18,14 @@ import webapplication.sqlconnector.SQLMapper;
 public class MySQLProduktBatchKomponentDAO implements ProduktBatchKompDAO {
 	SQLMapper map = new SQLMapper();
 	
+	public MySQLProduktBatchKomponentDAO(){
+		try { new Connector(); } 
+		catch (InstantiationException e) { e.printStackTrace(); }
+		catch (IllegalAccessException e) { e.printStackTrace(); }
+		catch (ClassNotFoundException e) { e.printStackTrace(); }
+		catch (SQLException e) { e.printStackTrace(); }
+	}
+	
 	@Override
 	public ProduktBatchKompDTO getProduktBatchKomp(int pbId, int rbId) throws DALException {
 

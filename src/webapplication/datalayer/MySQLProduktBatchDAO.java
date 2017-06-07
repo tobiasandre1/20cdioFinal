@@ -21,6 +21,14 @@ import webapplication.datatransferobjects.ProduktBatchDTO;
 public class MySQLProduktBatchDAO implements ProduktBatchDAO {
 	SQLMapper map = new SQLMapper();
 	
+	public MySQLProduktBatchDAO(){
+		try { new Connector(); } 
+		catch (InstantiationException e) { e.printStackTrace(); }
+		catch (IllegalAccessException e) { e.printStackTrace(); }
+		catch (ClassNotFoundException e) { e.printStackTrace(); }
+		catch (SQLException e) { e.printStackTrace(); }
+	}
+	
 	@Override
 	public ProduktBatchDTO getProduktBatch(int pbId) throws DALException {
 		/*

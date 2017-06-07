@@ -18,6 +18,14 @@ import webapplication.sqlconnector.SQLMapper;
 public class MySQLRaavareDAO implements RaavareDAO {
 	SQLMapper map = new SQLMapper();
 	
+	public MySQLRaavareDAO(){
+		try { new Connector(); } 
+		catch (InstantiationException e) { e.printStackTrace(); }
+		catch (IllegalAccessException e) { e.printStackTrace(); }
+		catch (ClassNotFoundException e) { e.printStackTrace(); }
+		catch (SQLException e) { e.printStackTrace(); }
+	}
+	
 	@Override
 	public RaavareDTO getRaavare(int raavareId) throws DALException {
 		String statement = map.getStatement("ra_SELECT");

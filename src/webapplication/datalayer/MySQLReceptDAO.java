@@ -18,6 +18,14 @@ import webapplication.datatransferobjects.ReceptDTO;
 public class MySQLReceptDAO implements ReceptDAO {
 	SQLMapper map = new SQLMapper();
 	
+	public MySQLReceptDAO(){
+		try { new Connector(); } 
+		catch (InstantiationException e) { e.printStackTrace(); }
+		catch (IllegalAccessException e) { e.printStackTrace(); }
+		catch (ClassNotFoundException e) { e.printStackTrace(); }
+		catch (SQLException e) { e.printStackTrace(); }
+	}
+	
 	@Override
 	public ReceptDTO getRecept(int receptId) throws DALException {
 		String statement = map.getStatement("rec_SELECT");
