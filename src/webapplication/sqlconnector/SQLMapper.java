@@ -28,7 +28,7 @@ public class SQLMapper {
 				"ra_SELECT_ALL					= SELECT * FROM raavare;\r\n" + 
 				"ro_SELECT_ALL_opr_id			= SELECT * FROM role WHERE opr_id = ?;\r\n" + 
 				
-				"opr_INSERT						= INSERT INTO operatoer(opr_id, opr_navn, ini, password, opr_active) VALUES (?, '?', '?', '?', '?');\r\n" + 
+				"opr_INSERT						= INSERT INTO operatoer(opr_id, opr_navn, ini, password, opr_active) VALUES (?, '?', '?', '?', ?);\r\n" + 
 				"pb_INSERT						= INSERT INTO produktbatch(pb_id, status, recept_id) VALUES (?, '?', ?);\r\n" + 
 				"pb_komponent_INSERT			= INSERT INTO produktbatchkomponent(pb_id, rb_id, tara, netto, opr_id) VALUES (?, ?, ?, ?, ?);\r\n" + 
 				"rec_INSERT						= INSERT INTO recept(recept_id, recept_navn) VALUES (?, '?');\r\n" + 
@@ -37,7 +37,7 @@ public class SQLMapper {
 				"ra_INSERT						= INSERT INTO raavare(raavare_id, raavare_navn, leverandoer) VALUES (?, '?', '?');\r\n" + 
 				"ro_INSERT						= INSERT INTO role(opr_id, role) VALUES (?, '?');\r\n" + 
 				
-				"opr_UPDATE						= UPDATE operatoer SET opr_navn = '?', ini = '?', password = '?', opr_active = '?' WHERE opr_id = ?;\r\n" + 
+				"opr_UPDATE						= UPDATE operatoer SET opr_navn = '?', ini = '?', password = '?', opr_active = ? WHERE opr_id = ?;\r\n" + 
 				"pb_UPDATE						= UPDATE produktbatch SET status = ?, recept_id = ? WHERE pb_id = ?;\r\n" + 
 				"pb_komponent_UPDATE			= UPDATE produktbatchkomponent SET tara = ?, netto = ?, opr_id = ? WHERE pb_id = ? AND rb_id = ?;\r\n" + 
 				"rec_UPDATE						= UPDATE recept SET recept_navn = '?' WHERE recept_id = ?;\r\n" + 
@@ -109,7 +109,7 @@ public class SQLMapper {
 		for(int i=0; i<values.length; i++){
 			statement = statement.replaceFirst("[?]", values[i]);
 		}
-		System.out.println(statement);
+		//System.out.println(statement);
 		return statement;
 	}
 	
