@@ -46,6 +46,10 @@ public class SQLMapper {
 				"ra_UPDATE						= UPDATE raavare SET raavare_navn = '?', leverandoer = '?' WHERE raavare_id = ?;\r\n" + 
 				
 				"ro_delete						= DELETE FROM role WHERE opr_id = ?;\r\n" + 
+				"ro_CONCAT						= SELECT role.opr_id, GROUP_CONCAT(DISTINCT role) AS 'roles'" + 
+												" FROM role" + 
+												" WHERE opr_id = ?" + 
+												" GROUP BY opr_id;\r\n" +
 				
 				"view_create_mad				= CREATE VIEW mad AS SELECT rk.recept_id, rk.raavare_id, re.recept_navn, ra.raavare_navn, ra.leverandoer FROM receptkomponent rk NATURAL JOIN recept re NATURAL JOIN raavare ra;\r\n" + 
 				"view_create_vejning			= CREATE VIEW vejning AS SELECT opr.opr_id, opr.opr_navn, pbk.tara, pbk.netto, ra.raavare_id, ra.raavare_navn, rab.maengde FROM operatoer opr NATURAL JOIN produktbatchkomponent pbk NATURAL JOIN raavare ra NATURAL JOIN raavarebatch rab;\r\n" + 
