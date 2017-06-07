@@ -32,15 +32,20 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	private KeyState keyState = KeyState.K4;
 	private Connector conn;
 
-	private double weight = 0.0;
-	private double tarWeight = 0.0;
 	private Double total = 0.0;
 	private List<Character> numbers = new ArrayList<Character>();
 	private int numbersPointer = 0;
 	private String numberMessage;
 	private boolean allowCommands = true;
 	private int tempOutput = 0;
-
+	
+	private int opr_id;
+	private int rb_id;
+	private int pb_id;
+	private double weight = 0.0;
+	private double tarWeight = 0.0;
+	
+	
 	//Hardcoded batch and id
 	private int idN = 12, batchN = 1234;
 	private String idS = "Anders And", batchS = "Salt";
@@ -121,6 +126,8 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 						wait();
 						try {
 							weightController.showMessagePrimaryDisplay(getOprName(tempOutput));
+							weightController.showMessageSecondaryDisplay("Enter the productbatch you want to weight");
+							opr_id = tempOutput;
 						} catch (DALException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
