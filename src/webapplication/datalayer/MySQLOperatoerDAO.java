@@ -20,6 +20,8 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		catch (IllegalAccessException e) { e.printStackTrace(); }
 		catch (ClassNotFoundException e) { e.printStackTrace(); }
 		catch (SQLException e) { e.printStackTrace(); }
+		
+		//MySQLRoleDAO roledao = new MySQLRoleDAO();
 	}
 	
 	@Override
