@@ -1,5 +1,6 @@
 package webapplication.datatransferobjects;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,6 +34,7 @@ public class OperatoerDTO
 		this.ini = ini;
 		this.password = password;
 		this.oprActive = oprActive;
+		this.roles = new ArrayList<String>();
 	}
 	
 	public OperatoerDTO(int oprId, String oprNavn, String ini, String password, boolean oprActive, List<String> roles)
@@ -65,9 +67,14 @@ public class OperatoerDTO
 	public void setPassword(String password) { this.password = password; }
 	public List<String> getRoles(){return roles;}
 	public void setRoles(List<String> roles){this.roles = roles;}
+	public void addRole(String role){this.roles.add(role);}
 	public boolean getOprActive(){return oprActive;}
 	public void setOprActive(boolean oprActive){this.oprActive = oprActive;	}
-	public String toString() { return oprId + "\t" + oprNavn + "\t" + ini + "\t" + password + "\t" + oprActive; }
+	@Override
+	public String toString() { 
+		String rlst = "";
+		for(String s:roles){rlst += s + " ";}
+		return oprId + "\t" + oprNavn + "\t" + ini + "\t" + password + "\t" + oprActive + "\t" + rlst; }
 	
 	
 	
