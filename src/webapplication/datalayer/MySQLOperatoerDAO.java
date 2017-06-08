@@ -51,17 +51,35 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 	public List<OperatoerDTO> getOperatoerList() throws DALException {
 		List<OperatoerDTO> list = new ArrayList<OperatoerDTO>();
 		
-		ResultSet rs = Connector.doQuery(map.getStatement("opr_SELECT_ALL"));
+		
 		
 		OperatoerDTO temp;
 		try
 		{
+			ResultSet rs = Connector.doQuery(map.getStatement("opr_SELECT_ALL"));
+			
 			while (rs.next()) 
 			{
-				temp = new OperatoerDTO(rs.getInt("opr_id"), rs.getString("opr_navn"), rs.getString("ini"), rs.getString("password"), rs.getBoolean("opr_active"));
-				//System.out.println(temp);
+				temp = new OperatoerDTO(rs.getInt("opr_id"), rs.getString("opr_navn"), rs.getString("ini"), rs.getString("password"), rs.getBoolean("opr_active"));		
 				list.add(temp);
 			}
+			
+			rs = Connector.doQuery(map.getStatement("ro_SELECT_ALL"));
+			
+			/*WORKS*/
+			List<RolePair> roles = new ArrayList<RolePair>();
+			while (rs.next()){
+				roles.add( new RolePair(rs.getInt("opr_id"), rs.getString("role")));
+			}
+			/*END OF WORKS*/
+		
+			for(OperatoerDTO opr : list){
+				for(RolePair role: roles){
+					if(role.getOprId() == opr.getOprId())
+						opr.addRole(role.getRole());
+				}
+			}
+			
 		}
 		catch (SQLException e) { throw new DALException(e); }
 		return list;
@@ -74,14 +92,6 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
-		
-		List<String> roles = opr.getRoles();
-		for(String role : roles){
-			statement = map.getStatement("ro_INSERT");
-			values = new String[]{Integer.toString(opr.getOprId()), role};
-			statement = map.insertValuesIntoString(statement, values);
-			Connector.doUpdate(statement);
-		}
 
 	}
 
@@ -94,6 +104,19 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 
+	}
+	
+	private class RolePair{
+		private int oprId;
+		private String role;
+		
+		RolePair(int oprId, String role){
+			this.oprId = oprId;
+			this.role = role;
+		}
+		
+		public int getOprId (){return oprId;}
+		public String getRole(){return role;}
 	}
 
 }

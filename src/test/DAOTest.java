@@ -42,7 +42,11 @@ public class DAOTest {
 	public void testOperatoerDAO(){
 		OperatoerDAO opr = new MySQLOperatoerDAO();
 		
-		try { System.out.println(opr.getOperatoer(3)); }
+		try { System.out.println(opr.getOperatoer(1)); }
+		catch (DALException e) { e.printStackTrace();  fail();}
+		
+		System.out.println("Alle operatoerer");
+		try { System.out.println(opr.getOperatoerList());}
 		catch (DALException e) { e.printStackTrace();  fail();}
 		
 		System.out.println("Indsaettelse af ny operatoer med opr_id =  5");
@@ -64,14 +68,6 @@ public class DAOTest {
 		try { opr.updateOperatoer(oprDTO); }
 		catch (DALException e) { e.printStackTrace(); fail(); }
 		
-	}
-	
-	@Test 
-	public void testRoleDAO(){
-		MySQLRoleDAO dao = new MySQLRoleDAO();
-		
-		try { System.out.println(dao.getRoleConcat(1)); }
-		catch (DALException e) { e.printStackTrace(); }
 	}
 	
 
