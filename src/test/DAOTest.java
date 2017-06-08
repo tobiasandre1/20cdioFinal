@@ -51,6 +51,7 @@ public class DAOTest {
 		
 		System.out.println("Indsaettelse af ny operatoer med opr_id =  5");
 		OperatoerDTO oprDTO = new OperatoerDTO(5,"Don Juan","DJ","iloveyou", true);
+		oprDTO.addRole("foreman");
 		try { opr.createOperatoer(oprDTO); }
 		catch (DALException e) { e.printStackTrace(); /*fail();*/}
 		
@@ -65,6 +66,11 @@ public class DAOTest {
 		
 		System.out.println("Set operatoer 5 til at være inaktiv");
 		oprDTO.setOprActive(false);
+		try { opr.updateOperatoer(oprDTO); }
+		catch (DALException e) { e.printStackTrace(); fail(); }
+		
+		System.out.println("Giv operatoer 5 ny rolle");
+		oprDTO.addRole("pharmaceut");
 		try { opr.updateOperatoer(oprDTO); }
 		catch (DALException e) { e.printStackTrace(); fail(); }
 		

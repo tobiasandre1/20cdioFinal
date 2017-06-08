@@ -40,7 +40,22 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 	    	//Get the operatoer
 	    	if (!rs.first()) throw new DALException("Operatoeren " + oprId + " findes ikke");
 	    	temp = new OperatoerDTO (rs.getInt("opr_id"), rs.getString("opr_navn"), rs.getString("ini"), rs.getString("password"), rs.getBoolean("opr_active"));
-	    	//TODO manage roles
+	    	
+	    	/*ROLES START*/
+	    	rs = Connector.doQuery(map.getStatement("ro_SELECT_ALL"));
+
+			List<RolePair> roles = new ArrayList<RolePair>();
+			while (rs.next()){
+				roles.add( new RolePair(rs.getInt("opr_id"), rs.getString("role")));
+			}
+		
+			for(RolePair role: roles){
+				if(role.getOprId() == temp.getOprId()){
+					temp.addRole(role.getRole());
+				}
+			}
+			/*END OF ROLES*/
+	    	
 	    	return temp;
 	    }
 	    catch (SQLException e) {throw new DALException(e); }
@@ -92,6 +107,14 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
+		
+		for(String role : opr.getRoles()){
+			statement = map.getStatement("ro_INSERT");
+			values = new String[]{Integer.toString(opr.getOprId()), role};
+			statement = map.insertValuesIntoString(statement, values);
+			System.out.println(statement);
+			Connector.doUpdate(statement);
+		}
 
 	}
 
@@ -103,6 +126,20 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
+		
+		statement = map.getStatement("ro_DELETE");
+		values = new String[]{Integer.toString(opr.getOprId())};
+		statement = map.insertValuesIntoString(statement, values);
+		System.out.println(statement);
+		Connector.doUpdate(statement);
+		
+		for(String role : opr.getRoles()){
+			statement = map.getStatement("ro_INSERT");
+			values = new String[]{Integer.toString(opr.getOprId()), role};
+			statement = map.insertValuesIntoString(statement, values);
+			System.out.println(statement);
+			Connector.doUpdate(statement);
+		}
 
 	}
 	
