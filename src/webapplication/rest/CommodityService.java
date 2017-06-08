@@ -20,11 +20,26 @@ import webapplication.datatransferobjects.*;
 public class CommodityService {
 
 	RaavareDAO dao = new MySQLRaavareDAO();
-	
+
 	@Path("/getcommodities")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<RaavareDTO> getData() throws DALException{
+	public List<RaavareDTO> getData() throws DALException {
 		List<RaavareDTO> response = dao.getRaavareList();
 		return response;
+	}
+
+	@POST
+	@Path("/insert")
+	@Consumes("application/x-www-form-urlencoded")
+	public Response insertUser(
+			@FormParam("commodityname") String commodityName, 
+			@FormParam("distributer") String distributer
+			) throws DALException, URISyntaxException {
+
+		RaavareDTO commodity = new RaavareDTO(0, commodityName, distributer);
+		dao.createRaavare(commodity);
+
+		java.net.URI location = new java.net.URI("../commodity_view.html");
+		return Response.temporaryRedirect(location).build();
 	}
 }
