@@ -1,9 +1,6 @@
 package webapplication.rest;
 
-import static org.junit.Assert.fail;
-
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -59,14 +56,17 @@ public class UserService {
 		@FormParam("username") String userName,
 		@FormParam("password") String password,
 		@FormParam("ini") String ini,
-		@FormParam("role") String role,
-		@FormParam("cpr") String cpr
+		@FormParam("role") String role
 			) throws DALException, URISyntaxException {
 		
-		List<String> roles = new ArrayList<String>();
-		roles.add(role);
+		List<OperatoerDTO> operatoers = dao.getOperatoerList();
+		int id = 0;
+		for(OperatoerDTO opr:operatoers){
+			if(opr.getOprId()>=id){id=opr.getOprId()+1;}
+		}
 		
-		OperatoerDTO user = new OperatoerDTO(0, userName, ini, password, true);
+		OperatoerDTO user = new OperatoerDTO(id, userName, ini, password, true);
+		user.setRoles(role);
 		dao.createOperatoer(user);
 		
 		java.net.URI location = new java.net.URI("../user_view.html");
@@ -94,10 +94,8 @@ public class UserService {
 			@FormParam("oprActive") String active
 			) throws URISyntaxException, DALException{
 		
-		List<String> roles = new ArrayList<String>();
-		roles.add(role);
-		
 		OperatoerDTO user = new OperatoerDTO(Integer.parseInt(userId), userName, ini, password, Boolean.parseBoolean(active));
+		user.setRoles(role);
 		
 		dao.updateOperatoer(user);
 		java.net.URI location = new java.net.URI("../user_view.html");

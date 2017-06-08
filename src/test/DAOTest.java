@@ -39,6 +39,19 @@ public class DAOTest {
 	}
 	
 	@Test
+	public void testRaavareDAO(){
+		MySQLRaavareDAO raa = new MySQLRaavareDAO();
+		
+		System.out.println("Raavare nummer 3:");
+		try { System.out.println(raa.getRaavare(3)); }
+		catch (DALException e) { e.printStackTrace();  fail(); }
+		
+		System.out.println("Alle Raavarer");
+		try { System.out.println(raa.getRaavareList()); }
+		catch (DALException e) { e.printStackTrace();  fail(); }
+	}
+	
+	@Test
 	public void testOperatoerDAO(){
 		OperatoerDAO opr = new MySQLOperatoerDAO();
 		
@@ -51,6 +64,7 @@ public class DAOTest {
 		
 		System.out.println("Indsaettelse af ny operatoer med opr_id =  5");
 		OperatoerDTO oprDTO = new OperatoerDTO(5,"Don Juan","DJ","iloveyou", true);
+		oprDTO.addRole("foreman");
 		try { opr.createOperatoer(oprDTO); }
 		catch (DALException e) { e.printStackTrace(); /*fail();*/}
 		
@@ -65,6 +79,11 @@ public class DAOTest {
 		
 		System.out.println("Set operatoer 5 til at være inaktiv");
 		oprDTO.setOprActive(false);
+		try { opr.updateOperatoer(oprDTO); }
+		catch (DALException e) { e.printStackTrace(); fail(); }
+		
+		System.out.println("Giv operatoer 5 ny rolle");
+		oprDTO.addRole("pharmaceut");
 		try { opr.updateOperatoer(oprDTO); }
 		catch (DALException e) { e.printStackTrace(); fail(); }
 		
