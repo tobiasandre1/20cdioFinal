@@ -116,9 +116,9 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 			case Q:
 				quit();
 				break;
-			case RM204: //Expects an integer reply and does not have to be implemented
+			case RM204: //Does not have to be implemented
 				break;
-			case RM208: //Expects a string as a reply 
+			case RM208: 
 				weightController.showMessageSecondaryDisplay("Enter your operator ID: ");
 				allowCommands = false;
 				pb_id = 0;
@@ -136,25 +136,25 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 							weightController.showMessageSecondaryDisplay("Enter the ID for the productbatch you want to weight");
 							do {
 								if (pb_id > 0){
-									weightController.showMessageSecondaryDisplay("The procuctbatch of the ID given is occupied, submit new ID.");
+									weightController.showMessageSecondaryDisplay("The productbatch of the ID is finished or in progress, submit new ID.");
 								} 
 								this.wait();
 								pb_id = tempOutput;
 							} while(getStatus(pb_id) > 0);
 						} catch (DALException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						System.out.println("pb_id is: " + pb_id);
-						weightController.showMessageSecondaryDisplay("Productbatch ID set. Place container on weight and tara");
+						
+						
+						weightController.showMessageSecondaryDisplay("Productbatch ID set. Place container on weight and tara.");
 						key1 = true;
 						this.wait();
 						weightController.showMessageSecondaryDisplay("Tara set. Place product in container and press send.");
-
+						
 						allowCommands = true;
 
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -244,7 +244,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 				}
 				else if(keyState.equals(KeyState.K4)){
 					socketHandler.sendMessage(new SocketOutMessage(numbers.toString()));
-					weightController.showMessageSecondaryDisplay("You sent the numbers: " + numbers.toString());
+//					weightController.showMessageSecondaryDisplay("You sent the numbers: " + numbers.toString());
 					numbersPointer = 0;
 					tempOutput = 0;
 					for(int i = 0; i < numbers.size(); i++){
