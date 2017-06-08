@@ -5,58 +5,66 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="mainStyle.css">
-<title>view users</title>
+<title>commodities</title>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="jquery.serialize-object.js"></script>
 
 <script>
 	$(document).ready(function() {
-						$.ajax({
-									url : "rest/commodityservice/getcommodities",
-									data : $('#form').serializeJSON(),
-									contentType : "application/json",
-									method : 'POST',
-									success : function(response) {
-										console.log(response);
-										console.log(response.raavareId);
-										
-										for (var i = 0; i < response.length; i++) {
-											$('#commoditytable').append("<tr>");
-											
-											$('#commoditytable').append("<td>" + response[i].raavareId + "</td>");
-											
-											$('#commoditytable').append("<td>" + response[i].raavareNavn + "</td>");
-											
-											$('#commoditytable').append("<td>" + response[i].leverandoer + "</td>");
+		$.ajax({
+			url : "rest/commodityservice/getcommodities",
+			data : $('#form').serializeJSON(),
+			contentType : "application/json",
+			method : 'POST',
+			success : function(response) {
+				console.log(response);
+				console.log(response.raavareId);
 
-											$('#commoditytable').append("</tr>");
-										}
-									},
-									error : function(jqXHR, text, error) {
-										alert(jqXHR.status + text + error);
-									}
-								});
-					});
+								for (var i = 0; i < response.length; i++) {
+									$('#commoditytable').append("<tr>");
+
+									$('#commoditytable').append(
+											"<td>" + response[i].raavareId
+													+ "</td>");
+
+									$('#commoditytable').append(
+											"<td>" + response[i].raavareNavn
+													+ "</td>");
+
+									$('#commoditytable').append(
+											"<td>" + response[i].leverandoer
+													+ "</td>");
+
+									$('#commoditytable').append("</tr>");
+								}
+							},
+							error : function(jqXHR, text, error) {
+								alert(jqXHR.status + text + error);
+							}
+						});
+			});
 </script>
 
 </head>
 
 <body>
 
-<!-- Forms with access to REST backend -->
+	<!-- Forms with access to REST backend -->
 	<form id="addCommodity" action="commodity_add.html" method="get"></form>
 
-<!-- Main HTML -->
+	<!-- Main HTML -->
 	<div class="mainbody_wide">
-	<button type="submit" form="addCommodity" value="submit">Add</button>
+		<button type="submit" form="addCommodity" value="submit">Add</button>
 
 		<table>
 			<tbody id="commoditytable">
 				<tr>
+					<th></th>
 					<th>ID</th>
 					<th>Commodity</th>
 					<th>Distributer</th>
+					<th></th>
 				</tr>
 				<!-- Data records are appended here -->
 			</tbody>
