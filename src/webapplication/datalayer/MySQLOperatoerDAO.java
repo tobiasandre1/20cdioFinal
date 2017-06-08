@@ -21,7 +21,6 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 		catch (ClassNotFoundException e) { e.printStackTrace(); }
 		catch (SQLException e) { e.printStackTrace(); }
 		
-		//MySQLRoleDAO roledao = new MySQLRoleDAO();
 	}
 	
 	@Override
@@ -102,12 +101,15 @@ public class MySQLOperatoerDAO implements OperatoerDAO {
 
 	@Override
 	public void createOperatoer(OperatoerDTO opr) throws DALException {
+		
+		/*INSERT OPERATOER INTO DATABASE*/
 		String statement = map.getStatement("opr_INSERT");
 		String[] values = new String[]{Integer.toString(opr.getOprId()), opr.getOprNavn(), opr.getIni(), opr.getPassword(), String.valueOf(opr.getOprActive())};
 		statement = map.insertValuesIntoString(statement, values);
 		System.out.println(statement);
 		Connector.doUpdate(statement);
 		
+		/*INSERT THE ROLES OF THE OPERATOER INTO THE DATABASE TABLE 'role'*/
 		for(String role : opr.getRoles()){
 			statement = map.getStatement("ro_INSERT");
 			values = new String[]{Integer.toString(opr.getOprId()), role};
