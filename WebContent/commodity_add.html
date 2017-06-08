@@ -4,23 +4,29 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="mainStyle.css">
-<title>Login</title>
+<title>add new commodity</title>
 </head>
 
 <body>
 
 	<div class="mainbody">
-		
+
 		<div class="loginbox">
-		
+
 			<h1>Create commodity</h1>
-			<form action = "rest/commodityservice/insert" method = "post">
-				
-				<div class="inputrow">Commodity <input class="input" type="text" name="commodityname"></div>
-				<div class="inputrow">Distributer <input class="input" type="text" name="distributer"></div>
-				<div class="inputrow"><input type="submit" value="Submit"></div>
+			<form action="rest/commodityservice/insert" method="post">
+
+				<div class="inputrow">
+					Commodity <input class="input" type="text" name="commodityname">
+				</div>
+				<div class="inputrow">
+					Distributer <input class="input" type="text" name="distributer">
+				</div>
+				<div class="inputrow">
+					<input type="submit" value="Submit">
+				</div>
 			</form>
-		
+
 		</div>
 
 	</div>
