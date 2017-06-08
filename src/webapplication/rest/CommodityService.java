@@ -32,15 +32,21 @@ public class CommodityService {
 	@POST
 	@Path("/insert")
 	@Consumes("application/x-www-form-urlencoded")
-	public Response insertUser(
-			@FormParam("commodityname") String commodityName, 
-			@FormParam("distributer") String distributer
-			) throws DALException, URISyntaxException {
+	public Response addCommodities(@FormParam("commodityname") String commodityName,
+			@FormParam("distributer") String distributer) throws DALException, URISyntaxException {
 
-		RaavareDTO commodity = new RaavareDTO(0, commodityName, distributer);
-		dao.createRaavare(commodity);
+		List<RaavareDTO> commodities = dao.getRaavareList();
+		int id = 0;
 
-		java.net.URI location = new java.net.URI("../commodity_view.html");
-		return Response.temporaryRedirect(location).build();
+		for (RaavareDTO com : commodities) {
+			if (com.getRaavareId() >= id) {id = com.getRaavareId() + 1;}
+		}
+
+			RaavareDTO commodity = new RaavareDTO(id, commodityName, distributer);
+			dao.createRaavare(commodity);
+
+			java.net.URI location = new java.net.URI("../commodity_view.html");
+			return Response.temporaryRedirect(location).build();
+		}
 	}
-}
+
