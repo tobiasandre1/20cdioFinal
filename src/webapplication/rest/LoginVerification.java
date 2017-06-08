@@ -43,7 +43,7 @@ public class LoginVerification {
 		
 		for(int i = 0; i < users.size(); i++){
 				if(users.get(i).getOprNavn().equals(userName) && users.get(i).getPassword().equals(password)){
-				return Response.temporaryRedirect(new java.net.URI("../view.html")).build();
+				return Response.temporaryRedirect(new java.net.URI("../user_view.html")).build();
 			}
 		}
 	    return Response.temporaryRedirect(new java.net.URI("../")).build();
