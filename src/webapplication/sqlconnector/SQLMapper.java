@@ -26,7 +26,7 @@ public class SQLMapper {
 				"rab_SELECT_ALL					= SELECT * FROM raavarebatch;\r\n" + 
 				"rab_SELECT_ALL_raavare_id		= SELECT * FROM raavarebatch WHERE raavare_id = ?;\r\n" + 
 				"ra_SELECT_ALL					= SELECT * FROM raavare;\r\n" + 
-				"ro_SELECT_ALL					= SELECT * FROM role;\r\n" + 
+				"ro_SELECT_ALL					= SELECT DISTINCT * FROM role;\r\n" + 
 				
 				"opr_INSERT						= INSERT INTO operatoer(opr_id, opr_navn, ini, password, opr_active) VALUES (?, '?', '?', '?', ?);\r\n" + 
 				"pb_INSERT						= INSERT INTO produktbatch(pb_id, status, recept_id) VALUES (?, '?', ?);\r\n" + 
