@@ -121,25 +121,36 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 			case RM208: //Expects a string as a reply 
 				weightController.showMessageSecondaryDisplay("Enter your operator ID: ");
 				allowCommands = false;
+				pb_id = 0;
 				synchronized(this){							
 					try {
 						this.wait();
 						try {
 							weightController.showMessagePrimaryDisplay(getOprName(tempOutput));
-							weightController.showMessageSecondaryDisplay("Enter the ID for the productbatch you want to weight");
-							opr_id = tempOutput;
 						} catch (DALException e) {
 							weightController.showMessageSecondaryDisplay("An error occured, please try again");
 							e.printStackTrace();
 						}
-						this.wait();
-						pb_id = tempOutput;
+						opr_id = tempOutput;
+						try {
+							weightController.showMessageSecondaryDisplay("Enter the ID for the productbatch you want to weight");
+							do {
+								if (pb_id > 0){
+									weightController.showMessageSecondaryDisplay("The procuctbatch of the ID given is occupied, submit new ID.");
+								} 
+								this.wait();
+								pb_id = tempOutput;
+							} while(getStatus(pb_id) > 0);
+						} catch (DALException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						System.out.println("pb_id is: " + pb_id);
 						weightController.showMessageSecondaryDisplay("Productbatch ID set. Place container on weight and tara");
 						key1 = true;
 						this.wait();
 						weightController.showMessageSecondaryDisplay("Tara set. Place product in container and press send.");
-						
+
 						allowCommands = true;
 
 					} catch (InterruptedException e) {
@@ -281,7 +292,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 		return allowCommands;
 	}
 
-	public String getOprName(int opr_id) throws DALException{
+	private String getOprName(int opr_id) throws DALException{
 		SQLMapper map = new SQLMapper();
 		String statement = map.getStatement("opr_specific_name");
 		String[] values = new String[]{Integer.toString(opr_id)};
@@ -292,6 +303,21 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 		try {
 			if (!rs.first()) throw new DALException("Operatoeren " + opr_id + " findes ikke");
 			return rs.getString("opr_navn");
+		}
+		catch (SQLException e) {throw new DALException(e); }
+
+	}
+
+	private int getStatus(int pb_id) throws DALException{
+		SQLMapper map = new SQLMapper();
+		String statement = map.getStatement("pb_SELECT");
+		String[] values = new String[]{Integer.toString(pb_id)};
+		statement = map.insertValuesIntoString(statement, values);
+		System.out.println("Query: "+statement);
+		ResultSet rs = Connector.doQuery(statement);
+		try {
+			if (!rs.first()) throw new DALException("Statusen for produktbatch ID'et: " + opr_id + " findes ikke");
+			return rs.getInt(2);
 		}
 		catch (SQLException e) {throw new DALException(e); }
 
