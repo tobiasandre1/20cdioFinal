@@ -145,13 +145,31 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 							e.printStackTrace();
 						}
 						System.out.println("pb_id is: " + pb_id);
+
+						try {
+							for(int i = 0; i < getRowCount(pb_id); i++){
+
+								//
+								//	HER SKAL VI SÆTTE STATUS TIL 1
+								//
+								
+								ArrayList<String> list = getProductName(pb_id);
+								
+								weightController.showMessageSecondaryDisplay("Productbatch ID set. Place container on weight and tara.");
+								key1 = true;
+								this.wait();
+								weightController.showMessageSecondaryDisplay("Tara set. Weight product: " + "FILLER" + " and press send.");
+
+							}
+						} catch (DALException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						
-						
-						weightController.showMessageSecondaryDisplay("Productbatch ID set. Place container on weight and tara.");
-						key1 = true;
-						this.wait();
-						weightController.showMessageSecondaryDisplay("Tara set. Place product in container and press send.");
-						
+						//
+						//	HER SKAL VI SÆTTE STATUS TIL 2
+						//
+
 						allowCommands = true;
 
 					} catch (InterruptedException e) {
@@ -244,7 +262,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 				}
 				else if(keyState.equals(KeyState.K4)){
 					socketHandler.sendMessage(new SocketOutMessage(numbers.toString()));
-//					weightController.showMessageSecondaryDisplay("You sent the numbers: " + numbers.toString());
+					//					weightController.showMessageSecondaryDisplay("You sent the numbers: " + numbers.toString());
 					numbersPointer = 0;
 					tempOutput = 0;
 					for(int i = 0; i < numbers.size(); i++){
@@ -323,5 +341,40 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 
 	}
 
+	private int getRowCount(int pb_id) throws DALException{
+		SQLMapper map = new SQLMapper();
+		String statement = map.getStatement("pb_komponent_SELECT_COUNT");
+		String[] values = new String[]{Integer.toString(pb_id)};
+		statement = map.insertValuesIntoString(statement, values);
+		System.out.println("Query: "+statement);
+		ResultSet rs = Connector.doQuery(statement);
+		try {
+			if (!rs.first()) throw new DALException(pb_id + " findes ikke"); //Lav bedre error tekst
+			System.out.println(rs.getInt(1)+1);
+			return rs.getInt(1)+1;
+		}
+		catch (SQLException e) {throw new DALException(e); }
 
+	}
+
+	private ArrayList<String> getProductName(int pb_id) throws DALException{
+		SQLMapper map = new SQLMapper();
+		String statement = map.getStatement("raavare_pb_id_name");
+		String[] values = new String[]{Integer.toString(pb_id)};
+		statement = map.insertValuesIntoString(statement, values);
+		System.out.println("Query: "+statement);
+		ResultSet rs = Connector.doQuery(statement);
+		try {			
+			ArrayList<String> list = new ArrayList<String>(); 
+			while(rs.next()){
+				System.out.println("123");
+				list.add(rs.getString("raavare_navn"));
+			}
+			System.out.println(list);
+			return list;
+		}
+		catch (SQLException e) {throw new DALException(e); }
+
+	}
+	
 }
