@@ -67,6 +67,15 @@ public class OperatoerDTO
 	public void setPassword(String password) { this.password = password; }
 	public List<String> getRoles(){return roles;}
 	public void setRoles(List<String> roles){this.roles = roles;}
+	public void setRoles(String roles){
+		roles = roles.replaceAll(" ", "");
+		String[] temp = roles.split(",");
+		List<String> list = new ArrayList<String>();
+		for(String s:temp){
+			list.add(s);
+		}
+		this.setRoles(list);
+	}
 	public void addRole(String role){this.roles.add(role);}
 	public boolean getOprActive(){return oprActive;}
 	public void setOprActive(boolean oprActive){this.oprActive = oprActive;	}

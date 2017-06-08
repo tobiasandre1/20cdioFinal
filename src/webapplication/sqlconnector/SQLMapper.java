@@ -45,7 +45,7 @@ public class SQLMapper {
 				"rab_UPDATE						= UPDATE raavarebatch SET raavare_id = ?, maengde = ? WHERE rb_id = ?;\r\n" + 
 				"ra_UPDATE						= UPDATE raavare SET raavare_navn = '?', leverandoer = '?' WHERE raavare_id = ?;\r\n" + 
 				
-				"ro_delete						= DELETE FROM role WHERE opr_id = ?;\r\n" +
+				"ro_DELETE						= DELETE FROM role WHERE opr_id = ?;\r\n" +
 				"ro_CONCAT_ALL					= SELECT role.opr_id, GROUP_CONCAT(DISTINCT role) AS 'roles'" +
 												" FROM role GROUP BY opr_id;\r\n" +
 				"ro_CONCAT						= SELECT role.opr_id, GROUP_CONCAT(DISTINCT role) AS 'roles'" + 
