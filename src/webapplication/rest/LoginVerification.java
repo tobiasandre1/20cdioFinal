@@ -33,16 +33,12 @@ public class LoginVerification {
 			@FormParam("password") String password
 			) throws DALException, URISyntaxException{
 		
-		try { new Connector(); } 
-		catch (InstantiationException e) { e.printStackTrace(); }
-		catch (IllegalAccessException e) { e.printStackTrace(); }
-		catch (ClassNotFoundException e) { e.printStackTrace(); }
-		catch (SQLException e) { e.printStackTrace(); }
 		
 		List<OperatoerDTO> users = dao.getOperatoerList();
 		
 		for(int i = 0; i < users.size(); i++){
 				if(users.get(i).getOprNavn().equals(userName) && users.get(i).getPassword().equals(password)){
+					
 				return Response.temporaryRedirect(new java.net.URI("../user_view.html")).build();
 			}
 		}
