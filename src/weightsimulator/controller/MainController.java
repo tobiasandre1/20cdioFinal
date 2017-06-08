@@ -38,14 +38,15 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	private String numberMessage;
 	private boolean allowCommands = true;
 	private int tempOutput = 0;
-	
+
 	private int opr_id;
 	private int rb_id;
 	private int pb_id;
 	private double weight = 0.0;
 	private double tarWeight = 0.0;
-	
-	
+	boolean key1 = false;
+
+
 	//Hardcoded batch and id
 	private int idN = 12, batchN = 1234;
 	private String idS = "Anders And", batchS = "Salt";
@@ -122,7 +123,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 				allowCommands = false;
 				synchronized(this){							
 					try {
-						wait();
+						this.wait();
 						try {
 							weightController.showMessagePrimaryDisplay(getOprName(tempOutput));
 							weightController.showMessageSecondaryDisplay("Enter the ID for the productbatch you want to weight");
@@ -131,11 +132,14 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 							weightController.showMessageSecondaryDisplay("An error occured, please try again");
 							e.printStackTrace();
 						}
-						wait();
+						this.wait();
 						pb_id = tempOutput;
 						System.out.println("pb_id is: " + pb_id);
-						weightController.showMessageSecondaryDisplay("Productbatch set. Place product on weight and tara");
-						wait();
+						weightController.showMessageSecondaryDisplay("Productbatch ID set. Place container on weight and tara");
+						key1 = true;
+						this.wait();
+						weightController.showMessageSecondaryDisplay("Tara set. Place product in container and press send.");
+						
 						allowCommands = true;
 
 					} catch (InterruptedException e) {
@@ -241,7 +245,9 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 					weightController.showMessageSecondaryDisplay("No command was expecting an input. Input discarded.");
 					System.out.println("No command was expecting an input. Input discarded.");
 				}
-				notify();
+				if(!key1){
+					notify();
+				}
 			}
 			break;
 		}
@@ -258,6 +264,13 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	public void tara(){
 		tarWeight = weight;
 		weightController.showMessagePrimaryDisplay(total.toString());
+		System.out.println("Tarweight is: " + tarWeight);
+		synchronized (this){
+			if(key1){
+				notify();
+				key1 = false;
+			}
+		}
 	}
 
 	public void quit(){
