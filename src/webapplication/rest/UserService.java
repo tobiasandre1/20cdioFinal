@@ -1,9 +1,6 @@
 package webapplication.rest;
 
-import static org.junit.Assert.fail;
-
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;

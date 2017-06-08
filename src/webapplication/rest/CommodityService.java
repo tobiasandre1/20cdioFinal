@@ -21,6 +21,7 @@ public class CommodityService {
 
 	RaavareDAO dao = new MySQLRaavareDAO();
 
+	@POST
 	@Path("/getcommodities")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<RaavareDTO> getData() throws DALException {
