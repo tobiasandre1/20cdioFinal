@@ -48,7 +48,7 @@ public class UserService {
 		try { dao.updateOperatoer(opr); }
 		catch (DALException e) { e.printStackTrace(); }
 
-		java.net.URI location = new java.net.URI("../user/view.html");
+		java.net.URI location = new java.net.URI("../view.html");
 	    return Response.temporaryRedirect(location).build();
 	}
 	
@@ -69,7 +69,7 @@ public class UserService {
 		OperatoerDTO user = new OperatoerDTO(0, userName, ini, password, true);
 		dao.createOperatoer(user);
 		
-		java.net.URI location = new java.net.URI("../user/view.html");
+		java.net.URI location = new java.net.URI("../view.html");
 	    return Response.temporaryRedirect(location).build();
 	}
 	
@@ -100,7 +100,7 @@ public class UserService {
 		OperatoerDTO user = new OperatoerDTO(Integer.parseInt(userId), userName, ini, password, Boolean.parseBoolean(active));
 		
 		dao.updateOperatoer(user);
-		java.net.URI location = new java.net.URI("../user/view.html");
+		java.net.URI location = new java.net.URI("../view.html");
 	    return Response.temporaryRedirect(location).build();
 	}
 	
