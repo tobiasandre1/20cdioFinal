@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="mainStyle.css">
+<title>Administrative Menu</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="jquery.serialize-object.js"></script>
+<script>
+function setURL(url){
+    document.getElementById('iframe').src = url;
+}
+</script>
+<style>
+	body {overflow: hidden !important}
+</style>
+</head>
+<body>
+	<form>
+		<input type="radio" name="view" onClick="setURL('user_view.html')" checked>User administration</input>
+		<input type="radio" name="view" onClick="setURL('commodity_view.html')" >Commodity administration</input>
+	</form>
+	
+	<iframe id="iframe" style="scrolling:no; width:99.5%; height:auto; min-height:100%; border:none; margin:none; padding:none; overflow-x:hidden !important; overflow-y:scroll !important;" src="user_view.html">
+		<p>Your browser does not support iframes</p>
+	</iframe>
+
+
+</body>
+</html>
