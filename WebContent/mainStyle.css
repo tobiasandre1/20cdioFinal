@@ -5,6 +5,7 @@ body, html {
 	background-color: #DDDDDD;
 	height: 100%;
 	width: 100%;
+	word-break: break-all;
 }
 
 h1 {
@@ -22,6 +23,7 @@ table {
 	margin: auto;
 	width: 90%;
 	text-align: center;
+	word-break: inherit;
 }
 
 input[type="submit"], input[type="button"]{
@@ -100,4 +102,5 @@ form {
 .inputrow{
 	margin: auto;
 	padding: 0.5em 2em;
+	word-break: inherit;
 }

@@ -1,8 +1,6 @@
 package webapplication.rest;
 
 import java.net.URISyntaxException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -13,7 +11,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import webapplication.sqlconnector.Connector;
 import webapplication.datalayer.*;
 import webapplication.datalayerinterfaces.*;
 import webapplication.datatransferobjects.*;
