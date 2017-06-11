@@ -54,12 +54,18 @@ public class SQLMapper {
 				
 				"view_create_mad				= CREATE VIEW mad AS SELECT rk.recept_id, rk.raavare_id, re.recept_navn, ra.raavare_navn, ra.leverandoer FROM receptkomponent rk NATURAL JOIN recept re NATURAL JOIN raavare ra;\r\n" + 
 				"view_create_vejning			= CREATE VIEW vejning AS SELECT opr.opr_id, opr.opr_navn, pbk.tara, pbk.netto, ra.raavare_id, ra.raavare_navn, rab.maengde FROM operatoer opr NATURAL JOIN produktbatchkomponent pbk NATURAL JOIN raavare ra NATURAL JOIN raavarebatch rab;\r\n" + 
+				
 				"view_SELECT_mad				= SELECT * FROM mad WHERE recept_id = ? AND raavare_id = ?;\r\n" + 
 				"view_SELECT_vejning			= SELECT * FROM vejning WHERE opr_id = ?;\r\n" + 
+				"view_SELECT_raavare_navne_pb	= SELECT * FROM raavare_navne WHERE pb_id = ?;\r\n" +
+				"view_SELECT_raavare_navne_rb	= SELECT * FROM raavare_navne WHERE rb_id = ?;\r\n" +
+				
 				"view_drop_mad					= DROP VIEW mad;\r\n" + 
 				"view_drop_vejning				= DROP VIEW vejning; \r\n" + 
+				
 				"view_SELECTALL_mad				= SELECT * FROM mad;\r\n" + 
 				"view_SELECTALL_vejning			= SELECT * FROM vejning;\r\n" + 
+				"view_SELECTALL_raavare_navne	= SELECT * FROM raavare_navne;\r\n"+
 				"opr_specific_name				= SELECT opr_navn FROM operatoer WHERE opr_id = ?;\r\n"
 				;
 		String[] statementsArray = allStatements.split("\r\n");

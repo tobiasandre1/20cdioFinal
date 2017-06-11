@@ -89,5 +89,22 @@ public class DAOTest {
 		
 	}
 	
+	@Test
+	public void testViewDAO(){
+		ViewDAO dao = new MySQLViewDAO();
+		
+		System.out.println("Alle raavare navne");
+		try { System.out.println(dao.getRaavareNavneList());}
+		catch (DALException e) { e.printStackTrace();  fail();}
+		
+		System.out.println("Alle raavare navne med pb_id 2");
+		try { System.out.println(dao.getRaavareNavneListPbId(2));}
+		catch (DALException e) { e.printStackTrace();  fail();}
+		
+		System.out.println("Alle raavare navne med rb_id 6");
+		try { System.out.println(dao.getRaavareNavneListRbId(6));}
+		catch (DALException e) { e.printStackTrace();  fail();}
+	}
+	
 
 }
