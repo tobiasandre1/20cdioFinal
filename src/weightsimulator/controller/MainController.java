@@ -61,13 +61,14 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	private int tempOutput = 0;
 	private boolean toleranceFail = true;
 	private double upperTolerance, lowerTolerance;
+	private boolean key0 = true, key1 = false;
 
 	private int opr_id;
 	private int rb_id;
 	private int pb_id;
 	private double weight = 0.0;
 	private double tarWeight = 0.0;
-	private boolean key1 = false;
+
 
 
 	//Hardcoded batch and id
@@ -142,8 +143,9 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 			case RM204: //Does not have to be implemented
 				break;
 			case RM208: 
-				allowCommands = false;
 				pb_id = 0;
+				key0 = false; 	//Disable ZERO button
+				allowCommands = false;
 				synchronized(this){							
 					try {
 						try {
@@ -199,7 +201,9 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 								}while(toleranceFail);
 								weightController.showMessageSecondaryDisplay("You are about to commit a productbatchcomponent. Press send to continue.");
 								wait();
-								
+								//Commit to DB
+								tarWeight = 0;
+
 							}
 						} catch (DALException e) {
 							e.printStackTrace();
@@ -208,7 +212,8 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 						//
 						//	HER SKAL VI SÆTTE STATUS TIL 2
 						//
-
+						
+						key0 = true;
 						allowCommands = true;
 
 					} catch (InterruptedException e) {
@@ -280,11 +285,13 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 			weightController.showMessageSecondaryDisplay(numberMessage);
 			break; 
 		case ZERO:
-			weight = 0.0;
-			tarWeight = 0.0;
-			total = 0.0;
-			weightController.showMessagePrimaryDisplay(total.toString());
-			weightController.showMessageSecondaryDisplay(""); 
+			if (key0 == true){
+				weight = 0.0;
+				tarWeight = 0.0;
+				total = 0.0;
+				weightController.showMessagePrimaryDisplay(total.toString());
+				weightController.showMessageSecondaryDisplay(""); 
+			}
 			break;
 		case C:
 			numbers = new ArrayList<Character>();
