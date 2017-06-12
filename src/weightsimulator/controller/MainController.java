@@ -8,6 +8,7 @@ import webapplication.datalayer.MySQLProduktBatchDAO;
 import webapplication.datalayer.MySQLProduktBatchKomponentDAO;
 import webapplication.datalayer.MySQLRaavareBatchDAO;
 import webapplication.datalayer.MySQLRaavareDAO;
+import webapplication.datalayer.MySQLReceptKomponentDAO;
 import webapplication.datalayer.MySQLViewDAO;
 import webapplication.datalayerinterfaces.DALException;
 import webapplication.datalayerinterfaces.OperatoerDAO;
@@ -15,12 +16,14 @@ import webapplication.datalayerinterfaces.ProduktBatchDAO;
 import webapplication.datalayerinterfaces.ProduktBatchKompDAO;
 import webapplication.datalayerinterfaces.RaavareBatchDAO;
 import webapplication.datalayerinterfaces.RaavareDAO;
+import webapplication.datalayerinterfaces.ReceptKompDAO;
 import webapplication.datalayerinterfaces.ViewDAO;
 import webapplication.datatransferobjects.OperatoerDTO;
 import webapplication.datatransferobjects.ProduktBatchDTO;
 import webapplication.datatransferobjects.ProduktBatchKompDTO;
 import webapplication.datatransferobjects.RaavareBatchDTO;
 import webapplication.datatransferobjects.RaavareDTO;
+import webapplication.datatransferobjects.ReceptKompDTO;
 import webapplication.datatransferobjects.ViewRaavareNavneDTO;
 import webapplication.sqlconnector.*;
 
@@ -56,13 +59,15 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	private String numberMessage;
 	private boolean allowCommands = true;
 	private int tempOutput = 0;
+	private boolean toleranceFail = true;
+	private double upperTolerance, lowerTolerance;
 
 	private int opr_id;
 	private int rb_id;
 	private int pb_id;
 	private double weight = 0.0;
 	private double tarWeight = 0.0;
-	boolean key1 = false;
+	private boolean key1 = false;
 
 
 	//Hardcoded batch and id
@@ -158,23 +163,45 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 
 						try {
 							int raavareCount = getRowCount(pb_id);
-							List<String> names = getProductName(pb_id); 
-							for(int i = 0; i < raavareCount ; i++){
+							List<String> names = getProductName(pb_id);
+							ReceptKompDAO rkDAO = new MySQLReceptKomponentDAO();
+							List<ReceptKompDTO> rkList = rkDAO.getReceptKompList();
 
-								
-								weightController.showMessageSecondaryDisplay("Productbatch ID set. Place container on weight and tara.");
+							for(int i = 0; i < raavareCount ; i++){
+								if(i == 0){
+									weightController.showMessageSecondaryDisplay("Productbatch ID set. Place container on weight and tara.");
+								} else {
+									weightController.showMessageSecondaryDisplay("Productbatchcomponent set. Place new container on weight and tara.");
+								}
 								key1 = true;
 								this.wait();
 								weightController.showMessageSecondaryDisplay("Tara set. Bring: \"" + names.get(i) + "\" and enter commodity batch ID");
 								this.wait();
 								rb_id = tempOutput;
+
 								weightController.showMessageSecondaryDisplay("Weight \"" + names.get(i) + "\" and press send.");
-								this.wait();
-								System.out.println("Weight: " + weight);
+								do{
+									this.wait();
+									upperTolerance = 1.0+rkList.get(i).getTolerance();
+									lowerTolerance = 1.0-rkList.get(i).getTolerance();
+
+									System.out.println("rkList.get(i).getNomNetto(): " + rkList.get(i).getNomNetto());
+									System.out.println("UpperTolerance: " + upperTolerance);
+									System.out.println("LowerTolerance: " + lowerTolerance);
+									System.out.println("Weight: " + weight);
+									if((weight > rkList.get(i).getNomNetto() * upperTolerance) ||
+											(weight < rkList.get(i).getNomNetto() * lowerTolerance)){
+										weightController.showMessageSecondaryDisplay("Weight should be within " + rkList.get(i).getNomNetto()*lowerTolerance + "Kg and " + rkList.get(i).getNomNetto()*upperTolerance + "Kg. Try again");
+										toleranceFail = true;
+									} else {
+										toleranceFail = false;
+									}
+								}while(toleranceFail);
+								weightController.showMessageSecondaryDisplay("You are about to commit a productbatchcomponent. Press send to continue.");
+								wait();
 								
 							}
 						} catch (DALException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 
@@ -303,6 +330,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	}
 
 	public void tara(){
+		tarWeight = 0;
 		tarWeight = weight;
 		weightController.showMessagePrimaryDisplay(total.toString());
 		System.out.println("Tarweight is: " + tarWeight);
@@ -321,6 +349,8 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	public boolean getCommandStatus(){
 		return allowCommands;
 	}
+	//	private List<>
+
 
 	private void doName() throws DALException{
 		OperatoerDAO oprDAO = new MySQLOperatoerDAO();
@@ -364,7 +394,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 
 			} else {
 				weightController.showMessageSecondaryDisplay("Invalid ID, submit new ID.");
-				
+
 				tempOutput = 0;
 			}
 		}while(tempOutput < 1);
@@ -372,16 +402,17 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	}
 
 	private int getRowCount(int pb_id) throws DALException{
-		ProduktBatchKompDAO pbkDAO = new MySQLProduktBatchKomponentDAO();
-		List<ProduktBatchKompDTO> pbList = pbkDAO.getProduktBatchKompList(pb_id);
+		ViewDAO view = new MySQLViewDAO();
+		List<ViewRaavareNavneDTO> viewList = view.getRaavareNavneListPbId(pb_id);
 
-		return pbList.size();
+		System.out.println("viewList.size: " + viewList.size());
+		return viewList.size();
 	}
 
 	private List<String> getProductName(int pb_id) throws DALException{
 		ViewDAO view = new MySQLViewDAO();
 		List<ViewRaavareNavneDTO> viewList = view.getRaavareNavneListPbId(pb_id);
-	
+
 		List<String> names = new ArrayList<String>();
 		for (int i = 0; i < viewList.size(); i++){
 			System.out.println("Raavare " + i + ": " + viewList.get(i).getRaavareNavn());
