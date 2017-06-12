@@ -35,14 +35,6 @@
 									$('#pbtable').append(
 											"<td>" + response[i].status
 													+ "</td>");
-									
-								<!--	
-									$('#pbtable').append("<td><button class=\"small\" id=\"" 
-											+ response[i].pbId 
-											+ "\" type=\"submit\" form=\"update\" value=\""
-											+ response[i].pbId
-											+ "\" name=\"submit\">Update</button></td>"); 
-								-->
 
 									$('#pbtable').append("</tr>");
 								}
@@ -60,7 +52,6 @@
 
 	<!-- Forms with access to REST backend -->
 	<form id="add" action="productbatch_add.html" method="get"></form>
-	<form id="update" action="productbatch_update.html" method="get"></form>
 
 	<!-- Main HTML -->
 	<div class="mainbody_wide">
