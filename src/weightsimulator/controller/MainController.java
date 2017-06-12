@@ -157,19 +157,17 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 
 						try {
 							int q = getRowCount(pb_id);
-							List<String> Names = getProductName(pb_id); // Simulere raavare navn's liste
+							List<String> Names = getProductName(pb_id); 
 							for(int i = 0; i < q ; i++){
 
 								//
 								//	HER SKAL VI SÆTTE STATUS TIL 1
 								//
 
-								weightController.showMessageSecondaryDisplay("Current product to be weighted: "+Names.get(i)); // Simulere raavare navn's liste gennemgang
-
 								weightController.showMessageSecondaryDisplay("Productbatch ID set. Place container on weight and tara.");
 								key1 = true;
 								this.wait();
-								weightController.showMessageSecondaryDisplay("Tara set. Weight product: " + "FILLER" + " and press send.");
+								weightController.showMessageSecondaryDisplay("Tara set. Weight \"" + Names.get(i) + "\" and press send.");
 
 							}
 						} catch (DALException e) {
@@ -380,9 +378,10 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	private List<String> getProductName(int pb_id) throws DALException{
 		ViewDAO view = new MySQLViewDAO();
 		List<ViewRaavareNavneDTO> viewList = view.getRaavareNavneListPbId(pb_id);
-
+	
 		List<String> Names = new ArrayList<String>();
 		for (int i = 0; i < viewList.size(); i++){
+			System.out.println("Raavare " + i + ":" + viewList.get(i).getRaavareNavn());
 			Names.add(viewList.get(i).getRaavareNavn());
 		}
 		return Names;
