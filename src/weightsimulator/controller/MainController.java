@@ -8,17 +8,20 @@ import webapplication.datalayer.MySQLProduktBatchDAO;
 import webapplication.datalayer.MySQLProduktBatchKomponentDAO;
 import webapplication.datalayer.MySQLRaavareBatchDAO;
 import webapplication.datalayer.MySQLRaavareDAO;
+import webapplication.datalayer.MySQLViewDAO;
 import webapplication.datalayerinterfaces.DALException;
 import webapplication.datalayerinterfaces.OperatoerDAO;
 import webapplication.datalayerinterfaces.ProduktBatchDAO;
 import webapplication.datalayerinterfaces.ProduktBatchKompDAO;
 import webapplication.datalayerinterfaces.RaavareBatchDAO;
 import webapplication.datalayerinterfaces.RaavareDAO;
+import webapplication.datalayerinterfaces.ViewDAO;
 import webapplication.datatransferobjects.OperatoerDTO;
 import webapplication.datatransferobjects.ProduktBatchDTO;
 import webapplication.datatransferobjects.ProduktBatchKompDTO;
 import webapplication.datatransferobjects.RaavareBatchDTO;
 import webapplication.datatransferobjects.RaavareDTO;
+import webapplication.datatransferobjects.ViewRaavareNavneDTO;
 import webapplication.sqlconnector.*;
 
 import java.lang.Math;
@@ -138,31 +141,31 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 				pb_id = 0;
 				synchronized(this){							
 					try {
-						
+
 						try {
 							doName();
 						} catch (DALException e1) {
 							e1.printStackTrace();
 						}
-						
+
 						try {
 							doPB();
 						} catch (DALException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						
+
 						try {
 							int q = getRowCount(pb_id);
-							List getProductName(pb_id); // Simulere raavare navn's liste
+							List<String> Names = getProductName(pb_id); // Simulere raavare navn's liste
 							for(int i = 0; i < q ; i++){
 
 								//
 								//	HER SKAL VI SÆTTE STATUS TIL 1
 								//
 
-								List[i] // Simulere raavare navn's liste gennemgang
-								
+								weightController.showMessageSecondaryDisplay("Current product to be weighted: "+Names.get(i)); // Simulere raavare navn's liste gennemgang
+
 								weightController.showMessageSecondaryDisplay("Productbatch ID set. Place container on weight and tara.");
 								key1 = true;
 								this.wait();
@@ -349,10 +352,18 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if(pbList.get(pb_id).getStatus() > 0){
-				pb_id = tempOutput;
-			} else{
-				weightController.showMessageSecondaryDisplay("The productbatch of the ID is finished or in progress, submit new ID.");
+			if (tempOutput <= pbList.size() && tempOutput > 0){
+				if(pbList.get(tempOutput-1).getStatus() == 0){
+					pb_id = tempOutput;
+				} else{
+					weightController.showMessageSecondaryDisplay("The productbatch of the ID is finished or in progress, submit new ID.");
+
+					tempOutput = 0;
+				}
+
+			} else {
+				weightController.showMessageSecondaryDisplay("Invalid ID, submit new ID.");
+				
 				tempOutput = 0;
 			}
 		}while(tempOutput < 1);
@@ -367,17 +378,14 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	}
 
 	private List<String> getProductName(int pb_id) throws DALException{
-		ProduktBatchDAO pbDAO = new MySQLProduktBatchDAO();
-		List<ProduktBatchDTO> pbList = pbDAO.getProduktBatchList();
-		
-		RaavareBatchDAO rbDAO = new MySQLRaavareBatchDAO();
-		List<RaavareBatchDTO> rbList = rbDAO.getRaavareBatchList();
-		
-		RaavareDAO rDAO = new MySQLRaavareDAO();
-		List<RaavareDTO> rList = rDAO.getRaavareList();
-				
-		return List;
-		}
-	}
+		ViewDAO view = new MySQLViewDAO();
+		List<ViewRaavareNavneDTO> viewList = view.getRaavareNavneListPbId(pb_id);
 
+		List<String> Names = new ArrayList<String>();
+		for (int i = 0; i < viewList.size(); i++){
+			Names.add(viewList.get(i).getRaavareNavn());
+		}
+		return Names;
+
+	}
 }
