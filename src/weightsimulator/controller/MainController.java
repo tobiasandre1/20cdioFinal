@@ -3,7 +3,22 @@ package weightsimulator.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import webapplication.datalayer.MySQLOperatoerDAO;
+import webapplication.datalayer.MySQLProduktBatchDAO;
+import webapplication.datalayer.MySQLProduktBatchKomponentDAO;
+import webapplication.datalayer.MySQLRaavareBatchDAO;
+import webapplication.datalayer.MySQLRaavareDAO;
 import webapplication.datalayerinterfaces.DALException;
+import webapplication.datalayerinterfaces.OperatoerDAO;
+import webapplication.datalayerinterfaces.ProduktBatchDAO;
+import webapplication.datalayerinterfaces.ProduktBatchKompDAO;
+import webapplication.datalayerinterfaces.RaavareBatchDAO;
+import webapplication.datalayerinterfaces.RaavareDAO;
+import webapplication.datatransferobjects.OperatoerDTO;
+import webapplication.datatransferobjects.ProduktBatchDTO;
+import webapplication.datatransferobjects.ProduktBatchKompDTO;
+import webapplication.datatransferobjects.RaavareBatchDTO;
+import webapplication.datatransferobjects.RaavareDTO;
 import webapplication.sqlconnector.*;
 
 import java.lang.Math;
@@ -119,41 +134,34 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 			case RM204: //Does not have to be implemented
 				break;
 			case RM208: 
-				weightController.showMessageSecondaryDisplay("Enter your operator ID: ");
 				allowCommands = false;
 				pb_id = 0;
 				synchronized(this){							
 					try {
-						this.wait();
+						
 						try {
-							weightController.showMessagePrimaryDisplay(getOprName(tempOutput));
-						} catch (DALException e) {
-							weightController.showMessageSecondaryDisplay("An error occured, please try again");
-							e.printStackTrace();
+							doName();
+						} catch (DALException e1) {
+							e1.printStackTrace();
 						}
-						opr_id = tempOutput;
+						
 						try {
-							weightController.showMessageSecondaryDisplay("Enter the ID for the productbatch you want to weight");
-							do {
-								if (pb_id > 0){
-									weightController.showMessageSecondaryDisplay("The productbatch of the ID is finished or in progress, submit new ID.");
-								} 
-								this.wait();
-								pb_id = tempOutput;
-							} while(getStatus(pb_id) > 0);
-						} catch (DALException e) {
-							e.printStackTrace();
+							doPB();
+						} catch (DALException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
-						System.out.println("pb_id is: " + pb_id);
-
+						
 						try {
-							for(int i = 0; i < getRowCount(pb_id); i++){
+							int q = getRowCount(pb_id);
+							List getProductName(pb_id); // Simulere raavare navn's liste
+							for(int i = 0; i < q ; i++){
 
 								//
 								//	HER SKAL VI SÆTTE STATUS TIL 1
 								//
-								
-								ArrayList<String> list = getProductName(pb_id);
+
+								List[i] // Simulere raavare navn's liste gennemgang
 								
 								weightController.showMessageSecondaryDisplay("Productbatch ID set. Place container on weight and tara.");
 								key1 = true;
@@ -165,7 +173,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
+
 						//
 						//	HER SKAL VI SÆTTE STATUS TIL 2
 						//
@@ -310,71 +318,66 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 		return allowCommands;
 	}
 
-	private String getOprName(int opr_id) throws DALException{
-		SQLMapper map = new SQLMapper();
-		String statement = map.getStatement("opr_specific_name");
-		String[] values = new String[]{Integer.toString(opr_id)};
-		statement = map.insertValuesIntoString(statement, values);
-		System.out.println("Query: "+statement);
-		ResultSet rs = Connector.doQuery(statement);
-
-		try {
-			if (!rs.first()) throw new DALException("Operatoeren " + opr_id + " findes ikke");
-			return rs.getString("opr_navn");
-		}
-		catch (SQLException e) {throw new DALException(e); }
-
+	private void doName() throws DALException{
+		OperatoerDAO oprDAO = new MySQLOperatoerDAO();
+		List<OperatoerDTO> oprList = oprDAO.getOperatoerList();
+		weightController.showMessageSecondaryDisplay("Enter your operator ID: ");
+		do{
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if((tempOutput < oprList.size()) && (tempOutput > 0)){
+				weightController.showMessagePrimaryDisplay(oprList.get(tempOutput).getOprNavn());
+				opr_id = tempOutput;
+			} else{
+				weightController.showMessageSecondaryDisplay("Invalid user ID. Enter new ID.");
+				tempOutput = 0;
+			}
+		}while(tempOutput < 1);
 	}
 
-	private int getStatus(int pb_id) throws DALException{
-		SQLMapper map = new SQLMapper();
-		String statement = map.getStatement("pb_SELECT");
-		String[] values = new String[]{Integer.toString(pb_id)};
-		statement = map.insertValuesIntoString(statement, values);
-		System.out.println("Query: "+statement);
-		ResultSet rs = Connector.doQuery(statement);
-		try {
-			if (!rs.first()) throw new DALException("Statusen for produktbatch ID'et: " + opr_id + " findes ikke");
-			return rs.getInt(2);
-		}
-		catch (SQLException e) {throw new DALException(e); }
 
+	private void doPB() throws DALException{
+		ProduktBatchDAO pbDAO = new MySQLProduktBatchDAO();
+		List<ProduktBatchDTO> pbList = pbDAO.getProduktBatchList();
+		weightController.showMessageSecondaryDisplay("Enter the ID for the productbatch you want to weight");
+		do{
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if(pbList.get(pb_id).getStatus() > 0){
+				pb_id = tempOutput;
+			} else{
+				weightController.showMessageSecondaryDisplay("The productbatch of the ID is finished or in progress, submit new ID.");
+				tempOutput = 0;
+			}
+		}while(tempOutput < 1);
+		System.out.println("pb_id is: " + pb_id);
 	}
 
 	private int getRowCount(int pb_id) throws DALException{
-		SQLMapper map = new SQLMapper();
-		String statement = map.getStatement("pb_komponent_SELECT_COUNT");
-		String[] values = new String[]{Integer.toString(pb_id)};
-		statement = map.insertValuesIntoString(statement, values);
-		System.out.println("Query: "+statement);
-		ResultSet rs = Connector.doQuery(statement);
-		try {
-			if (!rs.first()) throw new DALException(pb_id + " findes ikke"); //Lav bedre error tekst
-			System.out.println(rs.getInt(1)+1);
-			return rs.getInt(1)+1;
-		}
-		catch (SQLException e) {throw new DALException(e); }
+		ProduktBatchKompDAO pbkDAO = new MySQLProduktBatchKomponentDAO();
+		List<ProduktBatchKompDTO> pbList = pbkDAO.getProduktBatchKompList(pb_id);
 
+		return pbList.size();
 	}
 
-	private ArrayList<String> getProductName(int pb_id) throws DALException{
-		SQLMapper map = new SQLMapper();
-		String statement = map.getStatement("raavare_pb_id_name");
-		String[] values = new String[]{Integer.toString(pb_id)};
-		statement = map.insertValuesIntoString(statement, values);
-		System.out.println("Query: "+statement);
-		ResultSet rs = Connector.doQuery(statement);
-		try {			
-			ArrayList<String> list = new ArrayList<String>(); 
-			while(rs.next()){
-				System.out.println("123");
-				list.add(rs.getString("raavare_navn"));
-			}
-			System.out.println(list);
-			return list;
+	private List<String> getProductName(int pb_id) throws DALException{
+		ProduktBatchDAO pbDAO = new MySQLProduktBatchDAO();
+		List<ProduktBatchDTO> pbList = pbDAO.getProduktBatchList();
+		
+		RaavareBatchDAO rbDAO = new MySQLRaavareBatchDAO();
+		List<RaavareBatchDTO> rbList = rbDAO.getRaavareBatchList();
+		
+		RaavareDAO rDAO = new MySQLRaavareDAO();
+		List<RaavareDTO> rList = rDAO.getRaavareList();
+				
+		return List;
 		}
-		catch (SQLException e) {throw new DALException(e); }
-
 	}
-	
+
 }
