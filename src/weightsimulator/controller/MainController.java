@@ -141,34 +141,37 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 				pb_id = 0;
 				synchronized(this){							
 					try {
-
 						try {
-							doName();
+							doName();						//User identification
 						} catch (DALException e1) {
 							e1.printStackTrace();
 						}
 
 						try {
-							doPB();
+							doPB();							//Productbatch identification
+							//
+							//	HER SKAL VI SÆTTE STATUS TIL 1
+							//
 						} catch (DALException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 
 						try {
-							int q = getRowCount(pb_id);
-							List<String> Names = getProductName(pb_id); 
-							for(int i = 0; i < q ; i++){
+							int raavareCount = getRowCount(pb_id);
+							List<String> names = getProductName(pb_id); 
+							for(int i = 0; i < raavareCount ; i++){
 
-								//
-								//	HER SKAL VI SÆTTE STATUS TIL 1
-								//
-
+								
 								weightController.showMessageSecondaryDisplay("Productbatch ID set. Place container on weight and tara.");
 								key1 = true;
 								this.wait();
-								weightController.showMessageSecondaryDisplay("Tara set. Weight \"" + Names.get(i) + "\" and press send.");
-
+								weightController.showMessageSecondaryDisplay("Tara set. Bring: \"" + names.get(i) + "\" and enter commodity batch ID");
+								this.wait();
+								rb_id = tempOutput;
+								weightController.showMessageSecondaryDisplay("Weight \"" + names.get(i) + "\" and press send.");
+								this.wait();
+								System.out.println("Weight: " + weight);
+								
 							}
 						} catch (DALException e) {
 							// TODO Auto-generated catch block
@@ -379,12 +382,12 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 		ViewDAO view = new MySQLViewDAO();
 		List<ViewRaavareNavneDTO> viewList = view.getRaavareNavneListPbId(pb_id);
 	
-		List<String> Names = new ArrayList<String>();
+		List<String> names = new ArrayList<String>();
 		for (int i = 0; i < viewList.size(); i++){
-			System.out.println("Raavare " + i + ":" + viewList.get(i).getRaavareNavn());
-			Names.add(viewList.get(i).getRaavareNavn());
+			System.out.println("Raavare " + i + ": " + viewList.get(i).getRaavareNavn());
+			names.add(viewList.get(i).getRaavareNavn());
 		}
-		return Names;
+		return names;
 
 	}
 }
