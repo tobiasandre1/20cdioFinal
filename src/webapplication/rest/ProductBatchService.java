@@ -28,4 +28,45 @@ public class ProductBatchService {
 		return response;
 	}
 
+	@POST
+	@Path("/insert")
+	@Consumes("application/x-www-form-urlencoded")
+	public Response addPB(
+			@FormParam("prescriptionID") int receptId,
+			@FormParam("status") int status) 
+					throws DALException, URISyntaxException {
+
+		List<ProduktBatchDTO> productbatch = dao.getProduktBatchList();
+		int id = 0;
+
+		for (ProduktBatchDTO pb : productbatch) {
+			if (pb.getPbId() >= id) {
+				id = pb.getPbId() + 1;
+			}
+		}
+
+		ProduktBatchDTO pb = new ProduktBatchDTO(id, status, receptId);
+		dao.createProduktBatch(pb);
+
+		java.net.URI location = new java.net.URI("../productbatch_view.html");
+		return Response.temporaryRedirect(location).build();
+	}
+	
+	@POST
+	@Path("/update")
+	@Consumes("application/x-www-form-urlencoded")
+	public Response updateUser(
+			@FormParam("pbId") int pbId,
+			@FormParam("prescriptionID") int receptId,
+			@FormParam("status") int status)
+			
+					throws URISyntaxException, DALException{
+		
+		ProduktBatchDTO pb = new ProduktBatchDTO(pbId, status, receptId);
+		
+		dao.updateProduktBatch(pb);
+		java.net.URI location = new java.net.URI("../productbatch_view.html");
+	    return Response.temporaryRedirect(location).build();
+	}
 }
+

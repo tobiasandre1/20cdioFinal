@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="mainStyle.css">
+<title>product batch page</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="jquery.serialize-object.js"></script>
+<script>
+$( document ).ready(function() {
+	var arr = window.location.href.split('=');
+	//get last value
+	var id = arr[arr.length -1];
+	var data = {
+		content: id
+	};
+	$.ajax({
+		url : "rest/pbservice/update",
+		data : JSON.stringify(data),
+		contentType: "application/json",
+		method: 'POST',
+		success : function(response){
+			console.log(response);
+			$("#updateform").append("<div class=\"inputrow\">Product Batch ID <input readonly style=\"text-align: center; border-style: hidden\" type=\"text\" name=\"pbId\" value=\""
+					+response.pbId
+					+"\"></div>");
+			$("#updateform").append("<div class=\"inputrow\">Prescript ID <input class=\"input\" type=\"text\" name=\"prescriptionID\" value=\""
+					+response.receptId
+					+"\"></div>");
+			$("#updateform").append("<div class=\"inputrow\">Status <input readonly style=\"text-align: center; border-style: hidden\" type=\"text\" name=\"status\" value=\""
+					+response.status
+					+"\"></div>");
+
+			$("#updateform").append("<div id=\"submit\" class=\"inputrow\"><input type=\"submit\" value=\"Submit\"></div>");
+		},
+		error: function(jqXHR, text, error){
+			alert(jqXHR.status + text + error);
+		}
+	});
+});
+</script>
+
+</head>
+<body>
+
+	<div class="mainbody">
+		
+		<div class="loginbox">
+		
+			<h1>Update user</h1>
+			<form id="updateform" action="rest/userservice/update" method="post">
+			<!-- Form inputs are inserted here via ajax function -->
+			</form>
+		
+		</div>
+
+	</div>
+
+</body>
+</html>

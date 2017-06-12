@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="mainStyle.css">
+<title>new product batch</title>
+</head>
+
+<body>
+
+	<div class="mainbody">
+
+		<div class="loginbox">
+
+			<h1>Create batch</h1>
+			<form action="rest/pbservice/insert" method="post">
+
+				<div class="inputrow">
+					Prescription ID <input class="input" type="text" name="prescriptionID">
+				</div>
+				<div class="inputrow">
+					Status <input class="input" type="text" name="statut">
+				</div>
+				<div class="inputrow">
+					<input type="submit" value="Submit">
+				</div>
+			</form>
+
+		</div>
+
+	</div>
+
+</body>
+
+</html>
