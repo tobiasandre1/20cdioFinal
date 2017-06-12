@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="mainStyle.css">
+<title>new commodity batch</title>
+</head>
+
+<body>
+
+	<div class="mainbody">
+
+		<div class="loginbox">
+
+			<h1>Create batch</h1>
+			<form action="rest/cbservice/insert" method="post">
+
+				<div class="inputrow">
+					Commodity ID <input class="input" type="text" name="commodityID">
+				</div>
+				<div class="inputrow">
+					Amount <input class="input" type="text" name="amount">
+				</div>
+				<div class="inputrow">
+					<input type="submit" value="Submit">
+				</div>
+			</form>
+
+		</div>
+
+	</div>
+
+</body>
+
+</html>

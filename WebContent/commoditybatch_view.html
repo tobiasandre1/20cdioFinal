@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="mainStyle.css">
-<title>commodities</title>
+<title>commodity batch</title>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="jquery.serialize-object.js"></script>
@@ -13,30 +13,30 @@
 <script>
 	$(document).ready(function() {
 		$.ajax({
-			url : "rest/commodityservice/getcommodities",
+			url : "rest/cbservice/getcb",
 			data : $('#form').serializeJSON(),
 			contentType : "application/json",
 			method : 'POST',
 			success : function(response) {
 				console.log(response);
-				console.log(response.raavareId);
+				console.log(response.cbId);
 
 								for (var i = 0; i < response.length; i++) {
-									$('#commoditytable').append("<tr>");
+									$('#cbtable').append("<tr>");
 
-									$('#commoditytable').append(
+									$('#cbtable').append(
+											"<td>" + response[i].rbId
+													+ "</td>");
+
+									$('#cbtable').append(
 											"<td>" + response[i].raavareId
 													+ "</td>");
 
-									$('#commoditytable').append(
-											"<td>" + response[i].raavareNavn
+									$('#cbtable').append(
+											"<td>" + response[i].maengde
 													+ "</td>");
 
-									$('#commoditytable').append(
-											"<td>" + response[i].leverandoer
-													+ "</td>");
-
-									$('#commoditytable').append("</tr>");
+									$('#cbtable').append("</tr>");
 								}
 							},
 							error : function(jqXHR, text, error) {
@@ -51,18 +51,18 @@
 <body>
 
 	<!-- Forms with access to REST backend -->
-	<form id="add" action="commodity_add.html" method="get"></form>
+	<form id="add" action="commoditybatch_add.html" method="get"></form>
 
 	<!-- Main HTML -->
 	<div class="mainbody_wide">
 		<button type="submit" form="add" value="submit">Add</button>
 
 		<table>
-			<tbody id="commoditytable">
+			<tbody id="cbtable">
 				<tr>
-					<th>ID</th>
-					<th>Commodity</th>
-					<th>Distributer</th>
+					<th>Commodity Batch ID</th>
+					<th>Commodity ID</th>
+					<th>Amount</th>
 				</tr>
 				<!-- Data records are appended here -->
 			</tbody>
