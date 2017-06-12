@@ -48,6 +48,7 @@ public class Connector
 					ClassNotFoundException, SQLException
 	{
 		
+		//When running this method, one must insert it in a try/catch
 		conn	= connectToDatabase("jdbc:mysql://"+server+":"+port+"/"+database,
 						username, password);
 		stm		= conn.createStatement();

@@ -31,7 +31,7 @@ public class MySQLViewDAO implements ViewDAO {
 		{
 			while (rs.next()) 
 			{
-				list.add(new ViewRaavareNavneDTO(rs.getInt("pb_id"), rs.getInt("rb_id"), rs.getString("raavare_navn")));
+				list.add(new ViewRaavareNavneDTO(rs.getInt("pb_id"), rs.getInt("recept_id"), rs.getInt("rb_id"), rs.getInt("raavare_id"), rs.getString("raavare_navn")));
 			}
 		}
 		catch (SQLException e) { throw new DALException(e); }
@@ -49,7 +49,7 @@ public class MySQLViewDAO implements ViewDAO {
 		{
 			while (rs.next()) 
 			{
-				list.add(new ViewRaavareNavneDTO(rs.getInt("pb_id"), rs.getInt("rb_id"), rs.getString("raavare_navn")));
+				list.add(new ViewRaavareNavneDTO(rs.getInt("pb_id"), rs.getInt("recept_id"), rs.getInt("rb_id"), rs.getInt("raavare_id"), rs.getString("raavare_navn")));
 			}
 		}
 		catch (SQLException e) { throw new DALException(e); }
@@ -66,7 +66,7 @@ public class MySQLViewDAO implements ViewDAO {
 		{
 			while (rs.next()) 
 			{
-				list.add(new ViewRaavareNavneDTO(rs.getInt("pb_id"), rs.getInt("rb_id"), rs.getString("raavare_navn")));
+				list.add(new ViewRaavareNavneDTO(rs.getInt("pb_id"), rs.getInt("recept_id"), rs.getInt("rb_id"), rs.getInt("raavare_id"), rs.getString("raavare_navn")));
 			}
 		}
 		catch (SQLException e) { throw new DALException(e); }
