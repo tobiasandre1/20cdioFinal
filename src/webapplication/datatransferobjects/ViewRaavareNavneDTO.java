@@ -2,13 +2,17 @@ package webapplication.datatransferobjects;
 
 public class ViewRaavareNavneDTO {
 	private int pbId;
+	private int receptId;
 	private int rbId;
+	private int raavareId;
 	private String raavareNavn;
 	
-	public ViewRaavareNavneDTO(int pbId, int rbId, String raavareNavn) {
+	public ViewRaavareNavneDTO(int pbId, int receptId, int rbId, int raavareId, String raavareNavn) {
 		super();
 		this.pbId = pbId;
+		this.receptId = receptId;
 		this.rbId = rbId;
+		this.raavareId = raavareId;
 		this.raavareNavn = raavareNavn;
 	}
 	

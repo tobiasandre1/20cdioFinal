@@ -2,6 +2,8 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 //import static org.junit.Assert.*;
 
 import java.sql.ResultSet;
@@ -98,12 +100,28 @@ public class DAOTest {
 		catch (DALException e) { e.printStackTrace();  fail();}
 		
 		System.out.println("Alle raavare navne med pb_id 2");
-		try { System.out.println(dao.getRaavareNavneListPbId(2));}
+		try { 
+			List<ViewRaavareNavneDTO> list = dao.getRaavareNavneListPbId(2); 
+			System.out.println(list);
+		}
 		catch (DALException e) { e.printStackTrace();  fail();}
 		
 		System.out.println("Alle raavare navne med rb_id 6");
 		try { System.out.println(dao.getRaavareNavneListRbId(6));}
 		catch (DALException e) { e.printStackTrace();  fail();}
+	}
+	
+	@Test
+	public void testProduktBatchDAO(){
+		ProduktBatchDAO dao = new MySQLProduktBatchDAO();
+		
+		System.out.println("Produktbatch med id 3");
+		try { System.out.println(dao.getProduktBatch(5));}
+		catch (DALException e) { e.printStackTrace();  fail();}
+		
+		ProduktBatchDTO dto = new ProduktBatchDTO(6, 0, 2);
+		try {dao.createProduktBatch(dto);}
+		catch (DALException e) {e.printStackTrace();}
 	}
 	
 
