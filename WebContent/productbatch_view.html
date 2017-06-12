@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="mainStyle.css">
+<title>product batch</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="jquery.serialize-object.js"></script>
+
+<script>
+	$(document).ready(function() {
+		$.ajax({
+			url : "rest/pbservice/getpb",
+			data : $('#form').serializeJSON(),
+			contentType : "application/json",
+			method : 'POST',
+			success : function(response) {
+				console.log(response);
+				console.log(response.pbId);
+
+								for (var i = 0; i < response.length; i++) {
+									$('#pbtable').append("<tr>");
+
+									$('#pbtable').append(
+											"<td>" + response[i].pbId
+													+ "</td>");
+
+									$('#pbtable').append(
+											"<td>" + response[i].receptId
+													+ "</td>");
+
+									$('#pbtable').append(
+											"<td>" + response[i].status
+													+ "</td>");
+
+									$('#pbtable').append("</tr>");
+								}
+							},
+							error : function(jqXHR, text, error) {
+								alert(jqXHR.status + text + error);
+							}
+						});
+			});
+</script>
+
+</head>
+
+<body>
+
+	<!-- Forms with access to REST backend -->
+	<form id="addCommodity" action="commodity_add.html" method="get"></form>
+
+	<!-- Main HTML -->
+	<div class="mainbody_wide">
+		<button type="submit" form="addCommodity" value="submit">Add</button>
+
+		<table>
+			<tbody id="pbtable">
+				<tr>
+					<th>Product Batch ID</th>
+					<th>Prescription ID</th>
+					<th>Status</th>
+				</tr>
+				<!-- Data records are appended here -->
+			</tbody>
+		</table>
+
+	</div>
+
+</body>
+</html>
