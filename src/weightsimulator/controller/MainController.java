@@ -191,9 +191,9 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 									System.out.println("UpperTolerance: " + upperTolerance);
 									System.out.println("LowerTolerance: " + lowerTolerance);
 									System.out.println("Weight: " + weight);
-									if((weight > rkList.get(i).getNomNetto() * upperTolerance) ||
-											(weight < rkList.get(i).getNomNetto() * lowerTolerance)){
-										weightController.showMessageSecondaryDisplay("Weight should be within " + rkList.get(i).getNomNetto()*lowerTolerance + "Kg and " + rkList.get(i).getNomNetto()*upperTolerance + "Kg. Try again");
+									if(((weight-tarWeight) > rkList.get(i).getNomNetto() * upperTolerance) ||
+										((weight-tarWeight) < rkList.get(i).getNomNetto() * lowerTolerance)){
+										weightController.showMessageSecondaryDisplay("Weight should be within " + rkList.get(i).getNomNetto()*lowerTolerance + "kg and " + rkList.get(i).getNomNetto()*upperTolerance + "kg. Try again");
 										toleranceFail = true;
 									} else {
 										toleranceFail = false;
