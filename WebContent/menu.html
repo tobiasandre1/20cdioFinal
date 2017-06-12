@@ -17,8 +17,11 @@ function setURL(url){
 </head>
 <body>
 	<form>
+		<input type="radio" name="view" onClick="setURL('index.html')" >Logout</input> <!-- Need a real logout maybe -->
 		<input type="radio" name="view" onClick="setURL('user_view.html')" checked>User administration</input>
 		<input type="radio" name="view" onClick="setURL('commodity_view.html')" >Commodity administration</input>
+		<input type="radio" name="view" onClick="setURL('commoditybatch_view.html')" >CB administration</input>
+		<input type="radio" name="view" onClick="setURL('productbatch_view.html')" >Product Batch administration</input>
 	</form>
 	
 	<iframe id="iframe" style="scrolling:no; width:99.5%; height:auto; min-height:90%; border:none; margin:none; padding:none; overflow-x:hidden !important; overflow-y:scroll !important;" src="user_view.html">
