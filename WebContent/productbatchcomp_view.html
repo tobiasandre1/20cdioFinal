@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="mainStyle.css">
+<title>product batch component</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="jquery.serialize-object.js"></script>
+
+<script>
+	$(document).ready(function() {
+		$.ajax({
+			url : "rest/pbcservice/getpbc",
+			data : $('#form').serializeJSON(),
+			contentType : "application/json",
+			method : 'POST',
+			success : function(response) {
+				console.log(response);
+				console.log(response.pbId);
+
+								for (var i = 0; i < response.length; i++) {
+									$('#pbctable').append("<tr>");
+
+									$('#pbctable').append(
+											"<td>" + response[i].pbId
+													+ "</td>");
+
+									$('#pbctable').append(
+											"<td>" + response[i].rbId
+													+ "</td>");
+
+									$('#pbctable').append(
+											"<td>" + response[i].tara
+													+ "</td>");
+									
+									$('#pbctable').append(
+											"<td>" + response[i].netto
+													+ "</td>");
+									
+									$('#pbctable').append(
+											"<td>" + response[i].oprId
+													+ "</td>");
+
+									$('#pbctable').append("</tr>");
+								}
+							},
+							error : function(jqXHR, text, error) {
+								alert(jqXHR.status + text + error);
+							}
+						});
+			});
+</script>
+
+</head>
+
+<body>
+
+	<!-- Forms with access to REST backend -->
+	<form id="add" action="productbatch_add.html" method="get"></form>
+
+	<!-- Main HTML -->
+	<div class="mainbody_wide">
+	<button type="submit" form="add" value="submit">Add</button>
+
+		<table>
+			<tbody id="pbctable">
+				<tr>
+					<th>Product Batch ID</th>
+					<th>Commodity Batch ID</th>
+					<th>tara</th>
+					<th>netto</th>
+					<th>User ID</th>
+				</tr>
+				<!-- Data records are appended here -->
+			</tbody>
+		</table>
+
+	</div>
+
+</body>
+</html>
