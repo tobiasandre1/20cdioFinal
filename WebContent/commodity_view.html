@@ -35,6 +35,12 @@
 									$('#commoditytable').append(
 											"<td>" + response[i].leverandoer
 													+ "</td>");
+									
+									$('#usertable').append("<td><button class=\"small\" id=\"" 
+											+ response[i].oprId 
+											+ "\" type=\"submit\" form=\"update\" value=\""
+											+ response[i].oprId
+											+ "\" name=\"submit\">Update</button></td>");
 
 									$('#commoditytable').append("</tr>");
 								}
