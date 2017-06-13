@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="mainStyle.css">
+<title>add new component</title>
+</head>
+
+<body>
+
+	<div class="mainbody">
+
+		<div class="loginbox">
+
+			<h1>Create component</h1>
+			<form action="rest/commodityservice/insert" method="post">
+
+				<div class="inputrow">
+					Prescription ID <input class="input" type="text" name="prescriptionID">
+				</div>
+				<div class="inputrow">
+					Commodity ID <input class="input" type="text" name="commodityID">
+				</div>
+				<div class="inputrow">
+					Nom. Netto <input class="input" type="text" name="nomnetto">
+				</div>
+				<div class="inputrow">
+					Tolerance <input class="input" type="text" name="tolerance">
+				</div>
+				<div class="inputrow">
+					<input type="submit" value="Submit">
+				</div>
+			</form>
+
+		</div>
+
+	</div>
+
+</body>
+
+</html>
