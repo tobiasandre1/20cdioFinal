@@ -59,6 +59,7 @@ public class SQLMapper {
 				"view_SELECT_vejning			= SELECT * FROM vejning WHERE opr_id = ?;\r\n" + 
 				"view_SELECT_raavare_navne_pb	= SELECT * FROM raavare_navne WHERE pb_id = ?;\r\n" +
 				"view_SELECT_raavare_navne_rb	= SELECT * FROM raavare_navne WHERE rb_id = ?;\r\n" +
+				"view_SELECT_udskrift			= SELECT * FROM udskrift WHERE pb_id = ?;\r\n" +
 				
 				"view_drop_mad					= DROP VIEW mad;\r\n" + 
 				"view_drop_vejning				= DROP VIEW vejning; \r\n" + 
@@ -66,6 +67,7 @@ public class SQLMapper {
 				"view_SELECTALL_mad				= SELECT * FROM mad;\r\n" + 
 				"view_SELECTALL_vejning			= SELECT * FROM vejning;\r\n" + 
 				"view_SELECTALL_raavare_navne	= SELECT * FROM raavare_navne;\r\n"+
+				"view_SELECTALL_udskrift		= SELECT * FROM udskrift;\r\n" +
 				"opr_specific_name				= SELECT opr_navn FROM operatoer WHERE opr_id = ?;\r\n"
 				;
 		String[] statementsArray = allStatements.split("\r\n");

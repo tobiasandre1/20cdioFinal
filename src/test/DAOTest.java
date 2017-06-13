@@ -109,6 +109,10 @@ public class DAOTest {
 		System.out.println("Alle raavare navne med rb_id 6");
 		try { System.out.println(dao.getRaavareNavneListRbId(6));}
 		catch (DALException e) { e.printStackTrace();  fail();}
+		
+		System.out.println("Udskrift for pb_id 2");
+		try { System.out.println(dao.getUdskriftList(2));}
+		catch (DALException e) { e.printStackTrace();  fail();}
 	}
 	
 	@Test

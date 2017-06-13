@@ -7,8 +7,9 @@ import java.util.List;
 
 import webapplication.datalayerinterfaces.DALException;
 import webapplication.datalayerinterfaces.ViewDAO;
-import webapplication.datatransferobjects.RaavareDTO;
+import webapplication.datatransferobjects.ProduktBatchKompDTO;
 import webapplication.datatransferobjects.ViewRaavareNavneDTO;
+import webapplication.datatransferobjects.ViewUdskriftDTO;
 import webapplication.sqlconnector.Connector;
 import webapplication.sqlconnector.SQLMapper;
 
@@ -67,6 +68,43 @@ public class MySQLViewDAO implements ViewDAO {
 			while (rs.next()) 
 			{
 				list.add(new ViewRaavareNavneDTO(rs.getInt("pb_id"), rs.getInt("recept_id"), rs.getInt("rb_id"), rs.getInt("raavare_id"), rs.getString("raavare_navn")));
+			}
+		}
+		catch (SQLException e) { throw new DALException(e); }
+		return list;
+	}
+
+	@Override
+	public List<ViewUdskriftDTO> getUdskriftList() throws DALException {
+		List<ViewUdskriftDTO> list = new ArrayList<ViewUdskriftDTO>();
+		String statement = map.getStatement("view_SELECTALL_udskrift");
+		ResultSet rs = Connector.doQuery(statement);
+		
+		try
+		{
+			while (rs.next()) 
+			{
+				ProduktBatchKompDTO pbkomp = new ProduktBatchKompDTO (rs.getInt("pb_id"), rs.getInt("rb_id"), rs.getDouble("tara"), rs.getDouble("netto"), rs.getInt("opr_id"));
+				list.add(new ViewUdskriftDTO(pbkomp, rs.getString("opr_navn"), rs.getInt("raavare_id"), rs.getString("raavare_navn"), rs.getInt("receptId"), rs.getInt("status")));
+			}
+		}
+		catch (SQLException e) { throw new DALException(e); }
+		return list;
+	}
+
+	@Override
+	public List<ViewUdskriftDTO> getUdskriftList(int pbId) throws DALException {
+		List<ViewUdskriftDTO> list = new ArrayList<ViewUdskriftDTO>();
+		String statement = map.getStatement("view_SELECT_udskrift");
+		statement = map.insertValuesIntoString(statement, new String[]{Integer.toString(pbId)});
+		ResultSet rs = Connector.doQuery(statement);
+		
+		try
+		{
+			while (rs.next()) 
+			{
+				ProduktBatchKompDTO pbkomp = new ProduktBatchKompDTO (rs.getInt("pb_id"), rs.getInt("rb_id"), rs.getDouble("tara"), rs.getDouble("netto"), rs.getInt("opr_id"));
+				list.add(new ViewUdskriftDTO(pbkomp, rs.getString("opr_navn"), rs.getInt("raavare_id"), rs.getString("raavare_navn"), rs.getInt("recept_id"), rs.getInt("status")));
 			}
 		}
 		catch (SQLException e) { throw new DALException(e); }
