@@ -208,7 +208,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 								}while(toleranceFail);
 								weightController.showMessageSecondaryDisplay("You are about to commit a productbatchcomponent. Press send to continue.");
 								wait();
-								//Commit to DB
+								commitPBK(opr_id, rb_id, pb_id, weight, tarWeight);
 								tarWeight = 0;
 
 							}
@@ -363,6 +363,12 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	}
 	//	private List<>
 
+	private void commitPBK(int opr_id, int rb_id, int pb_id, double weight, double tarWeight) throws DALException{
+		ProduktBatchKompDAO pbkDAO = new MySQLProduktBatchKomponentDAO();
+		ProduktBatchKompDTO pbkDTO = new ProduktBatchKompDTO(pb_id, rb_id, tarWeight, weight, opr_id);
+		pbkDAO.createProduktBatchKomp(pbkDTO);
+	}
+	
 	private void setPbStatus(int pb_id, int newStatus) throws DALException{
 		ProduktBatchDAO pbDAO = new MySQLProduktBatchDAO();
 		ProduktBatchDTO productBatch = pbDAO.getProduktBatch(pb_id);
