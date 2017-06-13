@@ -2,11 +2,11 @@ package webapplication.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UserMapper{
+public class IdMapper{
 	//@JsonProperty("content")
 	private int content;
 	
-	public UserMapper(@JsonProperty("content") String content){
+	public IdMapper(@JsonProperty("content") String content){
 		this.content = Integer.parseInt(content);
 	}
 	

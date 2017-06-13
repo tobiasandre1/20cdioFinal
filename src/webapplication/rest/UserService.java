@@ -116,7 +116,7 @@ public class UserService {
 	@Path("/updategetuser")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public OperatoerDTO updateGetUser(UserMapper map) throws URISyntaxException, DALException{
+	public OperatoerDTO updateGetUser(IdMapper map) throws URISyntaxException, DALException{
 		//System.out.println(map.getContent());
 	    return dao.getOperatoer(map.getContent());
 	}

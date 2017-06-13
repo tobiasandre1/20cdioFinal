@@ -15,15 +15,20 @@ $( document ).ready(function() {
 		content: id
 	};
 	$.ajax({
-		url : "rest/commodityservice/update",
+		url : "rest/commodityservice/updategetcommodity",
 		data : JSON.stringify(data),
 		contentType: "application/json",
 		method: 'POST',
 		success : function(response){
 			console.log(response);
-			$("#updateform").append("<div class=\"inputrow\">Commodity <input readonly style=\"text-align: center; border-style: hidden\" type=\"text\" name=\"commodity\" value=\""
+			$("#updateform").append("<div class=\"inputrow\">Commodity ID <input readonly style=\"text-align: center; border-style: hidden\" type=\"text\" name=\"commodityID\" value=\""
+					+response.raavareId
+					+"\"></div>");
+			
+			$("#updateform").append("<div class=\"inputrow\">Commodity <input class=\"input\" type=\"text\" name=\"commodityname\" value=\""
 					+response.raavareNavn
 					+"\"></div>");
+					
 			$("#updateform").append("<div class=\"inputrow\">Distributer <input class=\"input\" type=\"text\" name=\"distributer\" value=\""
 					+response.leverandoer
 					+"\"></div>");
@@ -44,8 +49,8 @@ $( document ).ready(function() {
 		
 		<div class="loginbox">
 		
-			<h1>Update user</h1>
-			<form id="updateform" action="rest/userservice/update" method="post">
+			<h1>Update commodity</h1>
+			<form id="updateform" action="rest/commodityservice/update" method="post">
 			<!-- Form inputs are inserted here via ajax function -->
 			</form>
 		
