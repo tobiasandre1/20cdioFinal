@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="mainStyle.css">
-<title>Prescriptions</title>
+<title>Prescription Components</title>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="jquery.serialize-object.js"></script>
@@ -13,7 +13,7 @@
 <script>
 	$(document).ready(function() {
 		$.ajax({
-			url : "rest/prescriptionservice/getprescriptions",
+			url : "rest/pcservice/getpc",
 			data : $('#form').serializeJSON(),
 			contentType : "application/json",
 			method : 'POST',
@@ -22,23 +22,25 @@
 				console.log(response.receptId);
 
 								for (var i = 0; i < response.length; i++) {
-									$('#prescriptiontable').append("<tr>");
+									$('#comptable').append("<tr>");
 
-									$('#prescriptiontable').append(
+									$('#comptable').append(
 											"<td>" + response[i].receptId
 													+ "</td>");
 
-									$('#prescriptiontable').append(
-											"<td>" + response[i].receptNavn
+									$('#comptable').append(
+											"<td>" + response[i].raavareId
 													+ "</td>");
 									
-									$('#prescriptiontable').append("<td><button class=\"small\" id=\"" 
-											+ response[i].receptId 
-											+ "\" type=\"submit\" form=\"comp\" value=\""
-											+ response[i].receptId
-											+ "\" name=\"submit\">Components</button></td>");
+									$('#comptable').append(
+											"<td>" + response[i].nomNetto
+													+ "</td>");
+									
+									$('#comptable').append(
+											"<td>" + response[i].tolerance
+													+ "</td>");
 
-									$('#prescriptiontable').append("</tr>");
+									$('#comptable').append("</tr>");
 								}
 							},
 							error : function(jqXHR, text, error) {
@@ -54,18 +56,18 @@
 
 	<!-- Forms with access to REST backend -->
 	<form id="add" action="prescription_add.html" method="get"></form>
-	<form id="comp" action="prescription_components.html" method="get"></form>
 
 	<!-- Main HTML -->
 	<div class="mainbody_wide">
 		<button type="submit" form="add" value="submit">Add</button>
 
 		<table>
-			<tbody id="prescriptiontable">
+			<tbody id="comptable">
 				<tr>
-					<th>ID</th>
-					<th>Prescription</th>
-					<th></th>
+					<th>Prescription ID </th>
+					<th>Commodity ID </th>
+					<th>Nom. Netto </th>
+					<th>Tolerance </th>
 				</tr>
 				<!-- Data records are appended here -->
 			</tbody>
