@@ -43,7 +43,7 @@ ReceptDAO dao = new MySQLReceptDAO();
 		ReceptDTO recept = new ReceptDTO(id, prescriptName);
 		dao.createRecept(recept);
 		
-		java.net.URI location = new java.net.URI("../prescriptionview.html");
+		java.net.URI location = new java.net.URI("../prescription_view.html");
 	    return Response.temporaryRedirect(location).build();
 	}
 }

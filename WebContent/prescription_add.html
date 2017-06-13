@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="mainStyle.css">
+<title>add new prescription</title>
+</head>
+
+<body>
+
+	<div class="mainbody">
+
+		<div class="loginbox">
+
+			<h1>Create prescription</h1>
+			<form action="rest/prescriptionservice/insert" method="post">
+
+				<div class="inputrow">
+					Prescription <input class="input" type="text" name="prescriptname">
+				</div>
+				<div class="inputrow">
+					<input type="submit" value="Submit">
+				</div>
+			</form>
+
+		</div>
+
+	</div>
+
+</body>
+
+</html>
