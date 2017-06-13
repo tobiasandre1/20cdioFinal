@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="mainStyle.css">
-<title>product batch page</title>
+<title>commodity page</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="jquery.serialize-object.js"></script>
 <script>
@@ -15,20 +15,17 @@ $( document ).ready(function() {
 		content: id
 	};
 	$.ajax({
-		url : "rest/pbservice/update",
+		url : "rest/commodityservice/update",
 		data : JSON.stringify(data),
 		contentType: "application/json",
 		method: 'POST',
 		success : function(response){
 			console.log(response);
-			$("#updateform").append("<div class=\"inputrow\">Product Batch ID <input readonly style=\"text-align: center; border-style: hidden\" type=\"text\" name=\"pbId\" value=\""
-					+response.pbId
+			$("#updateform").append("<div class=\"inputrow\">Commodity <input readonly style=\"text-align: center; border-style: hidden\" type=\"text\" name=\"commodity\" value=\""
+					+response.raavareNavn
 					+"\"></div>");
-			$("#updateform").append("<div class=\"inputrow\">Prescript ID <input class=\"input\" type=\"text\" name=\"prescriptionID\" value=\""
-					+response.receptId
-					+"\"></div>");
-			$("#updateform").append("<div class=\"inputrow\">Status <input readonly style=\"text-align: center; border-style: hidden\" type=\"text\" name=\"status\" value=\""
-					+response.status
+			$("#updateform").append("<div class=\"inputrow\">Distributer <input class=\"input\" type=\"text\" name=\"distributer\" value=\""
+					+response.leverandoer
 					+"\"></div>");
 
 			$("#updateform").append("<div id=\"submit\" class=\"inputrow\"><input type=\"submit\" value=\"Submit\"></div>");

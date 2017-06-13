@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="mainStyle.css">
+<title>Prescriptions</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="jquery.serialize-object.js"></script>
+
+<script>
+	$(document).ready(function() {
+		$.ajax({
+			url : "rest/prescriptionservice/getprescriptions",
+			data : $('#form').serializeJSON(),
+			contentType : "application/json",
+			method : 'POST',
+			success : function(response) {
+				console.log(response);
+				console.log(response.receptId);
+
+								for (var i = 0; i < response.length; i++) {
+									$('#prescriptiontable').append("<tr>");
+
+									$('#prescriptiontable').append(
+											"<td>" + response[i].receptId
+													+ "</td>");
+
+									$('#prescriptiontable').append(
+											"<td>" + response[i].receptNavn
+													+ "</td>");
+
+									$('#prescriptiontable').append("</tr>");
+								}
+							},
+							error : function(jqXHR, text, error) {
+								alert(jqXHR.status + text + error);
+							}
+						});
+			});
+</script>
+
+</head>
+
+<body>
+
+	<!-- Forms with access to REST backend -->
+	<form id="add" action="prescription_add.html" method="get"></form>
+
+	<!-- Main HTML -->
+	<div class="mainbody_wide">
+		<button type="submit" form="add" value="submit">Add</button>
+
+		<table>
+			<tbody id="prescriptiontable">
+				<tr>
+					<th>ID</th>
+					<th>Prescription</th>
+				</tr>
+				<!-- Data records are appended here -->
+			</tbody>
+		</table>
+
+	</div>
+
+</body>
+</html>

@@ -3,11 +3,13 @@ package webapplication.rest;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -18,13 +20,32 @@ import webapplication.datatransferobjects.*;
 
 @Path("/userservice")
 public class UserService {
+	@Context
+	HttpServletRequest request;
+	
 	OperatoerDAO dao = new MySQLOperatoerDAO();
 	
 	@POST
 	@Path("/getusers")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<OperatoerDTO> getData() throws DALException{
-		List<OperatoerDTO> response = dao.getOperatoerList();
+	public List<OperatoerDTO> getData(){
+		List<OperatoerDTO> response = null;
+		//System.out.println(request.getSession().getAttribute("user"));
+		OperatoerDTO user = (OperatoerDTO) request.getSession().getAttribute("user"); //Session attribute
+		
+		for(String role : user.getRoles()){
+			if(role.equals("admin")){
+				try {
+					response = dao.getOperatoerList();
+					return response;
+				} catch (DALException e) {
+					e.printStackTrace();
+				}
+			}
+			else{
+				System.out.println("User " + user.getOprNavn() + " does not have permission to view the user administration");
+			}
+		}
 		return response;
 	}
 	
@@ -40,12 +61,21 @@ public class UserService {
 	public Response deleteUser(
 		@FormParam("submit") int id
 			) throws DALException, URISyntaxException {
-		OperatoerDTO opr = dao.getOperatoer(id);
-		opr.setOprActive(false);
-		try { dao.updateOperatoer(opr); }
-		catch (DALException e) { e.printStackTrace(); }
-
-		java.net.URI location = new java.net.URI("../user_view.html");
+		
+		OperatoerDTO user = (OperatoerDTO) request.getSession().getAttribute("user"); //Session attribute
+		
+		java.net.URI location = new java.net.URI("../");
+		
+		for(String role : user.getRoles()){
+			if(role.equals("admin")){
+				OperatoerDTO opr = dao.getOperatoer(id);
+				opr.setOprActive(false);
+				try { dao.updateOperatoer(opr); }
+				catch (DALException e) { e.printStackTrace(); }
+		
+				location = new java.net.URI("../user_view.html");
+			}
+		}
 	    return Response.temporaryRedirect(location).build();
 	}
 	
@@ -59,17 +89,26 @@ public class UserService {
 		@FormParam("role") String role
 			) throws DALException, URISyntaxException {
 		
-		List<OperatoerDTO> operatoers = dao.getOperatoerList();
-		int id = 0;
-		for(OperatoerDTO opr:operatoers){
-			if(opr.getOprId()>=id){id=opr.getOprId()+1;}
+		OperatoerDTO user = (OperatoerDTO) request.getSession().getAttribute("user"); //Session attribute
+		
+		java.net.URI location = new java.net.URI("../");
+		
+		for(String adminrole : user.getRoles()){
+			if(adminrole.equals("admin")){
+		
+				List<OperatoerDTO> operatoers = dao.getOperatoerList();
+				int id = 0;
+				for(OperatoerDTO o:operatoers){
+					if(o.getOprId()>=id){id=o.getOprId()+1;}
+				}
+				
+				OperatoerDTO opr = new OperatoerDTO(id, userName, ini, password, true);
+				opr.setRoles(role);
+				dao.createOperatoer(opr);
+				
+				location = new java.net.URI("../user_view.html");
+			}
 		}
-		
-		OperatoerDTO user = new OperatoerDTO(id, userName, ini, password, true);
-		user.setRoles(role);
-		dao.createOperatoer(user);
-		
-		java.net.URI location = new java.net.URI("../user_view.html");
 	    return Response.temporaryRedirect(location).build();
 	}
 	
@@ -94,11 +133,19 @@ public class UserService {
 			@FormParam("oprActive") String active
 			) throws URISyntaxException, DALException{
 		
-		OperatoerDTO user = new OperatoerDTO(Integer.parseInt(userId), userName, ini, password, Boolean.parseBoolean(active));
-		user.setRoles(role);
+		OperatoerDTO user = (OperatoerDTO) request.getSession().getAttribute("user"); //Session attribute
 		
-		dao.updateOperatoer(user);
-		java.net.URI location = new java.net.URI("../user_view.html");
+		java.net.URI location = new java.net.URI("../");
+		
+		for(String adminrole : user.getRoles()){
+			if(adminrole.equals("admin")){
+				OperatoerDTO opr = new OperatoerDTO(Integer.parseInt(userId), userName, ini, password, Boolean.parseBoolean(active));
+				opr.setRoles(role);
+				
+				dao.updateOperatoer(opr);
+				location = new java.net.URI("../user_view.html");
+			}
+		}
 	    return Response.temporaryRedirect(location).build();
 	}
 	
