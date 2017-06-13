@@ -156,9 +156,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 
 						try {
 							doPB();							//Productbatch identification
-							//
-							//	HER SKAL VI SÆTTE STATUS TIL 1
-							//
+							setPbStatus(pb_id, 1);
 						} catch (DALException e1) {
 							e1.printStackTrace();
 						}
@@ -168,6 +166,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 							List<String> names = getProductName(pb_id);
 							ReceptKompDAO rkDAO = new MySQLReceptKomponentDAO();
 							List<ReceptKompDTO> rkList = rkDAO.getReceptKompList();
+							List<Integer> rbIdList = getRaavareBatchID(pb_id);
 
 							for(int i = 0; i < raavareCount ; i++){
 								if(i == 0){
@@ -178,9 +177,17 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 								key1 = true;
 								this.wait();
 								weightController.showMessageSecondaryDisplay("Tara set. Bring: \"" + names.get(i) + "\" and enter commodity batch ID");
-								this.wait();
-								rb_id = tempOutput;
-
+								//
+								do{
+									this.wait();
+									if(tempOutput != rbIdList.get(i)){
+										weightController.showMessageSecondaryDisplay("Given Id does not match the Id for \"" + names.get(i) + "\". Try again.");
+										tempOutput = 0;
+									} else {
+										rb_id = tempOutput;
+									}
+								} while(tempOutput == 0);
+								//
 								weightController.showMessageSecondaryDisplay("Weight \"" + names.get(i) + "\" and press send.");
 								do{
 									this.wait();
@@ -192,7 +199,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 									System.out.println("LowerTolerance: " + lowerTolerance);
 									System.out.println("Weight: " + weight);
 									if(((weight-tarWeight) > rkList.get(i).getNomNetto() * upperTolerance) ||
-										((weight-tarWeight) < rkList.get(i).getNomNetto() * lowerTolerance)){
+											((weight-tarWeight) < rkList.get(i).getNomNetto() * lowerTolerance)){
 										weightController.showMessageSecondaryDisplay("Weight should be within " + rkList.get(i).getNomNetto()*lowerTolerance + "kg and " + rkList.get(i).getNomNetto()*upperTolerance + "kg. Try again");
 										toleranceFail = true;
 									} else {
@@ -205,14 +212,12 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 								tarWeight = 0;
 
 							}
+							setPbStatus(pb_id, 2);
 						} catch (DALException e) {
 							e.printStackTrace();
 						}
 
-						//
-						//	HER SKAL VI SÆTTE STATUS TIL 2
-						//
-						
+
 						key0 = true;
 						allowCommands = true;
 
@@ -358,6 +363,12 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	}
 	//	private List<>
 
+	private void setPbStatus(int pb_id, int newStatus) throws DALException{
+		ProduktBatchDAO pbDAO = new MySQLProduktBatchDAO();
+		ProduktBatchDTO productBatch = pbDAO.getProduktBatch(pb_id);
+		productBatch.setStatus(newStatus);
+		pbDAO.updateProduktBatch(productBatch);
+	}
 
 	private void doName() throws DALException{
 		OperatoerDAO oprDAO = new MySQLOperatoerDAO();
@@ -379,6 +390,18 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 		}while(tempOutput < 1);
 	}
 
+	private List<Integer> getRaavareBatchID(int pb_id) throws DALException{
+		ViewDAO view = new MySQLViewDAO();
+		List<ViewRaavareNavneDTO> viewList = view.getRaavareNavneListPbId(pb_id);
+
+		List<Integer> rbID = new ArrayList<Integer>();
+		for (int i = 0; i < viewList.size(); i++){
+			System.out.println("RaavareBatch ID " + i + ": " + viewList.get(i).getRbId());
+			rbID.add(viewList.get(i).getRbId());
+		}
+		return rbID;
+	}
+	
 
 	private void doPB() throws DALException{
 		ProduktBatchDAO pbDAO = new MySQLProduktBatchDAO();
