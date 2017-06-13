@@ -23,7 +23,7 @@ public class PrescriptionCompService {
 	@Context
 	HttpServletRequest request;
 	
-	MySQLReceptKomponentDAO dao = new MySQLReceptKomponentDAO();
+	ReceptKompDAO dao = new MySQLReceptKomponentDAO();
 	
 	@POST
 	@Path("/getpc") //view all prescription components
