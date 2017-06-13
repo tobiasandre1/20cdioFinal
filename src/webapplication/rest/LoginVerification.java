@@ -3,8 +3,10 @@ package webapplication.rest;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -19,7 +21,9 @@ import webapplication.datatransferobjects.*;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class LoginVerification {
-
+	@Context
+	HttpServletRequest request;
+	
 	OperatoerDAO dao = new MySQLOperatoerDAO();
 	
 	@POST
@@ -33,11 +37,11 @@ public class LoginVerification {
 		
 		List<OperatoerDTO> users = dao.getOperatoerList();
 		
-		for(int i = 0; i < users.size(); i++){
-				if(users.get(i).getOprNavn().equals(userName) && users.get(i).getPassword().equals(password)){
-					
-				return Response.temporaryRedirect(new java.net.URI("../menu.html")).build();
-			}
+		for(OperatoerDTO opr:users){
+				if(opr.getOprNavn().equals(userName) && opr.getPassword().equals(password)){
+					request.getSession().setAttribute("user", opr); //Session attribute
+					return Response.temporaryRedirect(new java.net.URI("../menu.html")).build();
+				}
 		}
 	    return Response.temporaryRedirect(new java.net.URI("../")).build();
 		
