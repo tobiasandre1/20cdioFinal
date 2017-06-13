@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
@@ -46,4 +47,15 @@ public class LoginVerification {
 	    return Response.temporaryRedirect(new java.net.URI("../")).build();
 		
 	}
+	
+	@GET
+	@Path("/logout")
+	@Consumes("application/x-www-form-urlencoded")
+	public Response logout() throws URISyntaxException{
+		
+		request.getSession().setAttribute("user", null); //Session attribute
+		
+		return Response.temporaryRedirect(new java.net.URI("../")).build();
+	}
+	
 }
