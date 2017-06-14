@@ -1,6 +1,7 @@
 package webapplication.rest;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,9 +43,12 @@ public class UserService {
 					e.printStackTrace();
 				}
 			}
-			else{
-				System.out.println("User " + user.getOprNavn() + " does not have permission to view the user administration");
-			}
+		}
+		try{
+			response = new ArrayList<OperatoerDTO>();
+			response.add(dao.getOperatoer(user.getOprId()));
+		}catch(DALException e) {
+			e.printStackTrace();
 		}
 		return response;
 	}
@@ -64,7 +68,13 @@ public class UserService {
 		
 		OperatoerDTO user = (OperatoerDTO) request.getSession().getAttribute("user"); //Session attribute
 		
-		java.net.URI location = new java.net.URI("../");
+		java.net.URI location = new java.net.URI("../user_view.html");
+		
+		OperatoerDTO temp = dao.getOperatoer(id);
+		
+		if(temp.getOprNavn().equals("admin")){
+			return Response.temporaryRedirect(location).build();
+		}
 		
 		for(String role : user.getRoles()){
 			if(role.equals("admin")){
@@ -72,8 +82,8 @@ public class UserService {
 				opr.setOprActive(false);
 				try { dao.updateOperatoer(opr); }
 				catch (DALException e) { e.printStackTrace(); }
+				return Response.temporaryRedirect(location).build();
 		
-				location = new java.net.URI("../user_view.html");
 			}
 		}
 	    return Response.temporaryRedirect(location).build();
@@ -91,7 +101,7 @@ public class UserService {
 		
 		OperatoerDTO user = (OperatoerDTO) request.getSession().getAttribute("user"); //Session attribute
 		
-		java.net.URI location = new java.net.URI("../");
+		java.net.URI location = new java.net.URI("../user_view.html");
 		
 		for(String adminrole : user.getRoles()){
 			if(adminrole.equals("admin")){
@@ -105,8 +115,6 @@ public class UserService {
 				OperatoerDTO opr = new OperatoerDTO(id, userName, ini, password, true);
 				opr.setRoles(role);
 				dao.createOperatoer(opr);
-				
-				location = new java.net.URI("../user_view.html");
 			}
 		}
 	    return Response.temporaryRedirect(location).build();
@@ -135,7 +143,13 @@ public class UserService {
 		
 		OperatoerDTO user = (OperatoerDTO) request.getSession().getAttribute("user"); //Session attribute
 		
-		java.net.URI location = new java.net.URI("../");
+		java.net.URI location = new java.net.URI("../user_view.html");
+		
+		OperatoerDTO temp = dao.getOperatoer(Integer.parseInt(userId));
+		
+		if(temp.getOprNavn().equals("admin")){
+			return Response.temporaryRedirect(location).build();
+		}
 		
 		for(String adminrole : user.getRoles()){
 			if(adminrole.equals("admin")){
@@ -144,9 +158,17 @@ public class UserService {
 				
 				dao.updateOperatoer(opr);
 				location = new java.net.URI("../user_view.html");
+				return Response.temporaryRedirect(location).build();
 			}
 		}
-	    return Response.temporaryRedirect(location).build();
+		if(Integer.parseInt(userId) == user.getOprId()){
+			OperatoerDTO opr = new OperatoerDTO(user.getOprId(), userName, ini, password, temp.getOprActive());
+			opr.setRoles(temp.getRoles());
+			
+			dao.updateOperatoer(opr);
+			location = new java.net.URI("../user_view.html");
+		}
+		return Response.temporaryRedirect(location).build();
 	}
 	
 	
