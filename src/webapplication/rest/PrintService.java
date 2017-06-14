@@ -24,7 +24,6 @@ public class PrintService {
 
 	@POST
 	@Path("/getprint")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewUdskriftDTO> getPrint(IdMapper map) throws URISyntaxException, DALException{
 		//System.out.println(map.getContent());

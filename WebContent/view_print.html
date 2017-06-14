@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="mainStyle.css">
+<link rel="stylesheet" type="text/css" href="print.css">
+<title>Print</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="jquery.serialize-object.js"></script>
+
+<script>
+	$(document).ready(function() {
+		var arr = window.location.href.split('=');
+		//get last value
+		var id = arr[arr.length -1];
+		var data = {
+			content: id
+		};
+		$.ajax({
+			url : "rest/printservice/getprint",
+			data : $('#form').serializeJSON(),
+			contentType : "application/json",
+			method : 'POST',
+			success : function(response) {
+				console.log(response);
+				console.log(response.pbId);
+
+								for (var i = 0; i < response.length; i++) {
+									
+									('#pb-info').append(response[i].pbId);
+									
+									/*$('#pb-info').append("<section>"
+										+ "<table class=\"printlayout\"><tr>"
+										+ "<td class=\"td-fixed\">Printed</td></tr><tr>"
+										+ "<td>Product Batch ID</td>");
+
+									$('#pb-info').append("<td>" + response[i].pbId + "</td>");
+													
+									$('#pb-info').append("</tr><tr><td>Prescription nr.</td>");
+									
+									$('#pb-info').append("<td>" + response[i].receptId + "</td>");
+									
+									$('#pb-info').append("</tr></table></section><br><br>"
+										+ "<section>"
+										+ "<table class=\"printlayout\"><tr>"
+										+ "<td class=\"td-fixed\">Commodity ID</td>");
+									
+									$('#pb-info').append("<td>" + response[i].raavareId + "</td>");
+									
+									$('#pb-info').append("</tr><tr>"
+										+ "<td>Commodity name</td>");
+										
+									$('#pb-info').append("<td>" + response[i].raavareNavn + "</td>");
+									
+									$('#pb-info').append("</tr></table>"
+										+ "<p class=\"center\">"
+										+ "--------------------------------------------------------"
+										+ "</p>
+										+ "<table class=\"printcomponents\"><tr>"
+										+ "<td class=\"shrink\">Part</td>"
+										+ "<td>Amount</td>"
+										+ "<td>Tolerance</td>"
+										+ "<td>Tara</td>"
+										+ "<td>Netto (kg)</td>"
+										+ "<td>Batch</td>"
+										+ "<td>INI</td>"
+										+ "</tr><tr>");
+									
+									$('#pb-info').append("<td>" + response[i].maengde + "</td>");
+									$('#pb-info').append("<td>" + response[i].tolerance + "</td>");
+									$('#pb-info').append("<td>" + response[i].tara + "</td>");
+									$('#pb-info').append("<td>" + response[i].netto + "</td>");
+									$('#pb-info').append("<td>" + response[i].rbId + "</td>");
+									$('#pb-info').append("<td>" + response[i].ini + "</td>");
+									
+									$('#pb-info').append("</tr></table><br><br>");*/
+									
+								}
+							},
+							error : function(jqXHR, text, error) {
+								alert(jqXHR.status + text + error);
+							}
+						});
+			});
+</script>
+
+</head>
+
+<body>
+<!--  div container -->
+<div class="page">
+	<div class="subpage" id="pb-info">
+		<section>
+			<table class="printlayout">
+				<tr>
+					<td class="td-fixed">Printed</td>
+				</tr>
+				<tr>
+					<td>Product Batch nr.</td>
+					<td>00000111</td>
+				</tr>
+				<tr>
+					<td>Prescription nr.</td>
+					<td>00002222</td>	
+				</tr>	
+			</table>			
+		</section>
+		
+		<br><br>
+		
+		<section>
+			<table class="printlayout">
+				<tr>
+					<td class="td-fixed">Commodity nr.</td>
+					<td>00000011</td>
+				</tr>		
+				<tr>
+					<td>Commodity name</td>
+					<td>Vand</td>
+				</tr>
+			</table>
+			
+			<p class="center">
+			--------------------------------------------------------
+			</p>
+	
+			<table class="printcomponents">
+				<tr>
+					<td class="shrink">Part</td>
+					<td>Amount</td>
+					<td>Tolerance</td>
+					<td>Tara</td>
+					<td>Netto (kg)</td>
+					<td>Batch</td>
+					<td>INI</td>
+					<td>Terminal</td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>5500</td>
+					<td>&#x2213;0.3 %</td>
+					<td>0,100</td>
+					<td>5534</td>
+					<td>00000101</td>
+					<td>SH</td>
+					<td>1</td>
+				</tr>
+			</table>
+			
+			<br><br>
+	
+			<table class="printlayout">
+				<tr>
+					<td class="td-fixed">SUM Tara</td>
+					<td>0.130</td>
+				</tr>
+				<tr>
+					<td>SUM Netto</td>
+					<td>5958</td>
+				</tr>
+			</table>
+		</section>
+	
+		<br><br>
+	
+		<section class="footer">
+			<table class="printlayout" id="status">
+				<tr>
+					<td class="td-fixed">Production status</td>
+					<td>Finished</td>
+				</tr>
+				<tr>
+					<td>Production started</td>
+					<td>2005-06-01 15:33:10</td>
+				</tr>
+				<tr>
+					<td>Production ended</td>
+					<td>2005-06-02 07:42:34</td>
+				</tr>
+			</table>
+		</section>
+	</div>	
+</div>
+<div class="page">
+	<div class="subpage">
+	test
+	</div>
+	</div>
+
+</body>
+</html>
