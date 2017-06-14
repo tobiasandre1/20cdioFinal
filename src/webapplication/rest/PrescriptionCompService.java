@@ -36,23 +36,14 @@ public class PrescriptionCompService {
 	@POST
 	@Path("/insert")
 	@Consumes("application/x-www-form-urlencoded")
-	public Response add(
+	public Response addPC(
 			@FormParam("prescriptionID") int receptId,
 			@FormParam("commodityID") int raavareId,
 			@FormParam("nomnetto") double nomNetto,
 			@FormParam("tolerance") double tolerance
 			) throws DALException, URISyntaxException {
 
-		List<ReceptKompDTO> prescriptioncomponent = dao.getReceptKompList();
-		int id = 0;
-
-		for (ReceptKompDTO comp : prescriptioncomponent) {
-			if (comp.getReceptId() >= id) {
-				id = comp.getReceptId() + 1;
-			}
-		}
-
-		ReceptKompDTO component = new ReceptKompDTO(id, raavareId, nomNetto, tolerance);
+		ReceptKompDTO component = new ReceptKompDTO(receptId, raavareId, nomNetto, tolerance);
 		dao.createReceptKomp(component);
 
 		java.net.URI location = new java.net.URI("../commodity_view.html");
