@@ -39,7 +39,7 @@ public class LoginVerification {
 		List<OperatoerDTO> users = dao.getOperatoerList();
 		
 		for(OperatoerDTO opr:users){
-				if(opr.getOprNavn().equals(userName) && opr.getPassword().equals(password)){
+				if(opr.getOprNavn().equals(userName) && opr.getPassword().equals(password) && opr.getOprActive()){
 					request.getSession().setAttribute("user", opr); //Session attribute
 					return Response.temporaryRedirect(new java.net.URI("../menu.html")).build();
 				}
