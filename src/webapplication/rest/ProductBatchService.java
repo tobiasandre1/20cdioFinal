@@ -31,7 +31,7 @@ public class ProductBatchService {
 	@POST
 	@Path("/insert")
 	@Consumes("application/x-www-form-urlencoded")
-	public Response addPB(
+	public Response add(
 			@FormParam("prescriptionID") int receptId,
 			@FormParam("status") int status) 
 					throws DALException, URISyntaxException {
@@ -51,11 +51,11 @@ public class ProductBatchService {
 		java.net.URI location = new java.net.URI("../productbatch_view.html");
 		return Response.temporaryRedirect(location).build();
 	}
-	
+	/*
 	@POST
 	@Path("/update")
 	@Consumes("application/x-www-form-urlencoded")
-	public Response updateUser(
+	public Response update(
 			@FormParam("pbId") int pbId,
 			@FormParam("prescriptionID") int receptId,
 			@FormParam("status") int status)
@@ -67,6 +67,6 @@ public class ProductBatchService {
 		dao.updateProduktBatch(pb);
 		java.net.URI location = new java.net.URI("../productbatch_view.html");
 	    return Response.temporaryRedirect(location).build();
-	}
+	} */
 }
 

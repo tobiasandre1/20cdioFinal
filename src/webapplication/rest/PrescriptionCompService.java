@@ -36,7 +36,7 @@ public class PrescriptionCompService {
 	@POST
 	@Path("/insert")
 	@Consumes("application/x-www-form-urlencoded")
-	public Response addPC(
+	public Response add(
 			@FormParam("prescriptionID") int receptId,
 			@FormParam("commodityID") int raavareId,
 			@FormParam("nomnetto") double nomNetto,

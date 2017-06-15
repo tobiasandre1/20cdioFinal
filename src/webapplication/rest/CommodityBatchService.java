@@ -31,7 +31,7 @@ public class CommodityBatchService {
 	@POST
 	@Path("/insert")
 	@Consumes("application/x-www-form-urlencoded")
-	public Response addCB(@FormParam("commodityID") int raavareId, @FormParam("amount") int maengde)
+	public Response add(@FormParam("commodityID") int raavareId, @FormParam("amount") int maengde)
 			throws DALException, URISyntaxException {
 
 		List<RaavareBatchDTO> commoditybatch = dao.getRaavareBatchList();

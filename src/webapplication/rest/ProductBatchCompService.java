@@ -31,7 +31,7 @@ public class ProductBatchCompService {
 	@POST
 	@Path("/insert")
 	@Consumes("application/x-www-form-urlencoded")
-	public Response addPB(
+	public Response add(
 		@FormParam("pbId") int pbId ,
 		@FormParam("cbId") int rbId ,
 		@FormParam("tara") int tara ,
