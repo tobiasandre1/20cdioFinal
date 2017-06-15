@@ -38,8 +38,8 @@ public class CommodityBatchService {
 		int rbId = 0;
 
 		for (RaavareBatchDTO cb : commoditybatch) {
-			if (cb.getRaavareId() >= rbId) {
-				rbId = cb.getRaavareId() + 1;
+			if (cb.getRbId() >= rbId) {
+				rbId = cb.getRbId() + 1;
 			}
 		}
 
