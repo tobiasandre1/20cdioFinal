@@ -72,7 +72,7 @@ public class OperatoerDTO
 		String[] temp = roles.split(",");
 		List<String> list = new ArrayList<String>();
 		for(String s:temp){
-			list.add(s);
+			list.add(s.toLowerCase());
 		}
 		this.setRoles(list);
 	}
